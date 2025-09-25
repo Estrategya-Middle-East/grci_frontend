@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
         if (!dropdown) return;
         this.updateFilter(
           dropdown.searchType || `filter${data.index}`,
-          data.value
+          data.value.value
         );
       });
 

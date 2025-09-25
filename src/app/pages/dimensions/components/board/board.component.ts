@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, Input, ViewChild } from "@angular/core";
 import {
   NgbDropdownModule,
   NgbModal,
@@ -30,6 +30,7 @@ import { CustomPaginatorComponent } from "../../../../shared/components/custom-p
   styleUrl: "./board.component.scss",
 })
 export class BoardComponent {
+  @Input() filters: Record<string, any> = {};
   private dimensionsService = inject(DimensionsService);
   private router = inject(Router);
   private modalService = inject(NgbModal);
@@ -42,22 +43,29 @@ export class BoardComponent {
   selectedDimensionId!: number;
   viewData: deleteItemInterface = { title: "", sendClose: "", sendLabel: "" };
 
-  pagination: DimensionsFilter = {
+  pagination: {
+    pageNumber: number;
+    pageSize: number;
+    totalItems?: number;
+    totalPages?: number;
+  } = {
     pageNumber: 1,
     pageSize: 10,
   };
 
-  constructor() {
-    this.config.backdrop = "static";
-    this.config.keyboard = false;
-  }
-
-  ngOnInit() {
+  ngOnChanges() {
+    this.pagination.pageNumber = 1;
     this.loadDimensions(this.pagination);
   }
 
   loadDimensions(pagination: DimensionsFilter) {
-    this.dimensionsService.getDimensions(pagination).subscribe({
+    const filterPayload = {
+      pageNumber: pagination.pageNumber,
+      pageSize: pagination.pageSize,
+      filterField: Object.keys(this.filters),
+      filterValue: Object.values(this.filters),
+    };
+    this.dimensionsService.getDimensions(filterPayload).subscribe({
       next: (response) => {
         this.dimensionsList = response.data.items;
         this.pagination = {

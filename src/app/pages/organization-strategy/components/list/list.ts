@@ -1,4 +1,4 @@
-import { Component, inject, Input, ViewChild } from "@angular/core";
+import { Component, inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { OrganizationStrategy } from "../../services/organization-strategy";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -30,7 +30,7 @@ import { deleteItemInterface } from "../../../../shared/components/delete-item-s
   templateUrl: "./list.html",
   styleUrl: "./list.scss",
 })
-export class List {
+export class List implements OnChanges {
   @Input() filters: Record<string, any> = {};
   private strategyService = inject(OrganizationStrategy);
   private router = inject(Router);
@@ -71,12 +71,8 @@ export class List {
   strategiesList: Strategy[] = [];
   viewData: deleteItemInterface = { title: "", sendLabel: "", sendClose: "" };
 
-  constructor() {
-    this.config.backdrop = "static";
-    this.config.keyboard = false;
-  }
-
-  ngOnInit() {
+  ngOnChanges() {
+    this.pagination.pageNumber = 1;
     this.loadStrategies(this.pagination);
   }
 

@@ -10,7 +10,6 @@ import {
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
-import { filterModel } from "../../../../shared/models/filter.model";
 
 @Component({
   selector: "app-view",
@@ -22,6 +21,7 @@ import { filterModel } from "../../../../shared/models/filter.model";
 })
 export class ViewComponent {
   switchView = true;
+  filters: Record<string, any> = {};
 
   showActions: ShowActions = {
     add: {
@@ -54,7 +54,7 @@ export class ViewComponent {
     this.switchView = event;
   }
 
-  onFiltersChange(filters: any) {
-    console.log(filters);
+  onFiltersChange(filters: Record<string, any>) {
+    this.filters = filters;
   }
 }

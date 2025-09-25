@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, Input, ViewChild } from "@angular/core";
+import { Component, inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
 import { InputTextModule } from "primeng/inputtext";
@@ -35,7 +35,7 @@ import { CustomPaginatorComponent } from "../../../../shared/components/custom-p
   templateUrl: "./list.component.html",
   styleUrl: "./list.component.scss",
 })
-export class ListComponent {
+export class ListComponent implements OnChanges {
   @Input() filters: Record<string, any> = {};
   private orgService = inject(OrganizationsService);
   private router = inject(Router);
@@ -66,12 +66,19 @@ export class ListComponent {
     this.config.keyboard = false;
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.pagination.pageNumber = 1;
     this.loadOrganizations(this.pagination);
   }
 
   loadOrganizations(pagination: any) {
-    this.orgService.listOrganizations(pagination).subscribe({
+    const filterPayload = {
+      pageNumber: pagination.pageNumber,
+      pageSize: pagination.pageSize,
+      filterField: Object.keys(this.filters),
+      filterValue: Object.values(this.filters),
+    };
+    this.orgService.listOrganizations(filterPayload).subscribe({
       next: (response) => {
         this.organizationsList = response.items.map((item: any) => ({
           ...item,

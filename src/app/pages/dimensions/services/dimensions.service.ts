@@ -11,23 +11,22 @@ export class DimensionsService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl + "api/Dimensions";
 
-  getDimensions(filter: DimensionsFilter = {}): Observable<DimensionsResponse> {
+  getDimensions(filter: any = {}): Observable<DimensionsResponse> {
     let params = new HttpParams();
 
-    if (filter.pageNumber !== undefined) {
+    if (filter.pageNumber !== undefined)
       params = params.set("PageNumber", filter.pageNumber);
-    }
-
-    if (filter.pageSize !== undefined) {
+    if (filter.pageSize !== undefined)
       params = params.set("PageSize", filter.pageSize);
-    }
 
-    if (filter.filterValue) {
-      params = params.set("FilterValue", filter.filterValue);
-    }
-
-    if (filter.filterField) {
-      params = params.set("FilterField", filter.filterField);
+    // Convert filterField & filterValue arrays to named query params
+    if (filter.filterField && filter.filterValue) {
+      filter.filterField.forEach((field: string, i: number) => {
+        const value = filter.filterValue[i];
+        if (value !== undefined && field) {
+          params = params.set(field, value);
+        }
+      });
     }
 
     return this.http.get<DimensionsResponse>(`${this.baseUrl}`, {
