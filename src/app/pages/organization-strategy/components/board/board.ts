@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { OrganizationStrategy } from "../../services/organization-strategy";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDropdownModule, NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -20,7 +20,8 @@ import { MessageService } from "primeng/api";
   templateUrl: "./board.html",
   styleUrl: "./board.scss",
 })
-export class Board {
+export class Board implements OnChanges {
+  @Input() filters: Record<string, any> = {};
   private strategyService = inject(OrganizationStrategy);
   private messageService = inject(MessageService);
   private router = inject(Router);
@@ -36,18 +37,30 @@ export class Board {
   orgId$ = this.route.paramMap.pipe(map((params) => params.get("id")));
   orgId = toSignal(this.orgId$, { initialValue: null });
 
-  pagination: any = {
+  pagination: {
+    pageNumber: number;
+    pageSize: number;
+    totalItems?: number;
+    totalPages?: number;
+  } = {
     pageNumber: 1,
     pageSize: 10,
   };
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.pagination.pageNumber = 1;
     this.loadStrategies(this.pagination);
   }
 
   loadStrategies(pagination: any) {
+    const filterPayload = {
+      pageNumber: pagination.pageNumber,
+      pageSize: pagination.pageSize,
+      filterField: Object.keys(this.filters),
+      filterValue: Object.values(this.filters),
+    };
     this.strategyService
-      .getStrategies({ ...pagination, organizationId: this.orgId() })
+      .getStrategies({ ...filterPayload, organizationId: this.orgId() })
       .subscribe({
         next: (response) => {
           this.strategiesList = response.items;

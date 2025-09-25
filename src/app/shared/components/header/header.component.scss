@@ -86,7 +86,8 @@
         pointer-events: none;
       }
 
-      input {
+      input,
+      p-date-picker {
         width: 100%;
         padding: 10px 10px 10px 36px; // space for icon
         font-size: 13px;

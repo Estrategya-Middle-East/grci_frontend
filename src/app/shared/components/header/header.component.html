@@ -80,6 +80,16 @@
       </div>
       }
     </div>
+    } @if(showFilteration!.year?.show) {
+    <div class="year-filter left-border">
+      <p-datepicker
+        [formControl]="yearControl"
+        view="year"
+        dateFormat="yy"
+        placeholder="Select Year"
+        [showIcon]="true"
+      ></p-datepicker>
+    </div>
     }
   </div>
   }

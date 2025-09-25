@@ -15,20 +15,19 @@ export class OrganizationStrategy {
   getStrategies(filter: any = {}): Observable<PagedResult<Strategy>> {
     let params = new HttpParams();
 
-    if (filter.pageNumber !== undefined) {
-      params = params.set("PageNumber", filter.pageNumber.toString());
-    }
-    if (filter.pageSize !== undefined) {
-      params = params.set("PageSize", filter.pageSize.toString());
-    }
-    if (filter.filterValue) {
-      params = params.set("FilterValue", filter.filterValue);
-    }
-    if (filter.filterField) {
-      params = params.set("FilterField", filter.filterField);
-    }
-    if (filter.organizationId) {
-      params = params.set("organizationId", filter.organizationId);
+    if (filter.pageNumber !== undefined)
+      params = params.set("PageNumber", filter.pageNumber);
+    if (filter.pageSize !== undefined)
+      params = params.set("PageSize", filter.pageSize);
+
+    // Convert filterField & filterValue arrays to named query params
+    if (filter.filterField && filter.filterValue) {
+      filter.filterField.forEach((field: string, i: number) => {
+        const value = filter.filterValue[i];
+        if (value !== undefined && field) {
+          params = params.set(field, value);
+        }
+      });
     }
 
     return this.http

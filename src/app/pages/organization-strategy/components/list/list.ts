@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, Input, ViewChild } from "@angular/core";
 import { OrganizationStrategy } from "../../services/organization-strategy";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -31,6 +31,7 @@ import { deleteItemInterface } from "../../../../shared/components/delete-item-s
   styleUrl: "./list.scss",
 })
 export class List {
+  @Input() filters: Record<string, any> = {};
   private strategyService = inject(OrganizationStrategy);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -80,8 +81,14 @@ export class List {
   }
 
   loadStrategies(pagination: any) {
+    const filterPayload = {
+      pageNumber: pagination.pageNumber,
+      pageSize: pagination.pageSize,
+      filterField: Object.keys(this.filters),
+      filterValue: Object.values(this.filters),
+    };
     this.strategyService
-      .getStrategies({ ...pagination, organizationId: this.orgId() })
+      .getStrategies({ ...filterPayload, organizationId: this.orgId() })
       .subscribe({
         next: (response) => {
           this.strategiesList = response.items;

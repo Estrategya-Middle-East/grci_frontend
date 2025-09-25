@@ -18,6 +18,7 @@ import {
   ShowActions,
   ShowFilteration,
 } from "./models/header.interface";
+import { DatePickerModule } from "primeng/datepicker";
 
 @Component({
   selector: "app-header",
@@ -30,6 +31,7 @@ import {
     InputTextModule,
     RouterLink,
     RouterLinkActive,
+    DatePickerModule,
   ],
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
@@ -46,38 +48,45 @@ export class HeaderComponent implements OnInit {
   @Input() dropdownList: DropdownList[] = [];
 
   searchControl = new FormControl<string>("");
+  yearControl = new FormControl<Date | null>(null);
+
   private filtersSubject = new BehaviorSubject<Record<string, any>>({});
   filters$ = this.filtersSubject.asObservable();
 
-  // New BehaviorSubject for dropdown changes
   private dropdownSubject = new BehaviorSubject<{
     index: number;
     value: any;
   } | null>(null);
 
   ngOnInit(): void {
-    // Search input with debounce
+    // Search input debounce
     this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => this.updateFilter("search", value));
 
+    // Year input debounce
+    this.yearControl.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        const year = value ? value.getFullYear() : null; // convert to number
+        this.updateFilter("year", year);
+      });
+
     // Dropdown changes with debounce
     this.dropdownSubject
       .asObservable()
-      .pipe(
-        debounceTime(300) // wait 300ms after last change
-      )
+      .pipe(debounceTime(300))
       .subscribe((data) => {
         if (!data) return;
         const dropdown = this.dropdownList[data.index];
         if (!dropdown) return;
         this.updateFilter(
           dropdown.searchType || `filter${data.index}`,
-          data.value.value
+          data.value
         );
       });
 
-    // Initialize dropdown values as filters
+    // Initialize dropdown filters
     this.dropdownList.forEach((dropdown, index) => {
       if (dropdown.selected) {
         this.updateFilter(
@@ -96,7 +105,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onDropdownChange(value: any, index: number): void {
-    this.dropdownSubject.next({ index, value }); // emit to subject instead of direct update
+    this.dropdownSubject.next({ index, value });
   }
 
   onSwitchView(value: boolean) {

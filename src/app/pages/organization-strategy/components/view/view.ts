@@ -21,6 +21,7 @@ export class View {
   switchView = true;
   orgId$ = this.route.paramMap.pipe(map((params) => params.get("id")));
   orgId = toSignal(this.orgId$, { initialValue: null });
+  filters: Record<string, any> = {};
 
   constructor() {
     effect(() => {
@@ -42,6 +43,7 @@ export class View {
       label: "",
     },
   };
+
   showFilteration: ShowFilteration = {
     tabeOne: {
       show: true,
@@ -55,6 +57,7 @@ export class View {
       show: true,
       label: "Search Strategies",
     },
+    year: { show: true, label: "Year" },
     import: false,
   };
 
@@ -62,7 +65,7 @@ export class View {
     this.switchView = event;
   }
 
-  onFiltersChange(filters: any) {
-    console.log(filters);
+  onFiltersChange(filters: Record<string, any>) {
+    this.filters = filters;
   }
 }

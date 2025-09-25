@@ -10,9 +10,9 @@
   <div class="content-cards">
     <h4 class="title">Strategies</h4>
     @if (switchView) { @defer (when switchView) {
-    <app-board></app-board>
+    <app-board [filters]="filters"></app-board>
     } } @else { @defer (when !switchView) {
-    <app-list></app-list>
+    <app-list [filters]="filters"></app-list>
     } }
   </div>
 </div>

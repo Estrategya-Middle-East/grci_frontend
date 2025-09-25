@@ -103,7 +103,7 @@ export class AddEdit {
         this.formGroup.patchValue({
           code: res.code,
           organizationName: res.organizationName,
-          year: res.year,
+          year: res.year ? new Date(res.year, 0, 1) : null,
           vision: res.vision,
           strategicScenarioId: res.strategicScenarioId,
           scenarioDescription: res.scenarioDescription,
