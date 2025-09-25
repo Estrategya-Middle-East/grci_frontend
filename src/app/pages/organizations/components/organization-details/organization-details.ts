@@ -1,4 +1,4 @@
-import { Component, effect, inject, ViewChild } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OrganizationsService } from "../../services/organizations.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -12,8 +12,8 @@ import { HeaderComponent } from "../../../../shared/components/header/header.com
 import { deleteItemInterface } from "../../../../shared/components/delete-item-selected/models/delete-item.interface";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
-import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: "app-organization-details",
@@ -35,8 +35,9 @@ export class OrganizationDetails {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   loaderService = inject(LoaderService);
-  viewData!: deleteItemInterface;
   private modalService = inject(NgbModal);
+
+  viewData!: deleteItemInterface;
   @ViewChild("content", { static: false }) content: any;
 
   id$ = this.route.paramMap.pipe(map((params) => params.get("id")));
@@ -56,40 +57,6 @@ export class OrganizationDetails {
     ),
     { initialValue: null }
   );
-
-  constructor() {
-    effect(() => {
-      let getDelete = this.orgService.getDeleteSignal();
-      let getArchive = this.orgService.getArchiveSignal();
-      if (getDelete) {
-        this.orgService.delete(getDelete?.id).subscribe({
-          next: (data) => {
-            this.messageService.add({
-              severity: "success",
-              summary: "Success",
-              detail: `deleted ${data.message}`,
-              key: "bc",
-              life: 1000,
-            });
-            this.router.navigateByUrl(`/${AppRoute.ORGANIZATIONS}`);
-          },
-        });
-        this.orgService.clear();
-      }
-      if (getArchive) {
-        this.orgService.archive(getArchive?.id).subscribe({
-          next: (data) => {
-            this.messageService.add({
-              severity: "info",
-              summary: "Archived",
-              detail: "Organization has been archived successfully.",
-            });
-            this.orgService.clear();
-          },
-        });
-      }
-    });
-  }
 
   formatTime(time: string | undefined): string {
     if (!time) return "";
@@ -114,9 +81,9 @@ export class OrganizationDetails {
     this.modalService.open(this.content);
   }
 
-  openArchived() {
+  openArchive() {
     this.viewData = {
-      title: `Archived “${this.organization()?.title}”`,
+      title: `Archive “${this.organization()?.title}”`,
       sendLabel: "Confirm Archive",
       sendClose: "Cancel",
     };
@@ -125,24 +92,32 @@ export class OrganizationDetails {
 
   send() {
     if (this.viewData?.title?.includes("Delete")) {
-      this.orgService.triggerDelete(this.organization());
+      this.orgService.delete(this.organization()?.id as number).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: `Organization deleted successfully 🎉`,
+          });
+          this.router.navigateByUrl(`/${AppRoute.ORGANIZATIONS}`);
+          this.modalService.dismissAll();
+        },
+      });
     } else {
-      this.orgService.triggerArchive(this.organization());
+      this.orgService.archive(this.organization()?.id as number).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "info",
+            summary: "Archived",
+            detail: "Organization has been archived successfully.",
+          });
+          this.modalService.dismissAll();
+        },
+      });
     }
-    this.close();
   }
 
   close() {
     this.modalService.dismissAll();
   }
-
-  // archiveItem() {
-  //   this.orgService.archive(this.organization()?.id as number).subscribe(() => {
-  //     this.messageService.add({
-  //       severity: "success",
-  //       summary: "Success",
-  //       detail: "Organization archived successfully 🎉",
-  //     });
-  //   });
-  // }
 }

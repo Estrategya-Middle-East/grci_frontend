@@ -1,47 +1,33 @@
-import { ChangeDetectorRef, Component, effect, inject } from "@angular/core";
-
-import { ToastModule } from "primeng/toast";
-import { MessageService } from "primeng/api";
-import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
-import { LoaderComponent } from "../../../../shared/components/loader/loader.component";
-import { OrganizationsService } from "../../services/organizations.service";
-import { BoardComponent } from "../board/board.component";
-import { ListComponent } from "../list/list.component";
-
+import { Component, effect, inject } from "@angular/core";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
 import {
   DropdownList,
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
+import { filterModel } from "../../../../shared/models/filter.model";
+import { BoardComponent } from "../board/board.component";
+import { ListComponent } from "../list/list.component";
+import { map } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-view",
-  standalone: true,
-  imports: [
-    HeaderComponent,
-    BoardComponent,
-    ListComponent,
-    ToastModule,
-    CustomPaginatorComponent,
-  ],
-  providers: [MessageService],
+  imports: [HeaderComponent, BoardComponent, ListComponent],
   templateUrl: "./view.component.html",
   styleUrl: "./view.component.scss",
 })
 export class ViewComponent {
+  private route = inject(ActivatedRoute);
   switchView = true;
-  isLoading = true;
-  organizationsService = inject(OrganizationsService);
-  dataOrganizations: any = {};
-  pagination: any = {
-    pageNumber: 1,
-    pageSize: 10,
-  };
+  orgId$ = this.route.paramMap.pipe(map((params) => params.get("id")));
+  orgId = toSignal(this.orgId$, { initialValue: null });
+
   showActions: ShowActions = {
     add: {
       show: true,
-      label: "New organization",
+      label: "New Organization",
       link: "/organizations/add",
     },
     import: {
@@ -49,21 +35,7 @@ export class ViewComponent {
       label: "Import organizations",
     },
   };
-  showFilteration: ShowFilteration = {
-    tabeOne: {
-      show: true,
-      label: "Board View",
-    },
-    tabeTwo: {
-      show: true,
-      label: "List View",
-    },
-    search: {
-      show: true,
-      label: "Search Organizations",
-    },
-    import: true,
-  };
+
   dropdownList: DropdownList[] = [
     {
       label: "Organization Type",
@@ -86,107 +58,28 @@ export class ViewComponent {
       selected: "",
     },
   ];
-  private messageService = inject(MessageService);
 
-  constructor(private cd: ChangeDetectorRef) {
-    effect(() => {
-      let getDelete = this.organizationsService.getDeleteSignal();
-      let getArchive = this.organizationsService.getArchiveSignal();
-      if (getDelete) {
-        if (!this.isLoading) {
-          this.isLoading = true;
-          this.organizationsService.delete(getDelete?.id).subscribe({
-            next: (data) => {
-              this.messageService.add({
-                severity: "success",
-                summary: "Success",
-                detail: `deleted ${data.message}`,
-                key: "bc",
-                life: 1000,
-              });
-              this.getOrganizations(this.pagination, false);
-              this.isLoading = false;
-            },
-            error: (err) => {
-              this.messageService.add({
-                severity: "error",
-                summary: "Success",
-                detail: `deleted ${err.message}`,
-                key: "bc",
-                life: 1000,
-              });
-              this.isLoading = false;
-            },
-          });
-        }
+  showFilteration: ShowFilteration = {
+    tabeOne: {
+      show: true,
+      label: "Board View",
+    },
+    tabeTwo: {
+      show: true,
+      label: "List View",
+    },
+    search: {
+      show: true,
+      label: "Search Organizations",
+    },
+    import: true,
+  };
 
-        this.organizationsService.clear();
-      }
-      if (getArchive) {
-        this.isLoading = true;
-        this.organizationsService.archive(getArchive?.id).subscribe({
-          next: (data) => {
-            this.messageService.add({
-              severity: "success",
-              summary: "Success",
-              detail: `deleted ${data.message}`,
-              key: "bc",
-              life: 1000,
-            });
-            this.getOrganizations(this.pagination, false);
-            this.isLoading = false;
-            this.organizationsService.clear();
-          },
-          error: (err) => {
-            this.messageService.add({
-              severity: "error",
-              summary: "Error",
-              detail: err.error ? err.error?.title : err.statusText,
-              key: "bc",
-              life: 1000,
-            });
-            this.isLoading = false;
-          },
-        });
-      }
-    });
+  switchview(event: boolean) {
+    this.switchView = event;
   }
-  switchview(switchData: any) {
-    this.switchView = switchData;
-    this.getOrganizations(this.pagination, true);
-  }
-  ngOnInit(): void {
-    this.isLoading = true;
-    this.dataOrganizations = {};
-    this.getOrganizations(this.pagination, false);
-  }
-  search(data: any) {
-    this.pagination[data.key] = data.value;
 
-    this.getOrganizations(this.pagination, false);
-  }
-  getOrganizations(pagination: any, isSwitched: boolean) {
-    this.organizationsService.listOrganizations(pagination).subscribe({
-      next: (res) => {
-        this.dataOrganizations = res.data;
-        if (isSwitched) {
-          this.pagination = {
-            pageNumber: 1,
-            pageSize: this.pagination.pageSize,
-          };
-        }
-        this.pagination = {
-          pageNumber: this.dataOrganizations.pageNumber,
-          pageSize: this.dataOrganizations.pageSize,
-          totalItems: this.dataOrganizations.totalItems,
-          totalPages: this.dataOrganizations.totalPages,
-        };
-
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-    });
+  search(filters: filterModel) {
+    console.log(filters);
   }
 }

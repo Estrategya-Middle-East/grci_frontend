@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable, Signal, signal } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import {
@@ -12,30 +12,33 @@ import { formatTimeOnly } from "../../../shared/utils/parse-time";
 
 @Injectable({ providedIn: "root" })
 export class OrganizationsService {
-  private _deleteSignal = signal<any | null>(null);
-  private _archiveSignal = signal<any | null>(null);
-  private _closeDialog = signal<any | null>(null);
-  private baseUrl = "api/OrganizationalUnits";
+  private http = inject(HttpClient);
+  private baseUrl = environment.baseUrl + "api/OrganizationalUnits";
 
-  constructor(private http: HttpClient) {}
+  listOrganizations(filter: any = {}): Observable<any> {
+    let params = new HttpParams();
+    if (filter.pageNumber !== undefined) {
+      params = params.set("PageNumber", filter.pageNumber.toString());
+    }
+    if (filter.pageSize !== undefined) {
+      params = params.set("PageSize", filter.pageSize.toString());
+    }
+    if (filter.filterValue) {
+      params = params.set("FilterValue", filter.filterValue);
+    }
+    if (filter.filterField) {
+      params = params.set("FilterField", filter.filterField);
+    }
 
-  getCountries(): Observable<Country[]> {
     return this.http
-      .get<any>(`${environment.baseUrl}${this.baseUrl}/countries`)
-      .pipe(map((res) => res.data as Country[]));
+      .get<{ data: any }>(this.baseUrl, { params })
+      .pipe(map((res) => res.data));
   }
 
-  getGroupNames(): Observable<Group[]> {
+  getOrganizationById(id: number): Observable<OrganizationForm> {
     return this.http
-      .get<any>(`${environment.baseUrl}${this.baseUrl}/groups`)
-      .pipe(map((res) => res.data as Group[]));
-  }
-
-  getCities(countryId: number): Observable<City[]> {
-    const params = new HttpParams().set("countryId", countryId);
-    return this.http
-      .get<any>(`${environment.baseUrl}${this.baseUrl}/cities`, { params })
-      .pipe(map((res) => res.data as City[]));
+      .get<{ data: OrganizationForm }>(`${this.baseUrl}/${id}`)
+      .pipe(map((res) => res.data));
   }
 
   createOrganization(
@@ -43,14 +46,16 @@ export class OrganizationsService {
     isOrganization: boolean,
     switchHeadquarter: number,
     file: File | null
-  ): Observable<any> {
+  ): Observable<OrganizationForm> {
     const formData = this.buildFormData(
       formValue,
       isOrganization,
       switchHeadquarter,
       file
     );
-    return this.http.post(`${environment.baseUrl}${this.baseUrl}`, formData);
+    return this.http
+      .post<{ data: OrganizationForm }>(this.baseUrl, formData)
+      .pipe(map((res) => res.data));
   }
 
   updateOrganization(
@@ -59,17 +64,43 @@ export class OrganizationsService {
     isOrganization: boolean,
     switchHeadquarter: number,
     file: File | null
-  ): Observable<any> {
+  ): Observable<OrganizationForm> {
     const formData = this.buildFormData(
       formValue,
       isOrganization,
       switchHeadquarter,
       file
     );
-    return this.http.put(
-      `${environment.baseUrl}${this.baseUrl}/${id}`,
-      formData
-    );
+    return this.http
+      .put<{ data: OrganizationForm }>(`${this.baseUrl}/${id}`, formData)
+      .pipe(map((res) => res.data));
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
+  }
+
+  archive(id: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/archive`, {});
+  }
+
+  getCountries(): Observable<Country[]> {
+    return this.http
+      .get<{ data: Country[] }>(`${this.baseUrl}/countries`)
+      .pipe(map((res) => res.data));
+  }
+
+  getGroupNames(): Observable<Group[]> {
+    return this.http
+      .get<{ data: Group[] }>(`${this.baseUrl}/groups`)
+      .pipe(map((res) => res.data));
+  }
+
+  getCities(countryId: number): Observable<City[]> {
+    const params = new HttpParams().set("countryId", countryId);
+    return this.http
+      .get<{ data: City[] }>(`${this.baseUrl}/cities`, { params })
+      .pipe(map((res) => res.data));
   }
 
   private buildFormData(
@@ -104,75 +135,5 @@ export class OrganizationsService {
     }
 
     return formData;
-  }
-
-  getOrganizationById(id: number): Observable<OrganizationForm> {
-    return this.http
-      .get<any>(`${environment.baseUrl}api/OrganizationalUnits/${id}`)
-      .pipe(map((res) => res.data as OrganizationForm));
-  }
-
-  listOrganizations(filter: any): Observable<any> {
-    let queryParams = new HttpParams();
-
-    if (filter) {
-      Object.entries(filter).forEach(([key, value]: any) => {
-        queryParams = queryParams.set(key, value);
-      });
-    }
-
-    return this.http.get<any>(`${environment.baseUrl}api/OrganizationalUnits`, {
-      params: queryParams,
-    });
-  }
-
-  delete(id: string): Observable<any> {
-    return this.http.delete<any>(
-      `${environment.baseUrl}api/OrganizationalUnits/${id}`
-    );
-  }
-
-  archive(id: number): Observable<any> {
-    return this.http.post<any>(
-      `${environment.baseUrl}api/OrganizationalUnits/${id}/archive/`,
-      {}
-    );
-  }
-
-  get readDeleteSignal(): Signal<any | null> {
-    return this._deleteSignal.asReadonly();
-  }
-
-  get readArchiveSignal(): Signal<any | null> {
-    return this._archiveSignal.asReadonly();
-  }
-
-  get getDeleteSignal(): Signal<any | null> {
-    return this._deleteSignal;
-  }
-
-  get getArchiveSignal(): Signal<any | null> {
-    return this._archiveSignal;
-  }
-
-  get getCloseDialog(): Signal<any | null> {
-    return this._closeDialog;
-  }
-
-  triggerDelete(data: any) {
-    this._deleteSignal.set(data);
-  }
-
-  triggerArchive(data: any) {
-    this._archiveSignal.set(data);
-  }
-
-  closeDialog() {
-    this._closeDialog.set(true);
-  }
-
-  clear() {
-    this._deleteSignal.set(null);
-    this._archiveSignal.set(null);
   }
 }

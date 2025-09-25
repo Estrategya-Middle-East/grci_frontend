@@ -1,15 +1,5 @@
 import { CommonModule } from "@angular/common";
-import {
-  ChangeDetectorRef,
-  Component,
-  effect,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
 import { InputTextModule } from "primeng/inputtext";
@@ -25,9 +15,9 @@ import {
 } from "../../../../shared/enums/types.enum";
 import { OrganizationsService } from "../../services/organizations.service";
 import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
-import { debounceTime, distinctUntilChanged } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AppRoute } from "../../../../app.routes.enum";
+import { MessageService } from "primeng/api";
+import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
 
 @Component({
   selector: "app-list",
@@ -36,7 +26,7 @@ import { AppRoute } from "../../../../app.routes.enum";
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    Select,
+    CustomPaginatorComponent,
     TableModule,
     InputTextModule,
     NgbDropdownModule,
@@ -46,189 +36,115 @@ import { AppRoute } from "../../../../app.routes.enum";
   styleUrl: "./list.component.scss",
 })
 export class ListComponent {
-  @Output() dropdownChange = new EventEmitter<any>();
-  @Input() dataOrganizations: any = {};
+  private orgService = inject(OrganizationsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private modalService = inject(NgbModal);
+  private config = inject(NgbModalConfig);
+  private messageService = inject(MessageService);
+
+  @ViewChild("content", { static: false }) content: any;
+
+  selectedEntityId!: number;
+  selectedArchiveEntityId!: number;
 
   columns: any[] = [
-    {
-      field: "organizationName",
-      header: "Organization Name",
-      filters: {
-        searchType: "title",
-        type: "search",
-      },
-    },
-    {
-      field: "code",
-      header: "Code",
-      filters: {
-        searchType: "code",
-        type: "search",
-      },
-    },
-    {
-      field: "nameOrganizationType",
-      header: "Organization Type",
-      filters: {
-        searchType: "Type",
-        type: "dropdown",
-        label: "Organization Type",
-        optionLabel: "name",
-        list: [
-          { name: "Group", value: 1 },
-          { name: "Organization", value: 2 },
-        ],
-        selected: "",
-      },
-    },
-    {
-      field: "nameLocationType",
-      header: "Location Type",
-      filters: {
-        searchType: "LocationType",
-
-        type: "dropdown",
-        label: "Organization Type",
-        optionLabel: "name",
-        list: [
-          { name: "Headquarter", value: 1 },
-          { name: "NonHeadquarter", value: 2 },
-        ],
-        selected: "",
-      },
-    },
+    { field: "title", header: "Organization Name" },
+    { field: "code", header: "Code" },
+    { field: "nameOrganizationType", header: "Organization Type" },
+    { field: "nameLocationType", header: "Location Type" },
     { field: "actions", header: "Actions" },
   ];
+
+  pagination: any = { pageNumber: 1, pageSize: 10 };
   organizationsList: any[] = [];
-  customers: any[] = [];
-  organizationsService = inject(OrganizationsService);
-  @ViewChild("content", { static: false }) content: any;
-  filters: { [key: string]: string } = {};
-  isSearching: { [key: string]: boolean } = {};
-  private dataOrig: any = null;
-  @Output() search = new EventEmitter();
-  searchControl: FormControl<string | any> = new FormControl({
-    key: null,
-    value: null,
-  });
-
   viewData: any = {};
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
-    config.backdrop = "static";
-    config.keyboard = false;
-    effect(() => {
-      let closeDialog = this.organizationsService.getCloseDialog();
-      if (closeDialog) {
-        this.close();
-      }
-    });
+
+  constructor() {
+    this.config.backdrop = "static";
+    this.config.keyboard = false;
   }
 
-  open(content: any) {
-    this.modalService.open(content, { size: "xl" });
-  }
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-  }
-  openDelete(data: any) {
-    this.viewData = {
-      title: `Delete “${data.title}”`,
-      sendLabel: "Delete",
-      sendClose: "Cancel",
-    };
-    this.dataOrig = data;
-    this.modalService.open(this.content);
-  }
-  openArchived(data: any) {
-    this.viewData = {
-      title: `Archived “${data.title}”`,
-      sendLabel: "Confirm Archive",
-      sendClose: "Cancel",
-    };
-    this.dataOrig = data;
-    this.modalService.open(this.content);
-  }
-  send() {
-    if (this.viewData?.title?.includes("Delete")) {
-      this.organizationsService.triggerDelete(this.dataOrig);
-    } else {
-      this.organizationsService.triggerArchive(this.dataOrig);
-    }
-    this.close();
-  }
-  close() {
-    this.modalService.dismissAll();
-    this.dataOrig = null;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes?.["dataOrganizations"]) {
-      this.getOrganizationsList(
-        changes?.["dataOrganizations"]?.currentValue?.items
-      );
-    }
-  }
   ngOnInit() {
-    this.getOrganizationsList(this.dataOrganizations?.items);
-    this.searchControl.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe({
-        next: (data) => {
-          this.search.emit(data);
-        },
-        error: (err) => {},
-      });
+    this.loadOrganizations(this.pagination);
   }
-  getOrganizationsList(items: any[]) {
-    this.organizationsList = [];
-    this.organizationsList = items?.map((item: any) => {
-      return {
-        organizationName: {
-          path: "assets/images/imagCardSmall.png",
-          name: item.title,
-        },
-        code: "static",
-        nameOrganizationType: this.getOrganizationTypeName(item.type),
-        nameLocationType: this.getLocationTypeName(item.locationType),
-        ...item,
-      };
+
+  loadOrganizations(pagination: any) {
+    this.orgService.listOrganizations(pagination).subscribe({
+      next: (response) => {
+        this.organizationsList = response.items.map((item: any) => ({
+          ...item,
+          nameOrganizationType: this.getOrganizationTypeName(item.type),
+          nameLocationType: this.getLocationTypeName(item.locationType),
+        }));
+        this.pagination = {
+          pageNumber: response.pageNumber,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        };
+      },
     });
-    this.customers = this.organizationsList;
   }
+
   getLocationTypeName(type: number): string {
     return LocationType[type];
   }
+
   getOrganizationTypeName(type: number): string {
     return OrganizationType[type];
   }
-  enableSearch(field: string) {
-    this.isSearching[field] = true;
+
+  openDelete(id: number) {
+    this.selectedEntityId = id;
+    this.viewData = {
+      title: "Delete Organization",
+      sendLabel: "Delete",
+      sendClose: "Cancel",
+    };
+    this.modalService.open(this.content, { centered: true });
   }
 
-  disableSearch(field: string) {
-    this.isSearching[field] = false;
+  openArchive(org: any) {
+    this.selectedArchiveEntityId = org.id;
+    this.viewData = {
+      title: `Archive “${org.organizationName}”`,
+      sendLabel: "Confirm Archive",
+      sendClose: "Cancel",
+    };
+    this.modalService.open(this.content, { centered: true });
   }
 
-  filterTable(data: any) {
-    const searchValue = this.filters[data.field]?.toLowerCase() ?? "";
-
-    this.searchControl.setValue({ key: data.searchType, value: searchValue });
-    // this.customers = this.organizationsList.filter((c:any) =>
-    //   c[field]?.toLowerCase().includes(searchValue)
-    // );
+  close() {
+    this.modalService.dismissAll();
   }
-  onDropdownChange(data: any) {
-    this.searchControl.setValue({
-      key: data.searchType,
-      value: data.selected.value,
-    });
 
-    // this.dropdownChange.emit(value);
+  send() {
+    if (this.viewData?.title?.includes("Delete")) {
+      this.orgService.delete(this.selectedEntityId).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Deleted",
+            detail: "Organization deleted successfully 🎉",
+          });
+          this.loadOrganizations(this.pagination);
+          this.close();
+        },
+      });
+    } else if (this.viewData?.title?.includes("Archive")) {
+      this.orgService.archive(this.selectedArchiveEntityId).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "info",
+            summary: "Archived",
+            detail: "Organization archived successfully",
+          });
+          this.loadOrganizations(this.pagination);
+          this.close();
+        },
+      });
+    }
   }
 
   navigateToEdit(id: number) {
@@ -237,11 +153,5 @@ export class ListComponent {
 
   navigateToView(id: number) {
     this.router.navigate([id], { relativeTo: this.route });
-  }
-
-  navigateToStrategies(id: number) {
-    this.router.navigate([id, `${AppRoute.STRATEGIES}`], {
-      relativeTo: this.route,
-    });
   }
 }

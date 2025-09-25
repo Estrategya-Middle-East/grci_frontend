@@ -1,80 +1,113 @@
-import { Component, effect, inject, Input, ViewChild } from "@angular/core";
-import {
-  NgbDropdownModule,
-  NgbModal,
-  NgbModalConfig,
-} from "@ng-bootstrap/ng-bootstrap";
-import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
+import { Component, inject, ViewChild } from "@angular/core";
 import { OrganizationsService } from "../../services/organizations.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AppRoute } from "../../../../app.routes.enum";
+import { NgbDropdownModule, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
+import { MessageService } from "primeng/api";
+import { map } from "rxjs";
 
 @Component({
   selector: "app-board",
-  standalone: true,
-  imports: [NgbDropdownModule, DeleteItemSelectedComponent],
-  providers: [NgbModalConfig, NgbModal],
-
+  imports: [
+    NgbDropdownModule,
+    DeleteItemSelectedComponent,
+    CustomPaginatorComponent,
+  ],
   templateUrl: "./board.component.html",
   styleUrl: "./board.component.scss",
 })
 export class BoardComponent {
-  @Input() dataOrganizations: any = {};
-  organizationsService = inject(OrganizationsService);
+  private organizationsService = inject(OrganizationsService);
+  private messageService = inject(MessageService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  @ViewChild("content", { static: false }) content: any;
-  private dataOrig: any = null;
-  viewData: any = {};
+  private modalService = inject(NgbModal);
 
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
-    // customize default values of modals used by this component tree
-    config.backdrop = "static";
-    config.keyboard = false;
-    effect(() => {
-      let closeDialog = this.organizationsService.getCloseDialog();
-      if (closeDialog) {
-        this.close();
-      }
+  @ViewChild("content", { static: false }) content: any;
+
+  organizationsList: any[] = [];
+  selectedOrgId!: number;
+  selectedArchivedOrgId!: number;
+
+  viewData: any = { title: "", sendClose: "", sendLabel: "" };
+  orgId$ = this.route.paramMap.pipe(map((params) => params.get("id")));
+  orgId = toSignal(this.orgId$, { initialValue: null });
+
+  pagination: any = {
+    pageNumber: 1,
+    pageSize: 10,
+  };
+
+  ngOnInit() {
+    this.loadOrganizations(this.pagination);
+  }
+
+  loadOrganizations(pagination: any) {
+    this.organizationsService.listOrganizations({ ...pagination }).subscribe({
+      next: (response) => {
+        this.organizationsList = response.items;
+        this.pagination = {
+          pageNumber: response.pageNumber,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        };
+      },
     });
   }
 
-  open(content: any) {
-    this.modalService.open(content, { size: "xl" });
-  }
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-  }
-  openDelete(data: any) {
+  openDelete(id: number) {
+    this.selectedOrgId = id;
     this.viewData = {
-      title: `Delete “${data.title}”`,
+      title: "Delete Organization",
       sendLabel: "Delete",
       sendClose: "Cancel",
     };
-    this.dataOrig = data;
-    this.modalService.open(this.content);
+    this.modalService.open(this.content, { centered: true });
   }
-  openArchived(data: any) {
+
+  openArchived(org: any) {
+    this.selectedArchivedOrgId = org.id;
     this.viewData = {
-      title: `Archived “${data.title}”`,
+      title: `Archive “${org.title}”`,
       sendLabel: "Confirm Archive",
       sendClose: "Cancel",
     };
-    this.dataOrig = data;
-    this.modalService.open(this.content);
+    this.modalService.open(this.content, { centered: true });
   }
-  send() {
-    if (this.viewData?.title?.includes("Delete")) {
-      this.organizationsService.triggerDelete(this.dataOrig);
-    } else {
-      this.organizationsService.triggerArchive(this.dataOrig);
-    }
-    this.close();
-  }
+
   close() {
     this.modalService.dismissAll();
-    this.dataOrig = null;
+  }
+
+  send() {
+    if (this.viewData.title.includes("Delete")) {
+      this.organizationsService.delete(this.selectedOrgId).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Organization deleted successfully 🎉",
+          });
+          this.loadOrganizations(this.pagination);
+          this.modalService.dismissAll();
+        },
+      });
+    } else {
+      this.organizationsService.archive(this.selectedArchivedOrgId).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "info",
+            summary: "Archived",
+            detail: "Organization has been archived successfully.",
+          });
+          this.loadOrganizations(this.pagination);
+          this.modalService.dismissAll();
+        },
+      });
+    }
   }
 
   navigateToEdit(id: number) {
@@ -86,8 +119,6 @@ export class BoardComponent {
   }
 
   navigateToStrategies(id: number) {
-    this.router.navigate([id, `${AppRoute.STRATEGIES}`], {
-      relativeTo: this.route,
-    });
+    this.router.navigate([id, "strategies"], { relativeTo: this.route });
   }
 }
