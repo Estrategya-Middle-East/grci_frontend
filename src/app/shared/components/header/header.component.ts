@@ -5,6 +5,8 @@ import {
   Output,
   OnInit,
   ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { debounceTime, distinctUntilChanged } from "rxjs";
@@ -19,6 +21,7 @@ import {
   ShowFilteration,
 } from "./models/header.interface";
 import { DatePickerModule } from "primeng/datepicker";
+import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: "app-header",
@@ -35,7 +38,6 @@ import { DatePickerModule } from "primeng/datepicker";
   ],
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   @Output() filtersChange = new EventEmitter<Record<string, any>>();
@@ -79,6 +81,8 @@ export class HeaderComponent implements OnInit {
       .subscribe((data) => {
         if (!data) return;
         const dropdown = this.dropdownList[data.index];
+        console.log(dropdown);
+
         if (!dropdown) return;
         this.updateFilter(
           dropdown.searchType || `filter${data.index}`,

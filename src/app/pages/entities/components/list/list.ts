@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDropdownModule,
@@ -28,7 +28,8 @@ import { MessageService } from "primeng/api";
   templateUrl: "./list.html",
   styleUrl: "./list.scss",
 })
-export class List {
+export class List implements OnChanges {
+  @Input() filters: Record<string, any> = {};
   private entityService = inject(Entity);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -61,12 +62,19 @@ export class List {
     this.config.keyboard = false;
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.pagination.pageNumber = 1;
     this.loadEntities(this.pagination);
   }
 
   loadEntities(pagination: any) {
-    this.entityService.getEntities(pagination).subscribe({
+    const filterPayload = {
+      pageNumber: pagination.pageNumber,
+      pageSize: pagination.pageSize,
+      filterField: Object.keys(this.filters),
+      filterValue: Object.values(this.filters),
+    };
+    this.entityService.getEntities(filterPayload).subscribe({
       next: (response) => {
         this.entitiesList = response.items;
         this.pagination = {
