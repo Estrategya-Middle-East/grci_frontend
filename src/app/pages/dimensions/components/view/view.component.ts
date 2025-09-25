@@ -54,7 +54,7 @@ export class ViewComponent {
     this.switchView = event;
   }
 
-  search(filters: filterModel) {
+  onFiltersChange(filters: any) {
     console.log(filters);
   }
 }

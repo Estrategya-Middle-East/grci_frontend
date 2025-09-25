@@ -1,7 +1,8 @@
 <div class="header-page">
   <div class="section-one d-flex justify-content-between align-items-center">
     <h2 class="title-page m-0">{{ title }}</h2>
-    @if (showActions) {
+
+    @if(showActions) {
     <div class="buttons-actions d-flex">
       @if(showActions!.add!.show) {
       <button
@@ -10,21 +11,7 @@
         [routerLinkActive]="'active'"
         class="btn d-flex align-items-center button-color-blue button-with-icon"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="21"
-          viewBox="0 0 22 21"
-          fill="none"
-        >
-          <path
-            d="M11 1.5L11 10.6924M11 10.6924L1.80762 10.6924M11 10.6924L11.0001 19.8847M11 10.6924L20.1924 10.6924"
-            stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <i class="pi pi-plus" style="margin-inline-end: 10px"></i>
         {{ showActions!.add!.label }}
       </button>
       } @if(showActions!.import!.show) {
@@ -32,117 +19,64 @@
         type="button"
         class="btn d-flex align-items-center button-color-gray button-with-icon"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="21"
-          viewBox="0 0 18 21"
-          fill="none"
-        >
-          <path
-            d="M16.5 17.0769C16.5 18.6913 15.1569 20 13.5 20H4.49999C2.84314 20 1.5 18.6913 1.5 17.0769L1.50002 6.84615M7.49998 1H6.75001L1.50002 6.11538L1.50002 6.84615M7.49998 1H13.5C15.1569 1 16.5 2.30871 16.5 3.92308L16.5 6.84615M7.49998 1V6.84615H1.50002M7.49997 11.9615H15.75M15.75 11.9615L12.75 9.03845M15.75 11.9615L12.75 14.8846"
-            stroke="#1E87F0"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <i class="pi pi-upload" style="margin-inline-end: 10px"></i>
         {{ showActions!.import!.label }}
       </button>
       }
     </div>
     }
   </div>
-  @if (showFilteration) {
+
+  @if(showFilteration) {
   <div class="filter-header d-flex flex-wrap align-items-center">
     <div class="content-tabs d-flex align-items-center">
-      @if (showFilteration!.tabeOne!.show) {
+      @if(showFilteration!.tabeOne!.show) {
       <div
-        class="board d-flex align-items-center active cursor-pointer"
+        class="board d-flex align-items-center"
         [class.active]="isSwitchView"
         (click)="switchView.emit(true)"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="24"
-          viewBox="0 0 25 24"
-          fill="none"
-        >
-          <path
-            d="M3.5 3V11H11.5V3H3.5ZM9.5 9H5.5V5H9.5V9ZM3.5 13V21H11.5V13H3.5ZM9.5 19H5.5V15H9.5V19ZM13.5 3V11H21.5V3H13.5ZM19.5 9H15.5V5H19.5V9ZM13.5 13V21H21.5V13H13.5ZM19.5 19H15.5V15H19.5V19Z"
-            fill="#C7CED9"
-          />
-        </svg>
+        <i class="pi pi-th-large" style="margin-inline-end: 5px"></i>
         {{ showFilteration!.tabeOne!.label }}
       </div>
-      } @if (showFilteration!.tabeTwo!.show) {
+      } @if(showFilteration!.tabeTwo!.show) {
       <div
-        class="board d-flex align-items-center cursor-pointer"
+        class="board d-flex align-items-center"
         [class.active]="!isSwitchView"
         (click)="switchView.emit(false)"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="24"
-          viewBox="0 0 25 24"
-          fill="none"
-        >
-          <path
-            d="M3.5 18H21.5V16H3.5V18ZM3.5 13H21.5V11H3.5V13ZM3.5 6V8H21.5V6H3.5Z"
-            fill="#C7CED9"
-          />
-        </svg>
+        <i class="pi pi-bars" style="margin-inline-end: 5px"></i>
         {{ showFilteration!.tabeTwo!.label }}
       </div>
       }
     </div>
-    @if (showFilteration!.search!.show) {
+
+    @if(showFilteration!.search!.show) {
     <div class="search left-border">
-      <div class="section-field">
-        <div class="content-input position-relative">
-          <span class="p-input-icon-left w-100 custom-input">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="19"
-              height="18"
-              viewBox="0 0 19 18"
-              fill="none"
-            >
-              <path
-                d="M13.2549 11.2549H12.4649L12.1849 10.9849C13.1649 9.84488 13.7549 8.36488 13.7549 6.75488C13.7549 3.16488 10.8449 0.254883 7.25488 0.254883C3.66488 0.254883 0.754883 3.16488 0.754883 6.75488C0.754883 10.3449 3.66488 13.2549 7.25488 13.2549C8.86488 13.2549 10.3449 12.6649 11.4849 11.6849L11.7549 11.9649V12.7549L16.7549 17.7449L18.2449 16.2549L13.2549 11.2549ZM7.25488 11.2549C4.76488 11.2549 2.75488 9.24488 2.75488 6.75488C2.75488 4.26488 4.76488 2.25488 7.25488 2.25488C9.74488 2.25488 11.7549 4.26488 11.7549 6.75488C11.7549 9.24488 9.74488 11.2549 7.25488 11.2549Z"
-                fill="#C7CED9"
-              />
-            </svg>
-            <input
-              type="text"
-              class="w-100 leftPadding"
-              pInputText
-              #searchIput
-              (keyup)="searchData({ key: 'search', value: searchIput })"
-              [placeholder]="showFilteration!.search!.label"
-              autocomplete="off"
-            />
-          </span>
-        </div>
-      </div>
+      <span class="p-input-icon-left w-100 custom-input">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          class="w-100 leftPadding"
+          [formControl]="searchControl"
+          placeholder="{{ showFilteration.search.label }}"
+          autocomplete="off"
+        />
+      </span>
     </div>
     } @if(dropdownList.length > 0) {
     <div class="contentDropdown d-flex flex-wrap">
-      @for (dropdown of dropdownList; track $index; let i = $index; let isFirst
-      = $first; let isLast = $last) {
+      @for(dropdown of dropdownList; track $index; let i = $index; let isLast =
+      $last) {
       <div class="dropdownList" [class.left-border]="isLast">
-        <div class="searchDropdown">
-          <p-select
-            [options]="dropdown.list"
-            [(ngModel)]="dropdown.selected"
-            (onChange)="onDropdownChange($event.value, $index)"
-            [optionLabel]="dropdown.optionLabel"
-            [placeholder]="dropdown.label"
-            class="w-full"
-          />
-        </div>
+        <p-select
+          [options]="dropdown.list"
+          [(ngModel)]="dropdown.selected"
+          (onChange)="onDropdownChange($event.value, i)"
+          [optionLabel]="dropdown.optionLabel"
+          [placeholder]="dropdown.label"
+          class="w-full"
+        ></p-select>
       </div>
       }
     </div>

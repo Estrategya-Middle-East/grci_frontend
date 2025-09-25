@@ -1,166 +1,204 @@
-@use 'variables';
+@use "variables";
+
 .header-page {
-    background-color: rgba(245, 245, 245, 1);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-}
-.title-page {
+  background-color: rgba(245, 245, 245, 1);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+
+  .title-page {
     font-size: 22px;
     font-weight: 500;
     color: rgba(31, 38, 51, 1);
-}
-.button-color-blue {
+  }
+
+  .button-color-blue {
     background-color: variables.$bc-blue-action;
     color: white;
-}
-.button-color-gray {
+  }
+
+  .button-color-gray {
     background-color: variables.$bc-blue-gray;
     color: variables.$primary-color-text;
-}
-.buttons-actions {
+  }
+
+  .buttons-actions {
     gap: 15px;
     button {
-        border-radius: 8px;
-        font-size: 14px;
-        padding: 10px;
-        svg {
-            margin-inline-end: 10px;
-        }
+      border-radius: 8px;
+      font-size: 14px;
+      padding: 10px;
+      i.pi {
+        margin-inline-end: 10px;
+      }
     }
-}
-.content-tabs {
-    box-shadow: 0px 1px 3px 0px #606C800D;
+  }
+
+  .content-tabs {
+    box-shadow: 0px 1px 3px 0px #606c800d;
+
     .board {
-        svg {
-            margin-inline-end: 5px;
-        }
-        color: #606C80;
-        background-color: #FAFBFC;
-        padding: 10px 16px;
-        border: 1px solid #EBEEF2;
-        border-radius: 8px 0 0 8px;
-        -webkit-border-radius: 8px 0 0 8px;
-        -moz-border-radius: 8px 0 0 8px;
-        -ms-border-radius: 8px 0 0 8px;
-        -o-border-radius: 8px 0 0 8px;
-        font-size: 13px;
-        font-weight: 700;
-          @extend %transition;
+      color: #606c80;
+      background-color: #fafbfc;
+      padding: 10px 16px;
+      border: 1px solid #ebeef2;
+      border-radius: 8px 0 0 8px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      i.pi {
+        margin-inline-end: 5px;
+      }
+      @extend %transition;
     }
+
     .board:last-of-type {
-        border-radius: 0px 8px 8px 0px;
-        -webkit-border-radius: 0px 8px 8px 0px;
-        -moz-border-radius: 0px 8px 8px 0px;
-        -ms-border-radius: 0px 8px 8px 0px;
-        -o-border-radius: 0px 8px 8px 0px;
+      border-radius: 0px 8px 8px 0px;
     }
+
     .board.active,
     .board:hover {
-        background-color: white;
+      background-color: white;
     }
-}
-.left-border {
+  }
+
+  .left-border {
     margin-inline-start: 15px !important;
     padding-inline-start: 15px;
-    border-inline-start: 1px solid #EBEEF2;
-}
+    border-inline-start: 1px solid #ebeef2;
+  }
 
-.search {
-    input {
-        color: #98A2B2;
-        border: 0 !important;
-    }
-    input::placeholder {
-        color: #98A2B2;
-        font-weight: 600;
+  .search {
+    position: relative;
+
+    .custom-input {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+
+      i.pi {
+        position: absolute;
+        left: 12px;
+        color: #c7ced9;
+        font-size: 14px;
+        pointer-events: none;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 10px 10px 36px; // space for icon
         font-size: 13px;
-    }
-}
-.dropdownList {
-    margin-inline: 15px;
-}
-.dropdownList.left-border {
-    margin-inline: 0 !important;
-}
-:host ::ng-deep .p-inputtext:enabled:focus,
-:host ::ng-deep .p-inputtext:enabled:hover {
-    border-color: #cbd5e1 !important;
+        font-weight: 600;
+        color: #98a2b2;
+        border: 0 !important;
+        border-radius: 8px;
+        background-color: #fafbfc;
 
-}
-:host ::ng-deep .searchDropdown .p-select {
+        &::placeholder {
+          color: #98a2b2;
+          font-weight: 600;
+          font-size: 13px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .dropdownList {
+    margin-inline: 15px;
+    &.left-border {
+      margin-inline: 0 !important;
+    }
+  }
+
+  .filter-header {
+    row-gap: 10px;
+    margin-top: 15px;
+  }
+
+  // PrimeNG overrides
+  :host ::ng-deep .p-inputtext:enabled:focus,
+  :host ::ng-deep .p-inputtext:enabled:hover {
+    border-color: #cbd5e1 !important;
+  }
+
+  :host ::ng-deep .searchDropdown .p-select {
     background-color: transparent !important;
     border: 0 !important;
     box-shadow: none;
     .p-select-label {
-        color: #1F263E;
-        font-size: 14px;
+      color: #1f263e;
+      font-size: 14px;
     }
-}
-.filter-header {
-    row-gap: 10px;
-    margin-top: 15px;
-}
-@media (max-width:992px) {
+  }
+
+  @media (max-width: 992px) {
     .buttons-actions button {
-        font-size: 12px;
-        padding: 7px;
+      font-size: 12px;
+      padding: 7px;
     }
     .title-page {
-        font-size: 20px;
+      font-size: 20px;
     }
     .search input {
-        padding: 10px;
-        padding-left: 41px;
-        font-size: 12px;
+      padding-left: 41px;
+      font-size: 12px;
     }
     .content-tabs .board {
-        padding: 8px 15px;
-        font-size: 12px;
+      padding: 8px 15px;
+      font-size: 12px;
     }
-}
+  }
 
-@media (max-width:530px) {
+  @media (max-width: 530px) {
     .section-one {
-        align-items: start !important;
+      align-items: start !important;
     }
     .buttons-actions {
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: end;
-        margin-inline-start: 35px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: end;
+      margin-inline-start: 35px;
     }
     .search.left-border {
-        border: 0;
-        padding: 0;
+      border: 0;
+      padding: 0;
     }
-}
-@media (max-width:390px) {
+  }
+
+  @media (max-width: 390px) {
     .section-one {
-        flex-wrap: wrap;
-                row-gap: 15px;
+      flex-wrap: wrap;
+      row-gap: 15px;
     }
     .buttons-actions {
       justify-content: start;
       margin: 0 !important;
     }
-            
-}
-@media (max-width:524px) {
+  }
+
+  @media (max-width: 524px) {
     .search.left-border {
       margin: 0 !important;
     }
     .filter-header {
-        flex-direction: column;
-        align-items: start !important;
+      flex-direction: column;
+      align-items: start !important;
     }
-   :host ::ng-deep .searchDropdown .p-select .p-select-label {
-        font-size: 12px !important;
+    :host ::ng-deep .searchDropdown .p-select .p-select-label {
+      font-size: 12px !important;
     }
     .contentDropdown {
-        .dropdownList {
-            margin-inline: 0;
-            padding: 0;
-            border: 0;
-        }
+      .dropdownList {
+        margin-inline: 0;
+        padding: 0;
+        border: 0;
+      }
     }
+  }
 }

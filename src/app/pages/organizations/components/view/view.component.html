@@ -1,10 +1,10 @@
 <app-header
   [isSwitchView]="switchView"
   [title]="'Organizations'"
+  [dropdownList]="dropdownList"
   [showFilteration]="showFilteration"
   [showActions]="showActions"
-  [dropdownList]="dropdownList"
-  (search)="search($event)"
+  (filtersChange)="onFiltersChange($event)"
   (switchView)="switchview($event)"
 ></app-header>
 
@@ -13,9 +13,9 @@
     <h4 class="title">Organizations</h4>
 
     @if (switchView) { @defer (when switchView) {
-    <app-board></app-board>
+    <app-board [filters]="filters"></app-board>
     } } @else { @defer (when !switchView) {
-    <app-list></app-list>
+    <app-list [filters]="filters"></app-list>
     } }
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, ViewChild } from "@angular/core";
+import { Component, inject, Input, ViewChild } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
 import { InputTextModule } from "primeng/inputtext";
@@ -36,6 +36,7 @@ import { CustomPaginatorComponent } from "../../../../shared/components/custom-p
   styleUrl: "./list.component.scss",
 })
 export class ListComponent {
+  @Input() filters: Record<string, any> = {};
   private orgService = inject(OrganizationsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);

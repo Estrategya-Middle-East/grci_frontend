@@ -1,9 +1,9 @@
 <app-header
   [isSwitchView]="switchView"
   [title]="'Entities Management'"
-  (search)="search($event)"
   [showFilteration]="showFilteration"
   [showActions]="showActions"
+  (filtersChange)="onFiltersChange($event)"
   (switchView)="switchview($event)"
 ></app-header>
 <div class="container-list">

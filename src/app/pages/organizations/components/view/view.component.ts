@@ -23,6 +23,7 @@ export class ViewComponent {
   switchView = true;
   orgId$ = this.route.paramMap.pipe(map((params) => params.get("id")));
   orgId = toSignal(this.orgId$, { initialValue: null });
+  filters: Record<string, any> = {};
 
   showActions: ShowActions = {
     add: {
@@ -79,7 +80,7 @@ export class ViewComponent {
     this.switchView = event;
   }
 
-  search(filters: filterModel) {
-    console.log(filters);
+  onFiltersChange(filters: Record<string, any>) {
+    this.filters = filters;
   }
 }

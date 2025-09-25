@@ -4,7 +4,6 @@ import {
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
-import { filterModel } from "../../../../shared/models/filter.model";
 import { Board } from "../board/board";
 import { List } from "../list/list";
 import { map } from "rxjs";
@@ -63,7 +62,7 @@ export class View {
     this.switchView = event;
   }
 
-  search(filters: filterModel) {
+  onFiltersChange(filters: any) {
     console.log(filters);
   }
 }

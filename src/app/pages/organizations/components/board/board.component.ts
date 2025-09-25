@@ -1,4 +1,11 @@
-import { Component, inject, ViewChild } from "@angular/core";
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { OrganizationsService } from "../../services/organizations.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDropdownModule, NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -18,7 +25,8 @@ import { map } from "rxjs";
   templateUrl: "./board.component.html",
   styleUrl: "./board.component.scss",
 })
-export class BoardComponent {
+export class BoardComponent implements OnChanges {
+  @Input() filters: Record<string, any> = {};
   private organizationsService = inject(OrganizationsService);
   private messageService = inject(MessageService);
   private router = inject(Router);
@@ -40,12 +48,20 @@ export class BoardComponent {
     pageSize: 10,
   };
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.pagination.pageNumber = 1;
     this.loadOrganizations(this.pagination);
   }
 
   loadOrganizations(pagination: any) {
-    this.organizationsService.listOrganizations({ ...pagination }).subscribe({
+    const filterPayload = {
+      pageNumber: pagination.pageNumber,
+      pageSize: pagination.pageSize,
+      filterField: Object.keys(this.filters),
+      filterValue: Object.values(this.filters),
+    };
+
+    this.organizationsService.listOrganizations(filterPayload).subscribe({
       next: (response) => {
         this.organizationsList = response.items;
         this.pagination = {

@@ -49,7 +49,7 @@ export class View {
     this.switchView = event;
   }
 
-  search(filters: filterModel) {
-    console.log(filters);
+  onFiltersChange(filters: Record<string, any>) {
+    console.log("All filters:", filters);
   }
 }

@@ -17,21 +17,25 @@ export class OrganizationsService {
 
   listOrganizations(filter: any = {}): Observable<any> {
     let params = new HttpParams();
-    if (filter.pageNumber !== undefined) {
-      params = params.set("PageNumber", filter.pageNumber.toString());
-    }
-    if (filter.pageSize !== undefined) {
-      params = params.set("PageSize", filter.pageSize.toString());
-    }
-    if (filter.filterValue) {
-      params = params.set("FilterValue", filter.filterValue);
-    }
-    if (filter.filterField) {
-      params = params.set("FilterField", filter.filterField);
+
+    // Add pagination
+    if (filter.pageNumber !== undefined)
+      params = params.set("PageNumber", filter.pageNumber);
+    if (filter.pageSize !== undefined)
+      params = params.set("PageSize", filter.pageSize);
+
+    // Convert filterField & filterValue arrays to named query params
+    if (filter.filterField && filter.filterValue) {
+      filter.filterField.forEach((field: string, i: number) => {
+        const value = filter.filterValue[i];
+        if (value !== undefined && field) {
+          params = params.set(field, value);
+        }
+      });
     }
 
     return this.http
-      .get<{ data: any }>(this.baseUrl, { params })
+      .get<any>(this.baseUrl, { params })
       .pipe(map((res) => res.data));
   }
 
