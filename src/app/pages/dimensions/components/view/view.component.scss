@@ -1,0 +1,33 @@
+.container-dimensions {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 80px);
+}
+
+.content-cards {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.title {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.container-empty-data {
+  padding: 2rem;
+  
+  .empty-table {
+    margin-left: 1rem;
+    color: #6c757d;
+  }
+}
+
+.f-s-16 {
+  font-size: 16px;
+}

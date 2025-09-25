@@ -1,0 +1,82 @@
+:host ::ng-deep .p-datatable-table {
+     .p-datatable-thead {
+        tr {
+            background-color: #EEF4FD;
+            th{
+                background-color: transparent;
+                border: 0;
+                font-size: 15px;
+                padding: 15px;
+                svg {
+                    margin-inline-end: 10px;
+                }
+            }
+            th:first-of-type {
+                border-radius: 7.76px 0 0 7.76px !important;
+                -webkit-border-radius: 7.76px 0 0 7.76px !important;
+                -moz-border-radius: 7.76px 0 0 7.76px !important;
+                -ms-border-radius: 7.76px 0 0 7.76px !important;
+                -o-border-radius: 7.76px 0 0 7.76px !important;
+            }
+             th:last-of-type {
+                border-radius: 0 7.76px 7.76px 0 !important;
+                -webkit-border-radius: 0 7.76px 7.76px 0 !important;
+                -moz-border-radius: 0 7.76px 7.76px 0 !important;
+                -ms-border-radius: 0 7.76px 7.76px 0 !important;
+                -o-border-radius: 0 7.76px 7.76px 0 !important;
+            }
+        }
+     }
+}
+:host ::ng-deep .p-datatable-table {
+    tbody {
+        td {
+            border: 0;
+            font-size: 13px;
+            padding: 10px 15px;
+            img {
+                margin-inline-end: 10px;
+            }
+        }
+    }
+}
+.text {
+    color: #1E87F0;
+}
+:host ::ng-deep .searchDropdown .p-select {
+    background-color: transparent !important;
+    border: 0 !important;
+    box-shadow: none;
+    .p-select-label {
+        color: #1F263E;
+        font-size: 14px;
+        padding: 0;
+        padding-inline-end: 10px;
+    }
+}
+
+.list-dropdown {
+    background-color: transparent;
+    border: 0;
+    font-size: 12px;
+    font-weight: 700;
+}
+.list-dropdown::after {
+    display: none;
+}
+.dropdown-menu {
+    button {
+        padding-block: 10px;
+        font-size: 13px !important;
+        border-bottom: 1px solid #E4E4E4;
+        color: #717171 !important;
+        font-weight: 500;
+            background-color: white !important;
+        svg {
+            margin-inline-end: 5px;
+        }
+    }
+    button:last-of-type {
+        border-bottom: 0 ;
+    }
+}

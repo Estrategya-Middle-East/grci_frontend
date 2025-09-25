@@ -1,0 +1,170 @@
+@use "../../../../styles/variables" as *;
+
+.login {
+  height: 100vh;
+  > .row {
+    height: 100%;
+  }
+  .loginBackground {
+    background-image: url("/assets/images/loginBackground.png");
+    background-size: cover;
+    .logo-insideBackground {
+      height: 100%;
+      img {
+        object-fit: contain;
+        width: 45%;
+      }
+    }
+  }
+}
+.formLogin {
+  padding: 25px 30px;
+}
+.title {
+  font-weight: 700;
+  font-size: 48px;
+}
+.desc {
+  font-size: 1rem;
+}
+.bodyLogin {
+  height: calc(100% - 32px);
+}
+.bodyLogin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.content-input {
+  input::placeholder {
+    color: $color-input !important;
+    font-weight: 500;
+  }
+  input {
+    height: 45px;
+    font-size: 13px;
+    box-shadow: none !important;
+    background-color: $bakcgound-input !important;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -ms-border-radius: 5px 5px 0 0;
+    -o-border-radius: 5px 5px 0 0;
+    // border-bottom-color: #1E87F0 ;
+  }
+}
+
+:host ::ng-deep .p-inputtext {
+  border: 1px solid rgba(30, 135, 240, 0.5);
+}
+:host ::ng-deep .p-inputtext:enabled:hover {
+  border-color: rgba(30, 135, 240, 1);
+}
+:host ::ng-deep .p-inputtext.ng-dirty.ng-invalid {
+  border-color: #e24c4c;
+}
+.p-input-icon-right .customCentericon {
+  position: absolute;
+  top: 50%;
+  margin: 0 !important;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  margin: 0 !important;
+}
+.alert {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+}
+.labelRememberMe {
+  margin-inline-start: 8px !important;
+  font-size: 14px;
+}
+:host ::ng-deep .p-checkbox,
+:host ::ng-deep .p-checkbox .p-checkbox-box {
+  width: 20px;
+  height: 20px;
+  box-shadow: none;
+}
+:host ::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover,
+:host ::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+  border-color: #d1d5db;
+}
+:host ::ng-deep .p-checkbox-checked .p-checkbox-box {
+  border-color: #3b82f6 !important;
+  background-color: #3b82f6 !important;
+  outline: 0 !important;
+}
+:host ::ng-deep .contentCheckbox p-checkbox {
+  display: flex;
+}
+.forgetPassword {
+  color: $primary-color-text;
+  font-size: 15px;
+}
+.submit {
+  font-weight: 600;
+  margin-top: 45px;
+  height: 56px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  background-color: $background-button;
+  border-color: $background-button;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.submit:hover,
+.submit.btn-primary:not(:disabled):not(.disabled):active {
+  background-color: $hover-button;
+  border-color: $hover-button;
+}
+.section-head {
+  margin-bottom: 35px;
+}
+
+@media (max-width: 768px) {
+  .formLogin {
+    width: 80% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .title {
+    font-size: 43px;
+  }
+  .desc {
+    font-size: 14px;
+  }
+  .forgetPassword,
+  .labelRememberMe {
+    font-size: 13px;
+  }
+  .submit {
+    margin-top: 35px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 576px) {
+  .formLogin {
+    width: 95% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media (max-width: 500px) {
+  .formLogin {
+    padding: 25px 0px;
+  }
+  .title {
+    font-size: 40px;
+  }
+}

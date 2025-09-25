@@ -1,0 +1,115 @@
+<app-header [title]="'View Organizational Unit'"></app-header>
+
+@if (!loaderService.loading()) { @if (organization()) {
+<div class="p-4 d-flex flex-column">
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <img
+        class="w-50 mb-3"
+        [src]="`${imgUrl}${organization()?.logoUrl}`"
+        alt="organization logo"
+      />
+      <h2 class="title">{{ organization()?.title }}</h2>
+      <p class="text-black-50"><span>code:</span> {{ organization()?.code }}</p>
+    </div>
+
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column align-items-center align-items-md-start"
+    >
+      <p class="mb-2">
+        <span class="title">Phone Number:</span> {{ organization()?.phone }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Address:</span> {{ organization()?.address }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Location Type:</span>
+        {{ organization()?.type === 1 ? "Headquarter" : "Branch" }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Work Hours:</span>
+        {{ formatTime(organization()?.workHoursFrom) }} -
+        {{ formatTime(organization()?.workHoursTo) }}
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchived()"
+    ></button>
+  </div>
+
+  <p class="d-flex flex-column gap-3 mt-4">
+    <span class="title">Description</span>
+    <span class="text-black-50">{{ organization()?.description }}</span>
+  </p>
+</div>
+} @else {
+<div
+  class="container-empty-data w-100 d-flex flex-column justify-content-center align-items-center pt-5"
+>
+  <i class="pi pi-ban text-muted" style="font-size: 3rem"></i>
+  <span class="empty-text f-s-16 text-muted mt-2">
+    Organization not found
+  </span>
+</div>
+} }
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    @if (viewData.title.includes('Delete')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-trash text-danger" style="font-size: 2.5rem"></i>
+    </span>
+    } @else {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info" style="font-size: 2.5rem"></i>
+    </span>
+    }
+
+    <!-- PARAGRAPH SLOT -->
+    @if (viewData.title.includes('Delete')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<p-toast position="bottom-center" class="custom-toast-error" key="bc" />

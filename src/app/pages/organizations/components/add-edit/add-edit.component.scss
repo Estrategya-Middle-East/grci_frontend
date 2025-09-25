@@ -1,0 +1,161 @@
+@use "variables";
+
+.container-CE {
+  padding: 30px;
+}
+:host ::ng-deep p-select {
+  max-height: 40px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+.tabs-form {
+  max-width: 320px;
+  max-height: 40px;
+
+  button {
+    font-size: 1rem;
+    box-shadow: none;
+    outline: 0;
+    border: 0;
+    font-weight: 600;
+    color: #170f4980;
+  }
+  button:first-of-type {
+    border-radius: 8px 0 0 8px;
+    -webkit-border-radius: 8px 0 0 8px;
+    -moz-border-radius: 8px 0 0 8px;
+    -ms-border-radius: 8px 0 0 8px;
+    -o-border-radius: 8px 0 0 8px;
+    border: 1px solid variables.$bc-blue-action;
+    border-width: 1px 0 1px 1px;
+  }
+  button:last-of-type {
+    border-radius: 0 8px 8px 0;
+    -webkit-border-radius: 0 8px 8px 0;
+    -moz-border-radius: 0 8px 8px 0;
+    -ms-border-radius: 0 8px 8px 0;
+    -o-border-radius: 0 8px 8px 0;
+    border: 1px solid #ebeef2;
+    border-width: 1px 1px 1px 0;
+  }
+  button.active {
+    background-color: variables.$bc-blue-action;
+    color: white;
+  }
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  box-shadow: 0px 1px 3px 0px #606c800d;
+}
+.uploadFile {
+  height: 139px;
+  width: 166px;
+  border: 1px solid #b8bfcc;
+  font-size: 18px;
+  color: #153060b2;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.title-control {
+  color: #153060;
+  font-size: 18px;
+  margin-bottom: 3px;
+}
+.c-formControl {
+  input {
+    height: 40px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+}
+.contentCity,
+.contentWorksHours {
+  column-gap: 15px;
+}
+
+.section-upload {
+  column-gap: 20px;
+}
+.switch-Headquarter {
+  margin-inline-start: 25px;
+  button {
+    display: inline-flex;
+    background-color: #d9d9d9;
+    width: 88px;
+    height: 34px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    font-weight: 600;
+    box-shadow: none;
+    outline: 0;
+  }
+  button.active {
+    background-color: #1e87f0;
+    color: white;
+  }
+  button:last-of-type {
+    margin-inline-start: -10px;
+  }
+}
+.actions-foot {
+  margin-bottom: 30px;
+  margin-top: 20px;
+  column-gap: 15px;
+  button {
+    padding: 5px 15px 5px 15px;
+    height: 40px;
+    padding-inline-end: 50px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    i {
+      margin-inline-end: 40px;
+    }
+  }
+  .save {
+    background-color: #169efa;
+    color: white;
+  }
+  .cancel {
+    background-color: white;
+    color: #169efa;
+    border: 1px solid #169efa;
+    span {
+      display: flex;
+      margin-inline-end: 40px;
+      padding: 5px;
+      background-color: #169efa;
+      i {
+        margin-inline-end: 0px;
+        color: white;
+      }
+    }
+  }
+}
+
+.logo-preview {
+  max-width: 60%;
+  max-height: 60%;
+}
+
+input.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid,
+p-select.ng-touched.ng-invalid,
+p-datepicker.ng-touched.ng-invalid {
+  border: 1px solid red !important;
+}

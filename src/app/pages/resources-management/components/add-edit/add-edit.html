@@ -1,0 +1,200 @@
+<app-header
+  [title]="resourceId ? 'Edit Resource' : 'Add Resource'"
+></app-header>
+
+<div class="p-4">
+  <form [formGroup]="formGroup" class="resource-form">
+    <div class="row">
+      <!-- Code -->
+      @if (resourceId) {
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Code*</label>
+          <input
+            readonly
+            type="text"
+            formControlName="code"
+            class="w-100"
+            placeholder="Code"
+            pInputText
+          />
+        </div>
+      </div>
+      }
+
+      <!-- Resource Function -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Function*</label>
+          <p-select
+            class="w-100"
+            formControlName="resourceFunctionId"
+            [options]="functions"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Function"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Resource Name -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Resource Name*</label>
+          <input
+            type="text"
+            formControlName="resourceName"
+            class="w-100"
+            placeholder="Enter resource name"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Skills*</label>
+          <p-multiSelect
+            class="w-100"
+            formControlName="skills"
+            [options]="skills"
+            [filter]="false"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select skill"
+          ></p-multiSelect>
+        </div>
+      </div>
+
+      <!-- Resource Account -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Resource Account*</label>
+          <p-select
+            class="w-100"
+            formControlName="userId"
+            [options]="accounts"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Account"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Work Hours -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Work Hours*</label>
+          <div class="d-flex gap-2">
+            <p-datepicker
+              formControlName="workingHoursFrom"
+              timeOnly="true"
+              hourFormat="12"
+              showIcon="true"
+              placeholder="From"
+              class="w-100"
+            ></p-datepicker>
+            <p-datepicker
+              formControlName="workingHoursTo"
+              timeOnly="true"
+              hourFormat="12"
+              showIcon="true"
+              placeholder="To"
+              class="w-100"
+            ></p-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Experiences -->
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-between mb-3">
+          <label class="title-control d-block h5">Experiences</label>
+          <button
+            type="button"
+            class="btn btn-primary mt-2"
+            (click)="addExperience()"
+          >
+            <i class="pi pi-plus"></i> Add Experience
+          </button>
+        </div>
+        <div formArrayName="experiences">
+          <p-table [value]="experiencesFormArray.controls">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Experience Name</th>
+                <th>Years</th>
+                <th style="width: 50px"></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-exp let-i="rowIndex">
+              <tr [formGroupName]="i">
+                <td>
+                  <input
+                    type="text"
+                    formControlName="experienceName"
+                    pInputText
+                    class="w-100"
+                    placeholder="Experience name"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    formControlName="numberOfYears"
+                    pInputText
+                    class="w-100"
+                    placeholder="Years"
+                    min="1"
+                  />
+                </td>
+
+                <td class="text-center">
+                  @if (experiencesFormArray.length>1) {
+                  <button
+                    type="button"
+                    class="list-dropdown"
+                    (click)="removeExperience(i)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                  }
+                </td>
+              </tr>
+            </ng-template>
+
+            <!-- Empty State -->
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="3">
+                  <div
+                    class="container-empty-data w-100 d-flex justify-content-center align-items-center"
+                  >
+                    <div class="empty-state">
+                      <i class="pi pi-inbox empty-icon"></i>
+                      <span class="empty-table f-s-16">No Experiences</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 m-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !resourceId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

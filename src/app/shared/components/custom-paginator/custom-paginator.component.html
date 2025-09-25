@@ -1,0 +1,9 @@
+<div class="custom-paginator">
+  <p-paginator
+    (onPageChange)="onPageChange($event)"
+    [first]="first"
+    [rows]="pagination.pageSize"
+    [totalRecords]="pagination.totalItems"
+    [rowsPerPageOptions]="[5, 10, 15, 20, 25]"
+  />
+</div>

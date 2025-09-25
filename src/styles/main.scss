@@ -1,0 +1,40 @@
+@use 'variables';
+html,
+body {
+    box-sizing: border-box;
+    margin: 0;
+}
+.custom-input {
+    height: initial;
+    display: block;
+    > svg,
+    > .p-input-icon-right svg{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 13px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+        margin: 0 !important;
+}
+    .p-input-icon-right i {
+        left: initial !important;
+        right: 13px;
+        font-size:18px
+
+    }
+    > input.leftPadding {
+        padding-left: 41px;
+    }
+     > input.leftPadding {
+        padding-left: 41px;
+    }
+    > input.twoicon {
+                padding-left: 41px;
+                                padding-right: 41px;
+
+
+    }
+}

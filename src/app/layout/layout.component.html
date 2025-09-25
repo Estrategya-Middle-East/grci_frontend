@@ -1,0 +1,20 @@
+
+<div class="layout" [ngClass]="{ 'overlay': sidebarExpanded && (isWidnow? isWidnow.innerWidth < 768 : null)}"
+(click)="handleClickOutsideSidebar($event)">
+    <div class="header">
+        <app-header (toggleSidebar)="sidebarExpanded = !sidebarExpanded"></app-header>
+    </div>
+    <div class="contentPages">
+        <div class="sidebar">
+            <app-sidebar (toggleSidebar)="sidebarExpanded = !sidebarExpanded"  [isExpanded]="sidebarExpanded"></app-sidebar>
+        </div>
+        <div class="content" [ngClass]="{ 'sidebarExpanded': sidebarExpanded }">
+            <router-outlet />
+        </div>
+    </div>
+</div>
+<!-- @defer (on idle; prefetch on idle){
+} @placeholder {
+    <app-loading-page></app-loading-page>
+
+} -->

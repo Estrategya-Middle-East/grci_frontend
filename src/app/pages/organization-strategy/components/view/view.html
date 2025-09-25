@@ -1,0 +1,18 @@
+<app-header
+  [isSwitchView]="switchView"
+  [title]="'Organization Strategies'"
+  (search)="search($event)"
+  [showFilteration]="showFilteration"
+  [showActions]="showActions"
+  (switchView)="switchview($event)"
+></app-header>
+<div class="container-list">
+  <div class="content-cards">
+    <h4 class="title">Strategies</h4>
+    @if (switchView) { @defer (when switchView) {
+    <app-board></app-board>
+    } } @else { @defer (when !switchView) {
+    <app-list></app-list>
+    } }
+  </div>
+</div>

@@ -1,0 +1,188 @@
+.entities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.entity-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #1976d2;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.entity-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entity-icon-img {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+.card-actions {
+  .action-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #6c757d;
+
+    &:hover {
+      background: white;
+      border-color: #1976d2;
+      color: #1976d2;
+      transform: scale(1.05);
+    }
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.entity-name {
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.entity-code {
+  color: #6c757d;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  background: #f8f9fa;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid #e9ecef;
+}
+
+.entity-desc {
+  overflow-wrap: break-word;
+}
+
+/* Dropdown menu styling */
+:host ::ng-deep .dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e9ecef;
+  padding: 0.5rem 0;
+
+  .dropdown-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #495057;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: #f8f9fa;
+      color: #1976d2;
+    }
+
+    i {
+      font-size: 14px;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .warning-icon {
+    font-size: 40px;
+    color: #dc3545;
+  }
+
+  .archive-icon {
+    font-size: 40px;
+    color: #6c757d;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .strategies-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .entity-card {
+    margin: 0 0.5rem;
+  }
+
+  .card-header {
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .entity-icon {
+    width: 40px;
+    height: 40px;
+
+    i {
+      font-size: 18px;
+    }
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .entity-name {
+    font-size: 1.1rem;
+  }
+}
+
+/* Animation for card loading */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.entity-card {
+  animation: fadeInUp 0.5s ease-out;
+}

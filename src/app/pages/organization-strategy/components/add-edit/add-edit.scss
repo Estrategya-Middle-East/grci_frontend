@@ -1,0 +1,16 @@
+input.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid,
+p-autoComplete.ng-touched.ng-invalid,
+p-datepicker.ng-touched.ng-invalid {
+  border: 1px solid red !important;
+}
+
+p-datepicker {
+  width: 100%;
+}
+
+.inputs-wrapper {
+  border: 1px solid #cbd5e1;
+  padding: 10px;
+  border-radius: 6px;
+}

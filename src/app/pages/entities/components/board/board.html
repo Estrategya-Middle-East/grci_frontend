@@ -1,0 +1,102 @@
+<div class="entities-grid">
+  @if (entitiesList.length > 0) { @for (entity of entitiesList; track entity.id)
+  {
+  <div class="entity-card">
+    <div class="card-header">
+      <div class="entity-icon">
+        <img
+          src="assets/images/imagCard.png"
+          class="h-100 w-100 entity-icon-img"
+          alt="entity-card"
+        />
+      </div>
+      <div class="card-actions">
+        <div ngbDropdown container="body" class="d-inline-block">
+          <button type="button" class="action-button" ngbDropdownToggle>
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div ngbDropdownMenu>
+            <button ngbDropdownItem (click)="navigateToView(entity.id)">
+              <i class="pi pi-eye me-2"></i>
+              View
+            </button>
+            <button ngbDropdownItem (click)="navigateToEdit(entity.id)">
+              <i class="pi pi-pencil me-2"></i>
+              Edit
+            </button>
+            <button ngbDropdownItem (click)="openDelete(entity.id)">
+              <i class="pi pi-trash me-2"></i>
+              Delete
+            </button>
+            <button ngbDropdownItem (click)="openArchive(entity)">
+              <i class="pi pi-folder me-2"></i>
+              Archive
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <h5 class="entity-name text-primary">
+        {{ entity.name }}
+      </h5>
+      <p class="entity-code">{{ "Code" }}</p>
+      <p class="entity-code">{{ entity.orgChartLevelName }}</p>
+      <p class="entity-desc text-black-50">
+        {{
+          entity.description.length > 100
+            ? (entity.description | slice : 0 : 100) + "..."
+            : entity.description
+        }}
+      </p>
+    </div>
+  </div>
+  } } @else {
+  <div
+    class="container-empty-data w-100 d-flex justify-content-center align-items-center pt-4 pd-4"
+  >
+    <i class="pi pi-inbox empty-icon"></i>
+    <span class="empty-table f-s-16">No Data</span>
+  </div>
+  }
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- Icon slot -->
+    @if (viewData.title.includes('Delete')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+    </span>
+    } @else if (viewData.title.includes('Archive')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder warning-icon"></i>
+    </span>
+    }
+
+    <!-- Paragraph slot -->
+    @if (viewData.title.includes('Delete')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else if (viewData.title.includes('Archive')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+@if(pagination) {
+<app-custom-paginator
+  [pagination]="pagination"
+  (pageNumber)="this.loadEntities($event)"
+></app-custom-paginator>
+}

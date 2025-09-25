@@ -1,0 +1,148 @@
+<app-header [title]="entityId ? 'Edit Entity' : 'Add Entity'"></app-header>
+<div class="p-4">
+  <form [formGroup]="formGroup" class="entity-form">
+    <div class="row">
+      @if (entityId) {
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Code*</label>
+          <input
+            readonly
+            type="text"
+            formControlName="code"
+            class="w-100"
+            placeholder="Code"
+            pInputText
+          />
+        </div>
+      </div>
+      }
+
+      <!-- Dimension Dropdown -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Dimension*</label>
+          <p-select
+            class="w-100"
+            formControlName="dimensionId"
+            [options]="dimensions"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Dimension"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Organizational Unit Dropdown -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Organizational Unit*</label>
+          <p-select
+            class="w-100"
+            formControlName="organizationId"
+            [options]="organizationalUnits"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Organizational Unit"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Entity Name -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Entity Name*</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="w-100"
+            placeholder="Enter entity name"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Org Chart Level Dropdown -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Org Chart Level*</label>
+          <p-select
+            class="w-100"
+            formControlName="orgChartLevelId"
+            [options]="orgChartLevels"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Level"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Parent Dropdown -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Parent Entity</label>
+          <p-select
+            class="w-100"
+            formControlName="parentId"
+            [options]="parentEntities"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Parent"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Introduction -->
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Introduction*</label>
+          <textarea
+            formControlName="introduction"
+            rows="3"
+            class="w-100"
+            placeholder="Enter introduction"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Objective -->
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Objectives*</label>
+          <textarea
+            formControlName="objectives"
+            rows="3"
+            class="w-100"
+            placeholder="Enter objectives"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            formControlName="description"
+            rows="4"
+            class="w-100"
+            placeholder="Enter description"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 m-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !entityId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,62 @@
+@use 'variables';
+.content {
+  overflow-y: auto;
+  margin-left: 0;
+      height: 100%;
+       overflow-y: auto;
+  scrollbar-width: thin;              /* For Firefox */
+  scrollbar-color: #888 #f1f1f1;
+  &.sidebarExpanded {
+    margin-left: variables.$width-sidebar;
+    min-height: 100%;
+  }
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  @media (max-width: 767px) {
+      &.sidebarExpanded {
+    margin-left: 0 !important;
+    min-height: 100%;
+  }
+  }
+}
+.contentPages {
+    position: relative;
+    height: calc(100vh - 41px);
+}
+.layout {
+  position: relative;
+
+  &.overlay {
+    &::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+  }
+}
+/* Chrome, Edge, and other WebKit browsers */
+.content::-webkit-scrollbar {
+  width: 6px;                         /* Width of the vertical scrollbar */
+}
+
+.content::-webkit-scrollbar-track {
+  background: #f1f1f1;                /* Track background */
+  border-radius: 8px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #888;                   /* Thumb color */
+  border-radius: 8px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #555;                   /* Thumb color on hover */
+}

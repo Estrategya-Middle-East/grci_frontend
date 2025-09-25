@@ -1,0 +1,211 @@
+<app-header [title]="'Organizational Unit'"></app-header>
+<div class="container-CE">
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <div class="col-12 d-flex justify-content-between flex-wrap gap-2">
+        <div class="tabs-form d-flex col p-0">
+          <button
+            type="button"
+            class="btn"
+            [class.active]="isOrganization()"
+            (click)="toggleUnitType(true)"
+          >
+            Organization
+          </button>
+          <button
+            type="button"
+            class="btn"
+            [class.active]="!isOrganization()"
+            (click)="toggleUnitType(false)"
+          >
+            Group
+          </button>
+        </div>
+
+        <div
+          class="c-formControl section-Headquarter d-flex align-items-center col-lg-6"
+        >
+          <label class="title-control d-block">Headquarter *</label>
+          <div class="switch-Headquarter">
+            <button
+              type="button"
+              class="btn"
+              [class.active]="switchHeadquarter() === 2"
+              (click)="toggleHeadquarter(2)"
+            >
+              No
+            </button>
+            <button
+              type="button"
+              class="btn"
+              [class.active]="switchHeadquarter() === 1"
+              (click)="toggleHeadquarter(1)"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-12 mt-3">
+        <div class="align-items-center d-flex gap-3">
+          <div>
+            <div
+              class="uploadFile d-flex align-items-center justify-content-center"
+              (click)="logoInput.click()"
+            >
+              @if(logoPreview()){
+              <img [src]="logoPreview()" alt="Logo" class="logo-preview" />
+              } @else {
+              <span class="des-upload"> Logo Image </span>
+              }
+            </div>
+            <input
+              hidden
+              type="file"
+              class="form-control"
+              #logoInput
+              (change)="onFileSelected($event)"
+              accept="image/*"
+            />
+          </div>
+
+          <div class="col">
+            <div class="c-formControl mb-3">
+              <label class="title-control d-block">Organization name*</label>
+              <input
+                type="text"
+                formControlName="title"
+                class="w-100"
+                placeholder="Enter name"
+                pInputText
+              />
+            </div>
+            <div class="c-formControl mb-3">
+              <label class="title-control d-block">Group name*</label>
+              <p-select
+                [options]="groupNames()"
+                formControlName="groupId"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Group Name"
+                class="w-100"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="c-formControl">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            formControlName="description"
+            rows="5"
+            class="w-100"
+            placeholder="Description"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-12 mt-3">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Address*</label>
+          <input
+            type="text"
+            formControlName="address"
+            class="w-100"
+            placeholder="Enter address"
+            pInputText
+          />
+        </div>
+
+        <div class="d-flex gap-2">
+          <div class="col">
+            <label class="title-control d-block"> Country* </label>
+            <div class="d-flex gap-2 mb-3">
+              <p-select
+                [options]="countries()"
+                formControlName="countryId"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Country"
+                class="w-100"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <label class="title-control d-block"> City* </label>
+            <div class="d-flex gap-2 mb-3">
+              <p-select
+                [options]="cities()"
+                formControlName="cityId"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="City"
+                class="w-100"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Phone.no*</label>
+          <div class="d-flex gap-2">
+            <input
+              pInputText
+              class="w-25"
+              formControlName="countryCode"
+              readonly
+            />
+            <input
+              pInputText
+              type="number"
+              min="0"
+              class="w-100"
+              placeholder="Phone Number"
+              formControlName="phone"
+            />
+          </div>
+          @if (formGroup.get('phone')?.touched &&
+          formGroup.get('phone')?.hasError('invalidPhone')) {
+          <small class="text-danger">
+            Invalid phone number for selected country
+          </small>
+          }
+        </div>
+
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Work hours*</label>
+          <div class="d-flex gap-2">
+            <p-datepicker
+              formControlName="workHoursFrom"
+              timeOnly="true"
+              hourFormat="12"
+              showIcon="true"
+              placeholder="from"
+              class="w-100"
+            ></p-datepicker>
+
+            <p-datepicker
+              formControlName="workHoursTo"
+              timeOnly="true"
+              hourFormat="12"
+              showIcon="true"
+              placeholder="to"
+              class="w-100"
+            ></p-datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 pt-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !organizationId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

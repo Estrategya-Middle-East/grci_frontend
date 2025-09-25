@@ -1,0 +1,136 @@
+<app-header [title]="'View Resource'"></app-header>
+
+@if (!loaderService.loading()) { @if (resource()) {
+<div class="p-4 d-flex flex-column">
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <!-- Left block -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h2 class="title">{{ resource()?.resourceName }}</h2>
+      <p class="text-black-50"><span>Code:</span> {{ resource()?.code }}</p>
+    </div>
+
+    <!-- Right block -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column align-items-center align-items-md-start"
+    >
+      <p class="mb-2">
+        <span class="title">Function:</span>
+        {{ resource()?.resourceFunctionName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Resource Account:</span>
+        {{ resource()?.userFullName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Working Hours:</span>
+        {{ formatTime(resource()?.workingHoursFrom) }} -
+        {{ formatTime(resource()?.workingHoursTo) }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Skills:</span>
+        {{ getSkillsAsString(resource()?.skills) }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start mt-4"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchive()"
+    ></button>
+  </div>
+
+  <hr class="text-black-50" />
+
+  <!-- Experiences -->
+  <div class="col-12 mt-4">
+    <label class="title-control text-primary d-block h5">Experiences</label>
+    @if (resource()?.experiences?.length) {
+    <p-table [value]="resource()?.experiences || []">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Experience</th>
+          <th>Number of Years</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-exp>
+        <tr>
+          <td>{{ exp.experienceName }}</td>
+          <td>{{ exp.numberOfYears }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    } @else {
+    <!-- Empty State -->
+    <div
+      class="container-empty-data w-100 d-flex justify-content-center align-items-center py-4"
+    >
+      <div class="empty-state">
+        <i class="pi pi-inbox empty-icon"></i>
+        <span class="empty-table f-s-16">No Experiences</span>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+} @else {
+<p>Resource not found.</p>
+} }
+
+<!-- Delete/Archive Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- Icon -->
+    @if (viewData.action === 'delete') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+    </span>
+    } @else if (viewData.action === 'archive') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info"></i>
+    </span>
+    }
+
+    <!-- Paragraph -->
+    @if (viewData.action === 'delete') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else if (viewData.action === 'archive') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<!-- Toast -->
+<p-toast position="bottom-center" class="custom-toast-error" key="bc"></p-toast>

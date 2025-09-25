@@ -1,0 +1,67 @@
+@use 'variables';
+.content-cards {
+    padding-inline: 30px;
+    margin-bottom:30px;
+}
+.content-cards {
+    .title {
+        margin-bottom: 25px;
+        font-size: 16px;
+    }
+}
+.container-organizations {
+    padding-top: 25px;
+    margin-bottom: 30px;
+}
+.container-organizations {
+
+  background-color: variables.$color-white;      /* For Firefox */
+}
+
+@media (max-width:767px) {
+.content-cards {
+    padding-inline: 15px !important;
+}
+}
+:host ::ng-deep .p-paginator {
+    margin-bottom: 30px;
+}
+:host ::ng-deep .p-paginator-first,
+:host ::ng-deep .p-paginator-last {
+    display: none !important;
+}
+:host ::ng-deep .p-paginator-prev anglelefticon::after {
+    content: 'Back';
+    margin-inline-start: 7px;
+}
+:host ::ng-deep .p-paginator-next anglerighticon::before {
+    content: 'Next';
+    margin-inline-end: 7px;
+}
+:host ::ng-deep .p-paginator-prev,
+:host ::ng-deep .p-paginator-next {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #1E87F080;
+    border-radius: 4px;
+}
+:host ::ng-deep .p-paginator-prev:not(.p-disabled),
+:host ::ng-deep .p-paginator-next:not(.p-disabled) {
+        color: #222222;
+}
+:host ::ng-deep .p-paginator-page {
+    border: 1px solid #1E87F080;
+    border-radius:4px ;
+    -webkit-border-radius:4px ;
+    -moz-border-radius:4px ;
+    -ms-border-radius:4px ;
+    -o-border-radius:4px ;
+    background-color: white;
+    color: #222222;
+    font-size: 14px;
+}
+:host ::ng-deep .p-paginator-page.p-paginator-page-selected {
+     border: 1px solid #1E87F0;
+        background-color: #1E87F0;
+    color: white !important;
+}

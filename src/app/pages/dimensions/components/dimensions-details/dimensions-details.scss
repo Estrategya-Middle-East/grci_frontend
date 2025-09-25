@@ -1,0 +1,10 @@
+@use "../../../../../styles/variables" as *;
+
+.title {
+  font-size: 18px;
+  color: $primary-color-text;
+}
+
+p {
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,437 @@
+<div class="sidebar" [ngClass]="{ expanded: isExpanded }">
+  <div class="closeSidebar d-flex align-items-center justify-content-start">
+    <span class="toogleSideBar cursor-pointer" (click)="handleSidebarToggle()">
+      <i class="pi pi-times"></i>
+    </span>
+  </div>
+  <div class="header">
+    <h1 class="title">Internal Audit Management</h1>
+    <!-- <div class="toggle" (click)="handleSidebarToggle()">
+      <span class="chevron"></span>
+    </div> -->
+  </div>
+  <div class="content links">
+    <div class="quickAccess">Quick Access</div>
+    <div class="link">
+      <div
+        class="content d-flex align-items-center justify-content-start"
+        [routerLink]="['/organizations']"
+        [routerLinkActive]="'active'"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        <div class="icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              d="M10 0.75C10.4627 0.75 10.9006 0.883743 11.2324 1.12598L19.3555 7.05762C19.7226 7.32573 20 7.85822 20 8.29492V9.09961C20 9.6156 19.5527 10.0361 19.0029 10.0361H17.6094C17.45 10.0363 17.3203 10.1581 17.3203 10.3076V15.8613C17.3203 17.154 16.2002 18.2059 14.8232 18.2061H12.1113V13.958C12.1113 12.6938 11.5043 11.665 10 11.665C8.49566 11.665 7.88867 12.6938 7.88867 13.958V18.2061H5.17676C3.79993 18.206 2.67969 17.1541 2.67969 15.8613V10.3076C2.67969 10.1581 2.55 10.0363 2.39062 10.0361H0.99707C0.447293 10.0361 0 9.61581 0 9.09961V8.29492C0 7.85822 0.27742 7.32573 0.644531 7.05762L8.76758 1.12598C9.09958 0.883743 9.5369 0.75 10 0.75Z"
+              fill="#222222"
+            />
+          </svg>
+        </div>
+        <div class="title">Organizations</div>
+      </div>
+    </div>
+    <div class="link">
+      <div
+        class="content d-flex align-items-center justify-content-start"
+        [routerLink]="['/dimensions']"
+        [routerLinkActive]="'active'"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        <div class="icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+          >
+            <path
+              d="M1 0H7C7.55 0 8 0.45 8 1V7C8 7.55 7.55 8 7 8H1C0.45 8 0 7.55 0 7V1C0 0.45 0.45 0 1 0ZM11 0H17C17.55 0 18 0.45 18 1V7C18 7.55 17.55 8 17 8H11C10.45 8 10 7.55 10 7V1C10 0.45 10.45 0 11 0ZM1 10H7C7.55 10 8 10.45 8 11V17C8 17.55 7.55 18 7 18H1C0.45 18 0 17.55 0 17V11C0 10.45 0.45 10 1 10ZM14 10C13.45 10 13 10.45 13 11V13H11C10.45 13 10 13.45 10 14C10 14.55 10.45 15 11 15H13V17C13 17.55 13.45 18 14 18C14.55 18 15 17.55 15 17V15H17C17.55 15 18 14.55 18 14C18 13.45 17.55 13 17 13H15V11C15 10.45 14.55 10 14 10Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="title">Dimention</div>
+      </div>
+    </div>
+    <div class="link">
+      <div
+        class="content d-flex align-items-center justify-content-start"
+        [routerLink]="['/entities']"
+        [routerLinkActive]="'active'"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        <div class="icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="25"
+            viewBox="0 0 24 25"
+            fill="none"
+          >
+            <path
+              d="M9 21.5H5C3.9 21.5 3 20.6 3 19.5V5.5C3 4.4 3.9 3.5 5 3.5H9C10.1 3.5 11 4.4 11 5.5V19.5C11 20.6 10.1 21.5 9 21.5ZM15 21.5H19C20.1 21.5 21 20.6 21 19.5V14.5C21 13.4 20.1 12.5 19 12.5H15C13.9 12.5 13 13.4 13 14.5V19.5C13 20.6 13.9 21.5 15 21.5ZM21 8.5V5.5C21 4.4 20.1 3.5 19 3.5H15C13.9 3.5 13 4.4 13 5.5V8.5C13 9.6 13.9 10.5 15 10.5H19C20.1 10.5 21 9.6 21 8.5Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="title">Entities Management</div>
+      </div>
+    </div>
+    <p-accordion>
+      <p-accordion-panel value="0">
+        <p-accordion-header>
+          <div class="content d-flex align-items-center justify-content-start">
+            <div class="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  d="M16.5 11L21 13.25L12 17.75L3 13.25L7.5 11M16.5 16L21 18.25L12 22.75L3 18.25L7.5 16M12 3.75L21 8.25L12 12.75L3 8.25L12 3.75Z"
+                  stroke="black"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <div class="title">
+              Resources
+              <span class="arrow"></span>
+            </div>
+          </div>
+        </p-accordion-header>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/resources-management']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Resources Managemenet</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+      </p-accordion-panel>
+
+      <p-accordion-panel value="1">
+        <p-accordion-header>
+          <div class="content d-flex align-items-center justify-content-start">
+            <div class="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  d="M2.0599 19.7503C2.01672 19.8263 1.99421 19.9123 1.99463 19.9997C1.99506 20.0871 2.01839 20.1729 2.0623 20.2485C2.10621 20.324 2.16917 20.3868 2.2449 20.4305C2.32063 20.4741 2.40648 20.4972 2.4939 20.4973H19.5259C19.6133 20.4972 19.6992 20.4741 19.7749 20.4305C19.8506 20.3868 19.9136 20.324 19.9575 20.2485C20.0014 20.1729 20.0247 20.0871 20.0252 19.9997C20.0256 19.9123 20.0031 19.8263 19.9599 19.7503L17.6899 15.7553C16.7806 15.8567 15.863 15.6613 15.0739 15.1983L16.9479 18.4983H5.0719L11.0099 8.04529L12.9999 11.5473C13.0039 10.5943 13.3239 9.71729 13.8599 9.01329L11.4449 4.76129C11.4013 4.68434 11.338 4.62033 11.2616 4.5758C11.1852 4.53127 11.0983 4.50781 11.0099 4.50781C10.9215 4.50781 10.8346 4.53127 10.7582 4.5758C10.6817 4.62033 10.6185 4.68434 10.5749 4.76129L2.0599 19.7503Z"
+                  fill="black"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.414 9.98976C14.8263 9.24305 15.5183 8.69069 16.3378 8.45421C17.1574 8.21772 18.0373 8.31649 18.784 8.72876C19.5307 9.14104 20.0831 9.83307 20.3196 10.6526C20.556 11.4721 20.4573 12.352 20.045 13.0988L22 15.0538L20.7 16.3538L18.746 14.3988C18.2527 14.6659 17.6978 14.7987 17.137 14.7838C16.2977 14.7647 15.4992 14.4175 14.9128 13.8167C14.3264 13.2159 13.9987 12.4093 14 11.5698M17.216 12.9478C17.5815 12.9478 17.932 12.8026 18.1904 12.5442C18.4488 12.2857 18.594 11.9352 18.594 11.5698C18.594 11.2043 18.4488 10.8538 18.1904 10.5954C17.932 10.3369 17.5815 10.1918 17.216 10.1918C16.8505 10.1918 16.5 10.3369 16.2416 10.5954C15.9832 10.8538 15.838 11.2043 15.838 11.5698C15.838 11.9352 15.9832 12.2857 16.2416 12.5442C16.5 12.8026 16.8505 12.9478 17.216 12.9478Z"
+                  fill="black"
+                />
+                <path
+                  d="M14 11.5644C13.999 11.0108 14.1416 10.4664 14.414 9.98438L14 11.5644ZM10.25 17.4944V15.9944H11.75V17.4944H10.25ZM11 11.4944C10.8011 11.4944 10.6103 11.5734 10.4697 11.714C10.329 11.8547 10.25 12.0455 10.25 12.2444V14.7444C10.25 14.9433 10.329 15.1341 10.4697 15.2747C10.6103 15.4154 10.8011 15.4944 11 15.4944C11.1989 15.4944 11.3897 15.4154 11.5303 15.2747C11.671 15.1341 11.75 14.9433 11.75 14.7444V12.2444C11.75 12.0455 11.671 11.8547 11.5303 11.714C11.3897 11.5734 11.1989 11.4944 11 11.4944Z"
+                  fill="black"
+                />
+              </svg>
+            </div>
+            <div class="title">Risk & Assessment methodologies</div>
+          </div>
+        </p-accordion-header>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/configuration']"
+                [queryParams]="{ child: '1' }"
+                [routerLinkActive]="'active'"
+              >
+                <div class="icon">
+                  <svg
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+                    <title>Stockholm-icons / Home / Flower2</title>
+                    <desc>Created with Sketch.</desc>
+                    <defs></defs>
+                    <g
+                      id="Stockholm-icons-/-Home-/-Flower2"
+                      stroke="none"
+                      stroke-width="1"
+                      fill="none"
+                      fill-rule="evenodd"
+                    >
+                      <polygon
+                        id="bound"
+                        points="0 0 24 0 24 24 0 24"
+                      ></polygon>
+                      <circle
+                        id="Oval-32"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="15"
+                        cy="17"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="9"
+                        cy="17"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy-2"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="7"
+                        cy="11"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy-3"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="17"
+                        cy="11"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy-4"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="12"
+                        cy="7"
+                        r="5"
+                      ></circle>
+                    </g>
+                  </svg>
+                </div>
+                <div class="title">child 1</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+      </p-accordion-panel>
+
+      <p-accordion-panel value="2">
+        <p-accordion-header>
+          <div class="content d-flex align-items-center justify-content-start">
+            <div class="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <g clip-path="url(#clip0_2473_143377)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M17.3326 15.0963L19.865 19.4825L20.7298 18.6177L19.9114 16.775C20.6014 15.7473 21.0967 14.578 21.3438 13.3196L23.2241 12.5958V10.3525L21.3443 9.62894C21.097 8.3703 20.6019 7.20058 19.9117 6.1728L20.7298 4.33066L19.1435 2.74441L17.3008 3.5628C16.2731 2.87289 15.1039 2.37761 13.8455 2.13044L13.1216 0.25H10.8783L10.1545 2.13034C8.89608 2.37752 7.72683 2.8728 6.69914 3.5627L4.85649 2.74431L3.27019 4.33061L4.08849 6.17317C3.39844 7.20081 2.90321 8.37025 2.65608 9.62875L0.775879 10.3525V12.5958L2.6558 13.3194C2.90307 14.578 3.39816 15.7478 4.08835 16.7755L3.27019 18.6177L4.13504 19.4825L6.66741 15.0963C5.96475 14.0639 5.55394 12.817 5.55394 11.4741C5.55394 7.91411 8.43999 5.02806 12 5.02806C15.56 5.02806 18.4461 7.91411 18.4461 11.4741C18.4461 12.817 18.0353 14.0639 17.3326 15.0963ZM13.4433 10.8004L19.7651 21.7501C20.0669 22.2728 20.0669 22.894 19.7651 23.4167C19.4633 23.9394 18.9254 24.25 18.3218 24.25H5.67821C5.07464 24.25 4.53671 23.9394 4.23493 23.4167C3.93314 22.894 3.93314 22.2728 4.23493 21.7501L10.5567 10.8004C10.8585 10.2778 11.3964 9.96719 12 9.96719C12.6035 9.96719 13.1415 10.2778 13.4433 10.8004ZM12 20.9739C11.541 20.9739 11.1688 21.346 11.1688 21.8051C11.1688 22.2642 11.5409 22.6363 12 22.6363C12.4591 22.6363 12.8312 22.2642 12.8312 21.8051C12.8312 21.346 12.4591 20.9739 12 20.9739ZM12.0001 19.4901C11.6509 19.4901 11.3642 19.2136 11.3516 18.8647L11.1876 14.3228C11.181 14.1401 11.2421 13.9805 11.369 13.849C11.4959 13.7174 11.6532 13.6506 11.8359 13.6506H12.164C12.3468 13.6506 12.5041 13.7174 12.631 13.849C12.7579 13.9805 12.819 14.1401 12.8124 14.3228L12.6484 18.8647C12.6358 19.2136 12.3492 19.4901 12.0001 19.4901Z"
+                    fill="black"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_2473_143377">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0 0.25)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="title">Annual risk assessment</div>
+          </div>
+        </p-accordion-header>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/configuration']"
+                [queryParams]="{ child: '1' }"
+                [routerLinkActive]="'active'"
+              >
+                <div class="icon">
+                  <svg
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+                    <title>Stockholm-icons / Home / Flower2</title>
+                    <desc>Created with Sketch.</desc>
+                    <defs></defs>
+                    <g
+                      id="Stockholm-icons-/-Home-/-Flower2"
+                      stroke="none"
+                      stroke-width="1"
+                      fill="none"
+                      fill-rule="evenodd"
+                    >
+                      <polygon
+                        id="bound"
+                        points="0 0 24 0 24 24 0 24"
+                      ></polygon>
+                      <circle
+                        id="Oval-32"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="15"
+                        cy="17"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="9"
+                        cy="17"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy-2"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="7"
+                        cy="11"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy-3"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="17"
+                        cy="11"
+                        r="5"
+                      ></circle>
+                      <circle
+                        id="Oval-32-Copy-4"
+                        fill="#000000"
+                        opacity="0.3"
+                        cx="12"
+                        cy="7"
+                        r="5"
+                      ></circle>
+                    </g>
+                  </svg>
+                </div>
+                <div class="title">child 1</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+
+    <div class="link">
+      <div class="content d-flex align-items-center justify-content-start">
+        <div class="icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
+              fill="black"
+              stroke="black"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M4.77588 21H20.7759"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div class="title">Audit Universe</div>
+      </div>
+    </div>
+    <div
+      class="sectionRight searchHeader col d-flex align-items-center justify-content-betweem"
+    >
+      <div class="section-field">
+        <!-- <label class="mb-2 d-block f-s-16 label-form">email<span
+                        class="color-red ml-2">*</span></label> -->
+        <div class="content-input position-relative">
+          <span class="p-input-icon-left w-100 custom-input">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="18"
+              viewBox="0 0 19 18"
+              fill="none"
+            >
+              <path
+                d="M14.085 13.5479C14.283 13.3499 14.6046 13.3491 14.8027 13.5469L18.3896 17.1338C18.5875 17.3319 18.5867 17.6535 18.3887 17.8516C18.1907 18.049 17.8708 18.0491 17.6729 17.8516L14.085 14.2646C13.8873 14.0667 13.8875 13.7459 14.085 13.5479ZM8.14648 0C12.3486 0 15.7556 3.40636 15.7559 7.6084L15.7461 8C15.5425 12.0204 12.2175 15.2178 8.14648 15.2178L7.75488 15.208C3.73483 15.004 0.538086 11.6792 0.538086 7.6084C0.538297 3.40649 3.94458 0.000210789 8.14648 0ZM8.14746 1.01465C4.50554 1.01465 1.55273 3.96745 1.55273 7.60938L1.56152 7.94824C1.7325 11.32 4.43587 14.0234 7.80762 14.1943L8.14648 14.2021L8.14746 14.2031C11.6753 14.2028 14.5558 11.4322 14.7324 7.94824L14.7412 7.60938C14.7412 4.08131 11.9705 1.20012 8.48633 1.02344L8.14746 1.01465Z"
+                fill="#50B8E4"
+              />
+              <mask
+                id="mask0_2473_143299"
+                style="mask-type: luminance"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="19"
+                height="18"
+              >
+                <path
+                  d="M14.085 13.5479C14.283 13.3499 14.6046 13.3491 14.8027 13.5469L18.3896 17.1338C18.5875 17.3319 18.5867 17.6535 18.3887 17.8516C18.1907 18.049 17.8708 18.0491 17.6729 17.8516L14.085 14.2646C13.8873 14.0667 13.8875 13.7459 14.085 13.5479ZM8.14648 0C12.3486 0 15.7556 3.40636 15.7559 7.6084L15.7461 8C15.5425 12.0204 12.2175 15.2178 8.14648 15.2178L7.75488 15.208C3.73483 15.004 0.538086 11.6792 0.538086 7.6084C0.538297 3.40649 3.94458 0.000210789 8.14648 0ZM8.14746 1.01465C4.50554 1.01465 1.55273 3.96745 1.55273 7.60938L1.56152 7.94824C1.7325 11.32 4.43587 14.0234 7.80762 14.1943L8.14648 14.2021L8.14746 14.2031C11.6753 14.2028 14.5558 11.4322 14.7324 7.94824L14.7412 7.60938C14.7412 4.08131 11.9705 1.20012 8.48633 1.02344L8.14746 1.01465Z"
+                  fill="white"
+                />
+              </mask>
+              <g mask="url(#mask0_2473_143299)"></g>
+            </svg>
+            <input
+              type="text"
+              class="w-100 leftPadding"
+              pInputText
+              placeholder="Type any cryptocurrency..."
+              autocomplete="off"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"></div>
+</div>

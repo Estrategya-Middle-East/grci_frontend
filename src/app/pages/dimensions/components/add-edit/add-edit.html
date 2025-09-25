@@ -1,0 +1,53 @@
+<app-header [title]="'Dimension'"></app-header>
+<div class="p-3">
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <div class="col mt-3">
+        @if (dimensionId) {
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Code*</label>
+          <input
+            readonly
+            type="text"
+            formControlName="code"
+            class="w-100"
+            placeholder="Enter code"
+            pInputText
+          />
+        </div>
+        }
+
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Dimension Name*</label>
+          <input
+            type="text"
+            formControlName="title"
+            class="w-100"
+            placeholder="Enter dimension name"
+            pInputText
+          />
+        </div>
+
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            formControlName="description"
+            rows="5"
+            class="w-100"
+            placeholder="Enter description"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 pt-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !dimensionId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

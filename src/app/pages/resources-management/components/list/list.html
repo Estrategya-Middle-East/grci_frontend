@@ -1,0 +1,104 @@
+<p-table [value]="resourcesList">
+  <ng-template pTemplate="header">
+    <tr>
+      @for (col of columns; track $index) {
+      <th>{{ col.header }}</th>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      @for (col of columns; track $index) {
+      <td>
+        @if(col.field === 'actions') {
+        <div ngbDropdown container="body" class="d-inline-block">
+          <button type="button" class="list-dropdown" ngbDropdownToggle>
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div ngbDropdownMenu>
+            <button ngbDropdownItem (click)="navigateToView(row.id)">
+              <i class="pi pi-eye me-2"></i> View
+            </button>
+            <button ngbDropdownItem (click)="navigateToEdit(row.id)">
+              <i class="pi pi-pencil me-2"></i> Edit
+            </button>
+            <button ngbDropdownItem (click)="openDelete(row.id)">
+              <i class="pi pi-trash me-2"></i> Delete
+            </button>
+            <button ngbDropdownItem (click)="openArchive(row.id)">
+              <i class="pi pi-folder me-2"></i> Archive
+            </button>
+          </div>
+        </div>
+        } @else if(col.field === 'workingHours') {
+        {{ formatTime(row.workingHoursFrom) }} -
+        {{ formatTime(row.workingHoursTo) }}
+        } @else if(col.field === 'skills') {
+        {{ getSkillsAsString(row.skills) }}
+        } @else if(col.field === 'experiences') {
+        {{ getExperiences(row.experiences) }}
+        } @else if(col.field === 'resourceName') {
+        <span class="text-primary"> {{ row.resourceName }} </span>
+        } @else {
+        {{ row[col.field] }}
+        }
+      </td>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <td colspan="7">
+      <div
+        class="container-empty-data w-100 d-flex justify-content-center align-items-center"
+      >
+        <div class="empty-state">
+          <i class="pi pi-inbox empty-icon"></i>
+          <span class="empty-table f-s-16">No Data</span>
+        </div>
+      </div>
+    </td>
+  </ng-template>
+</p-table>
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- ICON -->
+    @if (viewData?.title?.includes('Delete')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+    </span>
+    } @else {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info"></i>
+    </span>
+    }
+
+    <!-- PARAGRAPH -->
+    @if (viewData?.title?.includes('Delete')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the resource will be permanently deleted.
+    </p>
+    } @else {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      resource will be permanently archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+@if(pagination) {
+<app-custom-paginator
+  [pagination]="pagination"
+  (pageNumber)="this.loadResources($event)"
+>
+</app-custom-paginator>
+}

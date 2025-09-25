@@ -1,0 +1,235 @@
+<app-header
+  [title]="
+    strategyId ? 'Edit Organization Strategy' : 'Add Organization Strategy'
+  "
+></app-header>
+<div class="p-4">
+  <form [formGroup]="formGroup" class="strategy-form">
+    <div class="row">
+      @if (strategyId) {
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Code*</label>
+          <input
+            readonly
+            type="text"
+            formControlName="code"
+            class="w-100"
+            placeholder="Code"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Organization Name*</label>
+          <input
+            type="text"
+            formControlName="organizationName"
+            class="w-100"
+            placeholder="Enter organization name"
+            pInputText
+          />
+        </div>
+      </div>
+      }
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Year*</label>
+          <p-datepicker
+            formControlName="year"
+            view="year"
+            dateFormat="yy"
+            placeholder="Select Year"
+            [showIcon]="true"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Vision*</label>
+          <input
+            type="text"
+            formControlName="vision"
+            class="w-100"
+            placeholder="Enter vision"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <hr />
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block"
+            >Risk Based Strategic Direction*</label
+          >
+          <div class="d-flex gap-4 inputs-wrapper">
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="strategicScenarioId"
+                [value]="0"
+                formControlName="strategicScenarioId"
+                label="Base"
+              ></p-radioButton>
+              <small class="text-muted">Base scenario</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="strategicScenarioId"
+                [value]="1"
+                formControlName="strategicScenarioId"
+                label="Aggressive"
+              ></p-radioButton>
+              <small class="text-muted">Aggressive scenario</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="strategicScenarioId"
+                [value]="2"
+                formControlName="strategicScenarioId"
+                label="Defensive"
+              ></p-radioButton>
+              <small class="text-muted">Defensive scenario</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Scenario Description*</label>
+          <input
+            formControlName="scenarioDescription"
+            class="w-100"
+            placeholder="Enter scenario description"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Assumptions*</label>
+          <textarea
+            formControlName="assumptions"
+            rows="3"
+            class="w-100"
+            placeholder="Enter assumptions"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Strategic Focus*</label>
+          <textarea
+            formControlName="strategicFocus"
+            rows="3"
+            class="w-100"
+            placeholder="Enter strategic focus"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block mb-2">Strategic Goals*</label>
+          <p-autoComplete
+            class="w-100"
+            formControlName="strategicGoals"
+            [multiple]="true"
+            placeholder="Type goal and press Enter"
+            [typeahead]="false"
+            [dropdown]="false"
+            [virtualScroll]="false"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <hr />
+      </div>
+
+      <div class="col-12">
+        <div formGroupName="swot" class="inputs-wrapper my-3 p-3">
+          <label class="title-control d-block mb-2">SWOT*</label>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="text-primary"> (S) Strengths</label>
+              <textarea
+                formControlName="strengths"
+                placeholder="Strengths"
+                class="swot-input w-100"
+                pTextarea
+              ></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="text-primary"> (W) Weaknesses</label>
+              <textarea
+                formControlName="weaknesses"
+                placeholder="Weaknesses"
+                class="swot-input w-100"
+                pTextarea
+              ></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="text-primary"> (O) Opportunities</label>
+              <textarea
+                formControlName="opportunities"
+                placeholder="Opportunities"
+                class="swot-input w-100"
+                pTextarea
+              ></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="text-primary"> (T) Threats</label>
+              <textarea
+                formControlName="threats"
+                placeholder="Threats"
+                class="swot-input w-100"
+                pTextarea
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <hr />
+      </div>
+
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            formControlName="description"
+            rows="4"
+            class="w-100"
+            placeholder="Enter description"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 m-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !strategyId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

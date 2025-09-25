@@ -1,0 +1,13 @@
+<div class="deleteItemSelected">
+    <ng-content select=".icon"></ng-content>
+    <h4 class="title-delete">
+        {{viewData.title}}
+    </h4>
+    <ng-content #name></ng-content>
+    <ng-content select=".pargDeleteItem"></ng-content>
+
+    <div class="actions d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-bg-blue col" (click)="sendOfDialog.emit()">{{viewData.sendLabel}}</button>
+        <button type="button" class="btn btn-br-blue col" (click)="closeOfDialog.emit()">{{viewData.sendClose}}</button>
+    </div>
+</div>
