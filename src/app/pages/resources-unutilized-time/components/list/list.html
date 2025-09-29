@@ -17,9 +17,11 @@
             <i class="pi pi-ellipsis-v"></i>
           </button>
           <div ngbDropdownMenu>
+            @if (isViewAction) {
             <button ngbDropdownItem (click)="onView(row.id)">
               <i class="pi pi-eye me-2"></i> View
             </button>
+            }
             <button ngbDropdownItem (click)="onEdit(row.id)">
               <i class="pi pi-pencil me-2"></i> Edit
             </button>

@@ -13,6 +13,7 @@
         [showActions]="weekEndActions"
         [title]="'Week Ends'"
         (addClick)="onAddWeekend()"
+        (filtersChange)="onFiltersChange('weekEnd', $event)"
       ></app-header>
 
       <app-list
@@ -20,7 +21,6 @@
         [columns]="weekEndColumns"
         [fetchData]="fetchWeekends"
         [active]="activeTab === 0"
-        (view)="onViewWeekend($event)"
         (edit)="onEditWeekend($event)"
         (delete)="onDeleteWeekend($event)"
         (archive)="onArchiveWeekend($event)"
@@ -34,6 +34,7 @@
         [showActions]="holidayActions"
         [title]="'Public Holidays'"
         (addClick)="onAddPublicHolidays()"
+        (filtersChange)="onFiltersChange('holiday', $event)"
       ></app-header>
 
       <app-list
@@ -41,7 +42,6 @@
         [columns]="publicHolidayColumns"
         [fetchData]="fetchHolidays"
         [active]="activeTab === 1"
-        (view)="onViewHoliday($event)"
         (edit)="onEditHoliday($event)"
         (delete)="onDeleteHoliday($event)"
         (archive)="onArchiveHoliday($event)"
@@ -55,6 +55,7 @@
         [showActions]="leaveDaysActions"
         [title]="'Leave Days'"
         (addClick)="onAddLeaveDays()"
+        (filtersChange)="onFiltersChange('leaveDays', $event)"
       ></app-header>
 
       <app-list
@@ -62,7 +63,6 @@
         [columns]="leaveDaysColumns"
         [fetchData]="fetchLeaveDays"
         [active]="activeTab === 2"
-        (view)="onViewLeaveDay($event)"
         (edit)="onEditLeaveDay($event)"
         (delete)="onDeleteLeaveDay($event)"
         (archive)="onArchiveLeaveDay($event)"

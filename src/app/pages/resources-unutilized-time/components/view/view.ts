@@ -22,7 +22,7 @@ export class View {
 
   activeTab = 0;
 
-  // ✅ References to child lists
+  // References to child lists
   @ViewChild("weekEndList") weekEndList!: List;
   @ViewChild("holidayList") holidayList!: List;
   @ViewChild("leaveDaysList") leaveDaysList!: List;
@@ -90,21 +90,52 @@ export class View {
     { field: "actions", header: "Actions" },
   ];
 
+  // -------- Filters --------
+  weekEndFilters: Record<string, any> = {};
+  holidayFilters: Record<string, any> = {};
+  leaveDaysFilters: Record<string, any> = {};
+
   // -------- Fetch functions --------
-  fetchWeekends = ({ pageNumber = 1, pageSize = 10 }) =>
-    this.service.getWeekEnds({ pageNumber, pageSize });
+  fetchWeekends = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+    this.service.getWeekEnds({ pageNumber, pageSize, ...filters });
 
-  fetchHolidays = ({ pageNumber = 1, pageSize = 10 }) =>
-    this.service.getPublicHolidays({
-      pageNumber,
-      pageSize,
-    });
+  fetchHolidays = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+    this.service.getPublicHolidays({ pageNumber, pageSize, ...filters });
 
-  fetchLeaveDays = ({ pageNumber = 1, pageSize = 10 }) =>
-    this.service.getLeaveDays({
-      pageNumber,
-      pageSize,
-    });
+  fetchLeaveDays = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+    this.service.getLeaveDays({ pageNumber, pageSize, ...filters });
+
+  // -------- Handle filter changes from header --------
+  onFiltersChange(
+    type: "weekEnd" | "holiday" | "leaveDays",
+    filters: Record<string, any>
+  ) {
+    if (type === "weekEnd") {
+      this.weekEndFilters = { ...filters };
+      this.weekEndList.loadData(
+        {
+          ...this.weekEndList.pagination,
+        },
+        { ...this.weekEndFilters }
+      );
+    } else if (type === "holiday") {
+      this.holidayFilters = { ...filters };
+      this.holidayList.loadData(
+        {
+          ...this.holidayList.pagination,
+        },
+        { ...this.holidayFilters }
+      );
+    } else if (type === "leaveDays") {
+      this.leaveDaysFilters = { ...filters };
+      this.leaveDaysList.loadData(
+        {
+          ...this.leaveDaysList.pagination,
+        },
+        { ...this.leaveDaysFilters }
+      );
+    }
+  }
 
   // -------- Add actions --------
   onAddWeekend() {
@@ -118,23 +149,14 @@ export class View {
   }
 
   // -------- View / Edit actions --------
-  onViewWeekend(id: number) {
-    console.log("View Weekend", id);
-  }
   onEditWeekend(id: number) {
     console.log("Edit Weekend", id);
   }
 
-  onViewHoliday(id: number) {
-    console.log("View Holiday", id);
-  }
   onEditHoliday(id: number) {
     console.log("Edit Holiday", id);
   }
 
-  onViewLeaveDay(id: number) {
-    console.log("View Leave Day", id);
-  }
   onEditLeaveDay(id: number) {
     console.log("Edit Leave Day", id);
   }
@@ -143,7 +165,14 @@ export class View {
   onDeleteWeekend(id: number) {
     this.service
       .deleteWeekEnd(id)
-      .pipe(tap(() => this.weekEndList?.loadData(this.weekEndList.pagination)))
+      .pipe(
+        tap(() =>
+          this.weekEndList?.loadData({
+            ...this.weekEndList.pagination,
+            ...this.weekEndFilters,
+          })
+        )
+      )
       .subscribe({
         next: () => {
           this.messageService.add({
@@ -158,7 +187,14 @@ export class View {
   onDeleteHoliday(id: number) {
     this.service
       .deletePublicHoliday(id)
-      .pipe(tap(() => this.holidayList?.loadData(this.holidayList.pagination)))
+      .pipe(
+        tap(() =>
+          this.holidayList?.loadData({
+            ...this.holidayList.pagination,
+            ...this.holidayFilters,
+          })
+        )
+      )
       .subscribe({
         next: () => {
           this.messageService.add({
@@ -174,7 +210,12 @@ export class View {
     this.service
       .deleteLeaveDay(id)
       .pipe(
-        tap(() => this.leaveDaysList?.loadData(this.leaveDaysList.pagination))
+        tap(() =>
+          this.leaveDaysList?.loadData({
+            ...this.leaveDaysList.pagination,
+            ...this.leaveDaysFilters,
+          })
+        )
       )
       .subscribe({
         next: () => {
@@ -191,7 +232,14 @@ export class View {
   onArchiveWeekend(id: number) {
     this.service
       .archiveWeekEnd(id)
-      .pipe(tap(() => this.weekEndList?.loadData(this.weekEndList.pagination)))
+      .pipe(
+        tap(() =>
+          this.weekEndList?.loadData({
+            ...this.weekEndList.pagination,
+            ...this.weekEndFilters,
+          })
+        )
+      )
       .subscribe({
         next: () => {
           this.messageService.add({
@@ -206,7 +254,14 @@ export class View {
   onArchiveHoliday(id: number) {
     this.service
       .archivePublicHoliday(id)
-      .pipe(tap(() => this.holidayList?.loadData(this.holidayList.pagination)))
+      .pipe(
+        tap(() =>
+          this.holidayList?.loadData({
+            ...this.holidayList.pagination,
+            ...this.holidayFilters,
+          })
+        )
+      )
       .subscribe({
         next: () => {
           this.messageService.add({
@@ -222,7 +277,12 @@ export class View {
     this.service
       .archiveLeaveDay(id)
       .pipe(
-        tap(() => this.leaveDaysList?.loadData(this.leaveDaysList.pagination))
+        tap(() =>
+          this.leaveDaysList?.loadData({
+            ...this.leaveDaysList.pagination,
+            ...this.leaveDaysFilters,
+          })
+        )
       )
       .subscribe({
         next: () => {

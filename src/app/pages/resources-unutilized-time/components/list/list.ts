@@ -39,6 +39,7 @@ export class List implements OnChanges {
   private config = inject(NgbModalConfig);
 
   @Input() columns: any[] = [];
+  @Input() isViewAction: boolean = false;
   @Input() fetchData!: (filterPayload: {
     pageNumber: number;
     pageSize: number;
@@ -59,7 +60,6 @@ export class List implements OnChanges {
     totalItems: 0,
     totalPages: 0,
   };
-  loaded = false;
   viewData: any;
 
   constructor() {
@@ -67,16 +67,24 @@ export class List implements OnChanges {
     this.config.keyboard = false;
   }
 
-  ngOnChanges() {
-    if (this.active && !this.loaded) {
-      this.loadData(1);
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.active) {
+      if (
+        changes["filters"] ||
+        (changes["active"] && changes["active"].currentValue)
+      ) {
+        this.pagination.pageNumber = 1;
+        this.loadData(this.pagination);
+      }
     }
   }
 
-  loadData(pagination: any) {
+  loadData(pagination: any, filters?: any) {
     const filterPayload = {
       pageNumber: pagination.pageNumber,
       pageSize: pagination.pageSize,
+      filterField: filters ? Object.keys(filters) : undefined,
+      filterValue: filters ? Object.values(filters) : undefined,
     };
     if (this.fetchData) {
       this.fetchData(filterPayload).subscribe((res: any) => {
@@ -87,7 +95,6 @@ export class List implements OnChanges {
           totalItems: res.totalItems,
           totalPages: res.totalPages,
         };
-        this.loaded = true;
       });
     }
   }
