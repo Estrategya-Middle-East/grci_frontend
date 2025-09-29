@@ -96,6 +96,6 @@
 @if(pagination) {
 <app-custom-paginator
   [pagination]="pagination"
-  (pageNumber)="this.loadStrategies($event)"
+  (pageNumber)="loadStrategies($event)"
 ></app-custom-paginator>
 }

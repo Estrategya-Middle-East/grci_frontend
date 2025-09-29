@@ -17,8 +17,9 @@ export interface ShowActions {
 
 export interface Add {
   show: boolean;
+  isLink?: boolean;
   label: string;
-  link: string;
+  link?: string;
 }
 export interface Import {
   show: boolean;

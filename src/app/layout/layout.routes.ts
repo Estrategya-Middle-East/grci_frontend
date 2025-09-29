@@ -163,4 +163,16 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: appRoutes["RESOURCES-UNUTILIZED"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import(
+            "../pages/resources-unutilized-time/resources-unutilized-time"
+          ).then((m) => m.ResourcesUnutilizedTime),
+      },
+    ],
+  },
 ];

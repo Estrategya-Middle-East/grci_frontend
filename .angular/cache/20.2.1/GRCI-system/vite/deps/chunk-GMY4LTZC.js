@@ -12,7 +12,7 @@ import {
   s,
   s2,
   z2 as z
-} from "./chunk-UHSG4H5K.js";
+} from "./chunk-QGGAWI3C.js";
 import {
   Injectable,
   PLATFORM_ID,
@@ -899,4 +899,4 @@ export {
   PRIME_NG_CONFIG,
   providePrimeNG
 };
-//# sourceMappingURL=chunk-YRO53NWC.js.map
+//# sourceMappingURL=chunk-GMY4LTZC.js.map

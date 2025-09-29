@@ -89,6 +89,6 @@
 @if (pagination) {
 <app-custom-paginator
   [pagination]="pagination"
-  (pageNumber)="this.loadDimensions($event)"
+  (pageNumber)="loadDimensions($event)"
 ></app-custom-paginator>
 }

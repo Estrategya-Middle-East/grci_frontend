@@ -1,10 +1,8 @@
-<p-table [value]="entitiesList">
+<p-table [value]="data">
   <ng-template pTemplate="header">
     <tr>
       @for (col of columns; track $index) {
-      <th>
-        {{ col.header }}
-      </th>
+      <th>{{ col.header }}</th>
       }
     </tr>
   </ng-template>
@@ -15,30 +13,21 @@
       <td>
         @if (col.field === 'actions') {
         <div ngbDropdown container="body" class="d-inline-block">
-          <button
-            type="button"
-            class="list-dropdown"
-            id="dropdownBasic1"
-            ngbDropdownToggle
-          >
+          <button type="button" class="list-dropdown" ngbDropdownToggle>
             <i class="pi pi-ellipsis-v"></i>
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="navigateToView(row.id)">
-              <i class="pi pi-eye me-2"></i>
-              View
+          <div ngbDropdownMenu>
+            <button ngbDropdownItem (click)="onView(row.id)">
+              <i class="pi pi-eye me-2"></i> View
             </button>
-            <button ngbDropdownItem (click)="navigateToEdit(row.id)">
-              <i class="pi pi-pencil me-2"></i>
-              Edit
+            <button ngbDropdownItem (click)="onEdit(row.id)">
+              <i class="pi pi-pencil me-2"></i> Edit
             </button>
-            <button ngbDropdownItem (click)="openDelete(row.id)">
-              <i class="pi pi-trash me-2"></i>
-              Delete
+            <button ngbDropdownItem (click)="onDelete(row.id)">
+              <i class="pi pi-trash me-2"></i> Delete
             </button>
-            <button ngbDropdownItem (click)="openArchive(row)">
-              <i class="pi pi-folder me-2"></i>
-              Archive
+            <button ngbDropdownItem (click)="onArchive(row)">
+              <i class="pi pi-folder me-2"></i> Archive
             </button>
           </div>
         </div>
@@ -51,19 +40,18 @@
   </ng-template>
 
   <ng-template pTemplate="emptymessage">
-    <td colspan="5">
-      <div
-        class="container-empty-data w-100 d-flex justify-content-center align-items-center"
-      >
+    <tr>
+      <td colspan="100%">
         <div class="empty-state">
           <i class="pi pi-inbox empty-icon"></i>
-          <span class="empty-table f-s-16">No Data</span>
+          <span>No Data</span>
         </div>
-      </div>
-    </td>
+      </td>
+    </tr>
   </ng-template>
 </p-table>
 
+<!-- Confirmation Dialog -->
 <ng-template #content let-c="close" let-d="dismiss">
   <app-delete-item-selected
     (closeOfDialog)="close()"
@@ -96,9 +84,10 @@
   </app-delete-item-selected>
 </ng-template>
 
+<!-- Pagination -->
 @if (pagination) {
 <app-custom-paginator
   [pagination]="pagination"
-  (pageNumber)="loadEntities($event)"
+  (pageNumber)="loadData($event)"
 ></app-custom-paginator>
 }

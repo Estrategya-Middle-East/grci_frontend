@@ -1,19 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnChanges,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged } from "rxjs";
+import { debounceTime, distinctUntilChanged, BehaviorSubject } from "rxjs";
 import { SelectModule } from "primeng/select";
 import { InputTextModule } from "primeng/inputtext";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { BehaviorSubject } from "rxjs";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   DropdownList,
@@ -21,7 +11,6 @@ import {
   ShowFilteration,
 } from "./models/header.interface";
 import { DatePickerModule } from "primeng/datepicker";
-import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: "app-header",
@@ -42,6 +31,7 @@ import { JsonPipe } from "@angular/common";
 export class HeaderComponent implements OnInit {
   @Output() filtersChange = new EventEmitter<Record<string, any>>();
   @Output() switchView = new EventEmitter<boolean>();
+  @Output() addClick = new EventEmitter<void>(); // For non-link add button
 
   @Input() isSwitchView = true;
   @Input() title = "";
@@ -70,19 +60,17 @@ export class HeaderComponent implements OnInit {
     this.yearControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        const year = value ? value.getFullYear() : null; // convert to number
+        const year = value ? value.getFullYear() : null;
         this.updateFilter("year", year);
       });
 
-    // Dropdown changes with debounce
+    // Dropdown changes debounce
     this.dropdownSubject
       .asObservable()
       .pipe(debounceTime(300))
       .subscribe((data) => {
         if (!data) return;
         const dropdown = this.dropdownList[data.index];
-        console.log(dropdown);
-
         if (!dropdown) return;
         this.updateFilter(
           dropdown.searchType || `filter${data.index}`,
@@ -114,5 +102,9 @@ export class HeaderComponent implements OnInit {
 
   onSwitchView(value: boolean) {
     this.switchView.emit(value);
+  }
+
+  onAddClick() {
+    this.addClick.emit();
   }
 }

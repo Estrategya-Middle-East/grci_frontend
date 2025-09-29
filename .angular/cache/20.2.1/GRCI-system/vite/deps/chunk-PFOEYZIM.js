@@ -1,4 +1,8 @@
 import {
+  ConnectedOverlayScrollHandler,
+  DomHandler
+} from "./chunk-FX7TXLG3.js";
+import {
   ObjectUtils,
   zindexutils
 } from "./chunk-UAMHIGSX.js";
@@ -11,15 +15,11 @@ import {
   useAnimation
 } from "./chunk-HXBTUHY6.js";
 import {
-  ConnectedOverlayScrollHandler,
-  DomHandler
-} from "./chunk-Y37MLQ2G.js";
-import {
   BaseComponent
-} from "./chunk-34N6SDVJ.js";
+} from "./chunk-EGAUE2VT.js";
 import {
   BaseStyle
-} from "./chunk-YRO53NWC.js";
+} from "./chunk-GMY4LTZC.js";
 import {
   O,
   OverlayService,
@@ -29,7 +29,7 @@ import {
   Yt,
   bt,
   j
-} from "./chunk-UHSG4H5K.js";
+} from "./chunk-QGGAWI3C.js";
 import {
   CommonModule,
   NgClass,
@@ -1063,4 +1063,4 @@ var OverlayModule = class _OverlayModule {
 export {
   Overlay
 };
-//# sourceMappingURL=chunk-IHGOGMZH.js.map
+//# sourceMappingURL=chunk-PFOEYZIM.js.map

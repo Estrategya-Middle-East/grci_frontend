@@ -162,3 +162,12 @@ body {
   border-color: $primary-color-text !important;
   background: $primary-color-text !important;
 }
+
+.p-tab-active {
+  border-color: $primary-color-text !important;
+  color: $primary-color-text !important;
+}
+
+.p-tablist-active-bar {
+  background: $primary-color-text !important;
+}

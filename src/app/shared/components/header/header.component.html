@@ -2,56 +2,71 @@
   <div class="section-one d-flex justify-content-between align-items-center">
     <h2 class="title-page m-0">{{ title }}</h2>
 
-    @if(showActions) {
+    @if (showActions) {
     <div class="buttons-actions d-flex">
-      @if(showActions!.add!.show) {
-      <button
-        type="button"
-        [routerLink]="[showActions!.add!.link]"
+      <!-- Add Button -->
+      @if (showActions.add.show) { @if (showActions.add.isLink) {
+      <a
+        [routerLink]="[showActions.add.link]"
         [routerLinkActive]="'active'"
         class="btn d-flex align-items-center button-color-blue button-with-icon"
       >
-        <i class="pi pi-plus" style="margin-inline-end: 10px"></i>
-        {{ showActions!.add!.label }}
+        <i class="pi pi-plus me-2"></i>
+        {{ showActions.add.label }}
+      </a>
+      } @else {
+      <button
+        type="button"
+        class="btn d-flex align-items-center button-color-blue button-with-icon"
+        (click)="onAddClick()"
+      >
+        <i class="pi pi-plus me-2"></i>
+        {{ showActions.add.label }}
       </button>
-      } @if(showActions!.import!.show) {
+      } }
+
+      <!-- Import Button -->
+      @if (showActions.import.show) {
       <button
         type="button"
         class="btn d-flex align-items-center button-color-gray button-with-icon"
       >
-        <i class="pi pi-upload" style="margin-inline-end: 10px"></i>
-        {{ showActions!.import!.label }}
+        <i class="pi pi-upload me-2"></i>
+        {{ showActions.import.label }}
       </button>
       }
     </div>
     }
   </div>
 
-  @if(showFilteration) {
+  <!-- Filters -->
+  @if (showFilteration) {
   <div class="filter-header d-flex flex-wrap align-items-center">
+    <!-- Tabs -->
     <div class="content-tabs d-flex align-items-center">
-      @if(showFilteration!.tabeOne!.show) {
+      @if (showFilteration.tabeOne.show) {
       <div
         class="board d-flex align-items-center"
         [class.active]="isSwitchView"
-        (click)="switchView.emit(true)"
+        (click)="onSwitchView(true)"
       >
-        <i class="pi pi-th-large" style="margin-inline-end: 5px"></i>
-        {{ showFilteration!.tabeOne!.label }}
+        <i class="pi pi-th-large me-1"></i>
+        {{ showFilteration.tabeOne.label }}
       </div>
-      } @if(showFilteration!.tabeTwo!.show) {
+      } @if (showFilteration.tabeTwo.show) {
       <div
         class="board d-flex align-items-center"
         [class.active]="!isSwitchView"
-        (click)="switchView.emit(false)"
+        (click)="onSwitchView(false)"
       >
-        <i class="pi pi-bars" style="margin-inline-end: 5px"></i>
-        {{ showFilteration!.tabeTwo!.label }}
+        <i class="pi pi-bars me-1"></i>
+        {{ showFilteration.tabeTwo.label }}
       </div>
       }
     </div>
 
-    @if(showFilteration!.search!.show) {
+    <!-- Search -->
+    @if (showFilteration.search.show) {
     <div class="search left-border">
       <span class="p-input-icon-left w-100 custom-input">
         <i class="pi pi-search"></i>
@@ -59,14 +74,17 @@
           type="text"
           class="w-100 leftPadding"
           [formControl]="searchControl"
-          placeholder="{{ showFilteration.search.label }}"
+          [placeholder]="showFilteration.search.label"
           autocomplete="off"
         />
       </span>
     </div>
-    } @if(dropdownList.length > 0) {
+    }
+
+    <!-- Dropdowns -->
+    @if (dropdownList.length > 0) {
     <div class="contentDropdown d-flex flex-wrap">
-      @for(dropdown of dropdownList; track $index; let i = $index; let isLast =
+      @for (dropdown of dropdownList; track $index; let i = $index; let isLast =
       $last) {
       <div class="dropdownList" [class.left-border]="isLast">
         <p-select
@@ -80,7 +98,10 @@
       </div>
       }
     </div>
-    } @if(showFilteration!.year?.show) {
+    }
+
+    <!-- Year -->
+    @if (showFilteration.year?.show) {
     <div class="year-filter left-border">
       <p-datepicker
         [formControl]="yearControl"
