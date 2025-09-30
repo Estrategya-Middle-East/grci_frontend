@@ -7,10 +7,10 @@ import {
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
-import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
 import { LeaveDaysPopup } from "../leave-days-popup/leave-days-popup";
 import { tap } from "rxjs";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { LeaveDayService } from "../../services/leave-days-service";
 
 @Component({
   selector: "app-leave-days",
@@ -20,7 +20,7 @@ import { HeaderComponent } from "../../../../shared/components/header/header.com
 })
 export class LeaveDays {
   activeTab = input.required<number>();
-  private service = inject(ResourcesUnutilizedTime);
+  private service = inject(LeaveDayService);
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
 
@@ -68,8 +68,8 @@ export class LeaveDays {
     pageNumber?: number;
     pageSize?: number;
     [key: string]: any;
-  } = {}): ReturnType<ResourcesUnutilizedTime["getLeaveDays"]> =>
-    this.service.getLeaveDays({ pageNumber, pageSize, ...filters });
+  } = {}): ReturnType<LeaveDayService["getList"]> =>
+    this.service.getList({ pageNumber, pageSize, ...filters });
 
   // -------- Handle filter changes from header --------
   onFiltersChange(filters: Record<string, any>) {
@@ -132,7 +132,7 @@ export class LeaveDays {
   // -------- Delete actions --------
   onDeleteLeaveDay(id: number) {
     this.service
-      .deleteLeaveDay(id)
+      .delete(id)
       .pipe(
         tap(() =>
           this.leaveDaysList.loadData(
@@ -153,7 +153,7 @@ export class LeaveDays {
   // -------- Archive actions --------
   onArchiveLeaveDay(id: number) {
     this.service
-      .archiveLeaveDay(id)
+      .archive(id)
       .pipe(
         tap(() =>
           this.leaveDaysList.loadData(

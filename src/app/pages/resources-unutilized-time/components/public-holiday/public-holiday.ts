@@ -5,12 +5,12 @@ import {
 } from "../../../../shared/components/header/models/header.interface";
 import { GeneralList } from "../../../../shared/components/general-list/general-list";
 import { PublicHolidayInterface } from "../../models/resources-unutilized-time";
-import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
 import { DialogService } from "primeng/dynamicdialog";
 import { MessageService } from "primeng/api";
 import { PublicHolidayPopup } from "../public-holiday-popup/public-holiday-popup";
 import { tap } from "rxjs";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { PublicHolidayService } from "../../services/public-holiday-service";
 
 @Component({
   selector: "app-public-holiday",
@@ -20,7 +20,7 @@ import { HeaderComponent } from "../../../../shared/components/header/header.com
 })
 export class PublicHoliday {
   activeTab = input.required<number>();
-  private service = inject(ResourcesUnutilizedTime);
+  private service = inject(PublicHolidayService);
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
 
@@ -65,19 +65,8 @@ export class PublicHoliday {
     pageNumber?: number;
     pageSize?: number;
     [key: string]: any;
-  } = {}): ReturnType<ResourcesUnutilizedTime["getPublicHolidays"]> =>
-    this.service.getPublicHolidays({ pageNumber, pageSize, ...filters });
-
-  fetchLeaveDays = ({
-    pageNumber = 1,
-    pageSize = 10,
-    ...filters
-  }: {
-    pageNumber?: number;
-    pageSize?: number;
-    [key: string]: any;
-  } = {}): ReturnType<ResourcesUnutilizedTime["getLeaveDays"]> =>
-    this.service.getLeaveDays({ pageNumber, pageSize, ...filters });
+  } = {}): ReturnType<PublicHolidayService["getList"]> =>
+    this.service.getList({ pageNumber, pageSize, ...filters });
 
   // -------- Handle filter changes from header --------
   onFiltersChange(filters: Record<string, any>) {
@@ -137,7 +126,7 @@ export class PublicHoliday {
   // -------- Delete actions --------
   onDeleteHoliday(id: number) {
     this.service
-      .deletePublicHoliday(id)
+      .delete(id)
       .pipe(
         tap(() =>
           this.holidayList.loadData(
@@ -158,7 +147,7 @@ export class PublicHoliday {
   // -------- Archive actions --------
   onArchiveHoliday(id: number) {
     this.service
-      .archivePublicHoliday(id)
+      .archive(id)
       .pipe(
         tap(() =>
           this.holidayList.loadData(

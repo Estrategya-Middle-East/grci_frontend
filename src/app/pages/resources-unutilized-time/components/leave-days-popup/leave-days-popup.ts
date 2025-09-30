@@ -11,8 +11,8 @@ import { ButtonModule } from "primeng/button";
 import { DatePickerModule } from "primeng/datepicker";
 import { CommonModule } from "@angular/common";
 import { InputNumberModule } from "primeng/inputnumber";
-import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
 import { LeaveDayInterface } from "../../models/resources-unutilized-time";
+import { LeaveDayService } from "../../services/leave-days-service";
 
 @Component({
   selector: "app-leave-days-popup",
@@ -30,7 +30,7 @@ import { LeaveDayInterface } from "../../models/resources-unutilized-time";
 })
 export class LeaveDaysPopup {
   private fb = inject(FormBuilder);
-  private unutilizedService = inject(ResourcesUnutilizedTime);
+  private service = inject(LeaveDayService);
   private dialogRef = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
 
@@ -80,12 +80,12 @@ export class LeaveDaysPopup {
     }
 
     if (value.id) {
-      this.unutilizedService
-        .updateLeaveDays(value.id, { ...value, id: value.id })
+      this.service
+        .update(value.id, { ...value, id: value.id })
         .subscribe(() => this.dialogRef.close(this.formGroup.value));
     } else {
-      this.unutilizedService
-        .createLeaveDays(value)
+      this.service
+        .create(value)
         .subscribe(() => this.dialogRef.close(this.formGroup.value));
     }
   }

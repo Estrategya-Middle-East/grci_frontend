@@ -7,10 +7,10 @@ import {
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
-import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
 import { WeekEndPopup } from "../week-end-popup/week-end-popup";
 import { tap } from "rxjs";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { WeekEndService } from "../../services/week-end-service";
 
 @Component({
   selector: "app-week-end",
@@ -20,7 +20,7 @@ import { HeaderComponent } from "../../../../shared/components/header/header.com
 })
 export class WeekEnd {
   activeTab = input.required<number>();
-  private service = inject(ResourcesUnutilizedTime);
+  private service = inject(WeekEndService);
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
 
@@ -63,8 +63,8 @@ export class WeekEnd {
     pageNumber?: number;
     pageSize?: number;
     [key: string]: any;
-  } = {}): ReturnType<ResourcesUnutilizedTime["getWeekEnds"]> =>
-    this.service.getWeekEnds({ pageNumber, pageSize, ...filters });
+  } = {}): ReturnType<WeekEndService["getList"]> =>
+    this.service.getList({ pageNumber, pageSize, ...filters });
 
   // -------- Handle filter changes from header --------
   onFiltersChange(filters: Record<string, any>) {
@@ -124,7 +124,7 @@ export class WeekEnd {
   // -------- Delete actions --------
   onDeleteWeekend(id: number) {
     this.service
-      .deleteWeekEnd(id)
+      .delete(id)
       .pipe(
         tap(() =>
           this.weekEndList.loadData(
@@ -145,7 +145,7 @@ export class WeekEnd {
   // -------- Archive actions --------
   onArchiveWeekend(id: number) {
     this.service
-      .archiveWeekEnd(id)
+      .archive(id)
       .pipe(
         tap(() =>
           this.weekEndList.loadData(

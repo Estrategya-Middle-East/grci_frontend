@@ -11,8 +11,8 @@ import { ButtonModule } from "primeng/button";
 import { SelectModule } from "primeng/select";
 import { DatePickerModule } from "primeng/datepicker";
 import { CommonModule } from "@angular/common";
-import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
 import { PublicHolidayInterface } from "../../models/resources-unutilized-time";
+import { PublicHolidayService } from "../../services/public-holiday-service";
 
 @Component({
   selector: "app-public-holiday-popup",
@@ -30,7 +30,7 @@ import { PublicHolidayInterface } from "../../models/resources-unutilized-time";
 })
 export class PublicHolidayPopup {
   private fb = inject(FormBuilder);
-  private unutilizedService = inject(ResourcesUnutilizedTime);
+  private service = inject(PublicHolidayService);
   private dialogRef = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
 
@@ -55,12 +55,12 @@ export class PublicHolidayPopup {
     const value = this.formGroup.value;
 
     if (value.id) {
-      this.unutilizedService
-        .updatePublicHolidays(value.id, { ...value, id: value.id })
+      this.service
+        .update(value.id, { ...value, id: value.id })
         .subscribe(() => this.dialogRef.close(this.formGroup.value));
     } else {
-      this.unutilizedService
-        .createPublicHolidays(value)
+      this.service
+        .create(value)
         .subscribe(() => this.dialogRef.close(this.formGroup.value));
     }
   }
