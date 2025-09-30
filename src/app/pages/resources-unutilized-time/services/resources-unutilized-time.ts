@@ -120,6 +120,18 @@ export class ResourcesUnutilizedTime {
   }
 
   // -------- Leave Days --------
+  createLeaveDays(payload: LeaveDay) {
+    return this.http
+      .post(`${this.baseUrl}/ResourceLeaveDays`, payload)
+      .pipe(map((res: any) => res.data));
+  }
+
+  updateLeaveDays(id: number, payload: LeaveDay) {
+    return this.http
+      .put(`${this.baseUrl}/ResourceLeaveDays/${id}`, payload)
+      .pipe(map((res: any) => res.data));
+  }
+
   getLeaveDays(filter: any = {}): Observable<PagedResult<LeaveDay>> {
     let params = this.buildParams(filter);
 

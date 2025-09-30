@@ -17,6 +17,7 @@ import {
 import { WeekEndPopup } from "../week-end-popup/week-end-popup";
 import { DialogService } from "primeng/dynamicdialog";
 import { PublicHolidayPopup } from "../public-holiday-popup/public-holiday-popup";
+import { LeaveDaysPopup } from "../leave-days-popup/leave-days-popup";
 
 @Component({
   selector: "app-view",
@@ -191,7 +192,7 @@ export class View {
       }
     });
   }
-  onAddLeaveDays() {}
+
   onAddPublicHolidays() {
     const ref = this.dialogService.open(PublicHolidayPopup, {
       header: "Add Public Holiday",
@@ -202,8 +203,8 @@ export class View {
     ref.onClose.subscribe((result) => {
       if (result) {
         this.holidayList.loadData(
-          this.weekEndList.pagination,
-          this.weekEndFilters
+          this.holidayList.pagination,
+          this.holidayFilters
         );
 
         this.messageService.add({
@@ -215,13 +216,36 @@ export class View {
     });
   }
 
-  // -------- View / Edit actions --------
+  onAddLeaveDays() {
+    const ref = this.dialogService.open(LeaveDaysPopup, {
+      header: "Add Leave Days",
+      width: "600px",
+      modal: true,
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        this.leaveDaysList.loadData(
+          this.leaveDaysList.pagination,
+          this.leaveDaysFilters
+        );
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Saved",
+          detail: "Leave Days added successfully 🎉",
+        });
+      }
+    });
+  }
+
+  // -------- Edit actions --------
   onEditWeekend(weekend: WeekEnd) {
     const ref = this.dialogService.open(WeekEndPopup, {
       header: "Edit Weekend",
       width: "600px",
       modal: true,
-      data: weekend, // pass the existing weekend
+      data: weekend,
     });
 
     ref.onClose.subscribe((result) => {
@@ -245,14 +269,14 @@ export class View {
       header: "Edit Public Holiday",
       width: "600px",
       modal: true,
-      data: row, // pass the existing weekend
+      data: row,
     });
 
     ref.onClose.subscribe((result) => {
       if (result) {
         this.holidayList.loadData(
-          this.weekEndList.pagination,
-          this.weekEndFilters
+          this.holidayList.pagination,
+          this.holidayFilters
         );
 
         this.messageService.add({
@@ -265,7 +289,27 @@ export class View {
   }
 
   onEditLeaveDay(row: LeaveDay) {
-    console.log("Edit Leave Day", row);
+    const ref = this.dialogService.open(LeaveDaysPopup, {
+      header: "Edit Leave Days",
+      width: "600px",
+      modal: true,
+      data: row,
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        this.leaveDaysList.loadData(
+          this.leaveDaysList.pagination,
+          this.leaveDaysFilters
+        );
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Saved",
+          detail: "Leave Days updated successfully 🎉",
+        });
+      }
+    });
   }
 
   // -------- Delete actions --------

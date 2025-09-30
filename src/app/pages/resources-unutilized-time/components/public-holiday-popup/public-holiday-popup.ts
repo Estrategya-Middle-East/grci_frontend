@@ -1,4 +1,3 @@
-// public-holiday-popup.component.ts
 import { Component, inject } from "@angular/core";
 import {
   FormBuilder,
@@ -57,12 +56,10 @@ export class PublicHolidayPopup {
     const value = this.formGroup.value;
 
     if (value.id) {
-      // Editing
       this.unutilizedService
         .updatePublicHolidays(value.id, { ...value, id: value.id })
         .subscribe(() => this.dialogRef.close(this.formGroup.value));
     } else {
-      // Creating
       this.unutilizedService
         .createPublicHolidays(value)
         .subscribe(() => this.dialogRef.close(this.formGroup.value));

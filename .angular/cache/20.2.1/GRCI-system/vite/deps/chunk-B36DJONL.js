@@ -1,8 +1,4 @@
 import {
-  ConnectedOverlayScrollHandler,
-  DomHandler
-} from "./chunk-RZWQDRX6.js";
-import {
   ObjectUtils,
   zindexutils
 } from "./chunk-UAMHIGSX.js";
@@ -14,6 +10,10 @@ import {
   trigger,
   useAnimation
 } from "./chunk-HXBTUHY6.js";
+import {
+  ConnectedOverlayScrollHandler,
+  DomHandler
+} from "./chunk-RZWQDRX6.js";
 import {
   BaseComponent
 } from "./chunk-4LTRYTVW.js";
@@ -1063,4 +1063,4 @@ var OverlayModule = class _OverlayModule {
 export {
   Overlay
 };
-//# sourceMappingURL=chunk-XK6HSILP.js.map
+//# sourceMappingURL=chunk-B36DJONL.js.map
