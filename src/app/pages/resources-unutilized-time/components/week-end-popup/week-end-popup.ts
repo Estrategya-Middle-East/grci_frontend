@@ -10,6 +10,7 @@ import { ButtonModule } from "primeng/button";
 import { DynamicDialogRef, DynamicDialogConfig } from "primeng/dynamicdialog";
 import { SelectModule } from "primeng/select";
 import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
+import { WeekEndInterface } from "../../models/resources-unutilized-time";
 
 @Component({
   selector: "app-add-weekend-dialog",
@@ -36,11 +37,10 @@ export class WeekEndPopup implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Use config.data to populate form if editing
-    const data = this.config.data as { day?: string; id?: number } | undefined;
+    const data = this.config.data as WeekEndInterface | undefined;
 
     this.formGroup = this.fb.group({
-      id: [data?.id || null], // store id for editing
+      id: [data?.id || null],
       day: [data?.day || "", Validators.required],
     });
   }
@@ -54,14 +54,12 @@ export class WeekEndPopup implements OnInit {
     const value = this.formGroup.value;
 
     if (value.id) {
-      // Editing
       this.unutilizedService
         .updateWeekEnd(value.id, { day: value.day, id: value.id })
         .subscribe(() => {
           this.dialogRef.close(this.formGroup.value);
         });
     } else {
-      // Creating
       this.unutilizedService.createWeekEnd({ day: value.day }).subscribe(() => {
         this.dialogRef.close(this.formGroup.value);
       });

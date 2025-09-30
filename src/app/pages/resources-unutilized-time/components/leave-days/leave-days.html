@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="leaveDaysFilteration"
+  [showActions]="leaveDaysActions"
+  [title]="'Leave Days'"
+  (addClick)="onAddLeaveDays()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #leaveDaysList
+  [columns]="leaveDaysColumns"
+  [fetchData]="fetchLeaveDays"
+  [active]="activeTab() === 2"
+  (edit)="onEditLeaveDay($event)"
+  (delete)="onDeleteLeaveDay($event)"
+  (archive)="onArchiveLeaveDay($event)"
+/>

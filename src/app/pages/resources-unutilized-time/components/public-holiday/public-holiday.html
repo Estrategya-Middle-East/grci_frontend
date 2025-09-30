@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="holidayFilteration"
+  [showActions]="holidayActions"
+  [title]="'Public Holidays'"
+  (addClick)="onAddPublicHolidays()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #holidayList
+  [columns]="publicHolidayColumns"
+  [fetchData]="fetchHolidays"
+  [active]="activeTab() === 1"
+  (edit)="onEditHoliday($event)"
+  (delete)="onDeleteHoliday($event)"
+  (archive)="onArchiveHoliday($event)"
+/>

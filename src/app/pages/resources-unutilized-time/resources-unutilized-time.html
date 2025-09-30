@@ -1,1 +1,24 @@
-<app-view />
+<p-tabs [(value)]="activeTab">
+  <p-tablist>
+    <p-tab [value]="0">Week Ends</p-tab>
+    <p-tab [value]="1">Public Holidays</p-tab>
+    <p-tab [value]="2">Leave Days</p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+    <!-- Week Ends -->
+    <p-tabpanel [value]="0">
+      <app-week-end [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Public Holidays -->
+    <p-tabpanel [value]="1">
+      <app-public-holiday [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Leave Days -->
+    <p-tabpanel [value]="2">
+      <app-leave-days [activeTab]="activeTab" />
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

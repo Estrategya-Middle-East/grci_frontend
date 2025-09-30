@@ -4,9 +4,9 @@ import { Observable, map } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { ApiResponse, PagedResult } from "../../../shared/models/api.mode";
 import {
-  LeaveDay,
-  PublicHoliday,
-  WeekEnd,
+  LeaveDayInterface,
+  PublicHolidayInterface,
+  WeekEndInterface,
 } from "../models/resources-unutilized-time";
 
 @Injectable({
@@ -29,7 +29,7 @@ export class ResourcesUnutilizedTime {
       .pipe(map((res: any) => res.data));
   }
 
-  getWeekEnds(filter: any = {}): Observable<PagedResult<WeekEnd>> {
+  getWeekEnds(filter: any = {}): Observable<PagedResult<WeekEndInterface>> {
     let params = this.buildParams(filter);
 
     return this.http
@@ -40,7 +40,7 @@ export class ResourcesUnutilizedTime {
       .pipe(map((res) => res.data));
   }
 
-  getWeekEndById(id: number): Observable<WeekEnd> {
+  getWeekEndById(id: number): Observable<WeekEndInterface> {
     return this.http
       .get<ApiResponse<any>>(`${this.baseUrl}/ResourceWeekEnds/${id}`)
       .pipe(map((res) => res.data));
@@ -87,7 +87,9 @@ export class ResourcesUnutilizedTime {
       .pipe(map((res: any) => res.data));
   }
 
-  getPublicHolidays(filter: any = {}): Observable<PagedResult<PublicHoliday>> {
+  getPublicHolidays(
+    filter: any = {}
+  ): Observable<PagedResult<PublicHolidayInterface>> {
     let params = this.buildParams(filter);
 
     return this.http
@@ -98,7 +100,7 @@ export class ResourcesUnutilizedTime {
       .pipe(map((res) => res.data));
   }
 
-  getPublicHolidayById(id: number): Observable<PublicHoliday> {
+  getPublicHolidayById(id: number): Observable<PublicHolidayInterface> {
     return this.http
       .get<ApiResponse<any>>(`${this.baseUrl}/ResourcePublicHolidays/${id}`)
       .pipe(map((res) => res.data));
@@ -120,19 +122,19 @@ export class ResourcesUnutilizedTime {
   }
 
   // -------- Leave Days --------
-  createLeaveDays(payload: LeaveDay) {
+  createLeaveDays(payload: LeaveDayInterface) {
     return this.http
       .post(`${this.baseUrl}/ResourceLeaveDays`, payload)
       .pipe(map((res: any) => res.data));
   }
 
-  updateLeaveDays(id: number, payload: LeaveDay) {
+  updateLeaveDays(id: number, payload: LeaveDayInterface) {
     return this.http
       .put(`${this.baseUrl}/ResourceLeaveDays/${id}`, payload)
       .pipe(map((res: any) => res.data));
   }
 
-  getLeaveDays(filter: any = {}): Observable<PagedResult<LeaveDay>> {
+  getLeaveDays(filter: any = {}): Observable<PagedResult<LeaveDayInterface>> {
     let params = this.buildParams(filter);
 
     return this.http
@@ -143,7 +145,7 @@ export class ResourcesUnutilizedTime {
       .pipe(map((res) => res.data));
   }
 
-  getLeaveDayById(id: number): Observable<LeaveDay> {
+  getLeaveDayById(id: number): Observable<LeaveDayInterface> {
     return this.http
       .get<ApiResponse<any>>(`${this.baseUrl}/ResourceLeaveDays/${id}`)
       .pipe(map((res) => res.data));

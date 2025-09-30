@@ -1,12 +1,12 @@
 // -------- Week Ends --------
-export interface WeekEnd {
+export interface WeekEndInterface {
   id: number;
   code: number;
   day: string; // e.g., "Sunday"
 }
 
 // -------- Leave Days --------
-export interface LeaveDay {
+export interface LeaveDayInterface {
   id: number;
   code: number;
   year: number;
@@ -20,7 +20,7 @@ export interface LeaveDay {
 }
 
 // -------- Public Holidays --------
-export interface PublicHoliday {
+export interface PublicHolidayInterface {
   id: number;
   code: number;
   title: string;

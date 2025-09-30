@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="weekEndFilteration"
+  [showActions]="weekEndActions"
+  [title]="'Week Ends'"
+  (addClick)="onAddWeekend()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #weekEndList
+  [columns]="weekEndColumns"
+  [fetchData]="fetchWeekends"
+  [active]="activeTab() === 0"
+  (edit)="onEditWeekend($event)"
+  (delete)="onDeleteWeekend($event)"
+  (archive)="onArchiveWeekend($event)"
+/>

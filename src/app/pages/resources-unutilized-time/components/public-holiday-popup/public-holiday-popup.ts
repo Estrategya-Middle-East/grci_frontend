@@ -12,6 +12,7 @@ import { SelectModule } from "primeng/select";
 import { DatePickerModule } from "primeng/datepicker";
 import { CommonModule } from "@angular/common";
 import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
+import { PublicHolidayInterface } from "../../models/resources-unutilized-time";
 
 @Component({
   selector: "app-public-holiday-popup",
@@ -36,9 +37,7 @@ export class PublicHolidayPopup {
   formGroup!: FormGroup;
 
   ngOnInit(): void {
-    const data = this.config.data as
-      | { id?: number; title?: string; date?: string }
-      | undefined;
+    const data = this.config.data as PublicHolidayInterface | undefined;
 
     this.formGroup = this.fb.group({
       id: [data?.id || null],

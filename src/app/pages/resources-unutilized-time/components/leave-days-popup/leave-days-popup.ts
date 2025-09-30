@@ -12,7 +12,7 @@ import { DatePickerModule } from "primeng/datepicker";
 import { CommonModule } from "@angular/common";
 import { InputNumberModule } from "primeng/inputnumber";
 import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
-import { LeaveDay } from "../../models/resources-unutilized-time";
+import { LeaveDayInterface } from "../../models/resources-unutilized-time";
 
 @Component({
   selector: "app-leave-days-popup",
@@ -37,7 +37,7 @@ export class LeaveDaysPopup {
   formGroup!: FormGroup;
 
   ngOnInit(): void {
-    const data = this.config.data as LeaveDay | undefined;
+    const data = this.config.data as LeaveDayInterface | undefined;
 
     this.formGroup = this.fb.group({
       id: [data?.id || null],
