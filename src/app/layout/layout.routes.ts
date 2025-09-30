@@ -3,6 +3,11 @@ import { AppRoute, appRoutes } from "../app.routes.enum";
 
 export const layoutRoutes: Routes = [
   {
+    path: "",
+    pathMatch: "full",
+    redirectTo: appRoutes.ORGANIZATIONS,
+  },
+  {
     path: appRoutes.ORGANIZATIONS,
     children: [
       {
@@ -172,6 +177,18 @@ export const layoutRoutes: Routes = [
           import(
             "../pages/resources-unutilized-time/resources-unutilized-time"
           ).then((m) => m.ResourcesUnutilizedTime),
+      },
+    ],
+  },
+  {
+    path: appRoutes["RISK-SCORING-MODEL"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/risk-scoring-model/risk-scoring-model").then(
+            (m) => m.RiskScoringModel
+          ),
       },
     ],
   },

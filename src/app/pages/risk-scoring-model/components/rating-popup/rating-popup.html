@@ -1,1 +1,103 @@
-<p>rating-popup works!</p>
+<form [formGroup]="formGroup" class="p-fluid p-formgrid p-grid p-m-3">
+  <!-- Risk Rating Name -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="title">Risk Rating Name*</label>
+    <input
+      class="w-100"
+      id="title"
+      type="text"
+      pInputText
+      formControlName="title"
+      placeholder="enter risk rating Name (Must be unique value)"
+    />
+  </div>
+
+  <!-- Color Dropdown -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="color">Color*</label>
+    <p-select
+      id="color"
+      formControlName="color"
+      [options]="colorOptions"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select Color (Must be unique value)"
+      class="w-100"
+    >
+      <ng-template pTemplate="item" let-item>
+        <div class="d-flex align-items-center gap-2">
+          <span
+            class="color-box"
+            [style.background-color]="item.value"
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+            "
+          ></span>
+          <span>{{ item.label }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="selectedItem" let-item>
+        @if (item) {
+        <div class="d-flex align-items-center gap-2">
+          <span
+            class="color-box"
+            [style.background-color]="item.value"
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+            "
+          ></span>
+          <span>{{ item.label }}</span>
+        </div>
+        }
+      </ng-template>
+    </p-select>
+  </div>
+
+  <!-- Score Min -->
+  <div class="p-field p-col-6 mb-3">
+    <label for="scoreMin">Score Min*</label>
+    <p-inputNumber
+      id="scoreMin"
+      formControlName="scoreMin"
+      mode="decimal"
+      [min]="0"
+      placeholder="Enter Minimum Score"
+      class="w-100"
+    ></p-inputNumber>
+  </div>
+
+  <!-- Score Max -->
+  <div class="p-field p-col-6 mb-3">
+    <label for="scoreMax">Score Max*</label>
+    <p-inputNumber
+      id="scoreMax"
+      formControlName="scoreMax"
+      mode="decimal"
+      [min]="0"
+      placeholder="Enter Maximum Score"
+      class="w-100"
+    ></p-inputNumber>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-center gap-3 m-4">
+    <button
+      [disabled]="!formGroup.valid"
+      type="button"
+      (click)="onSave()"
+      class="btn btn-primary"
+    >
+      <i class="pi pi-send"></i> Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

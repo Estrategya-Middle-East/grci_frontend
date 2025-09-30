@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="likelihoodFilteration"
+  [showActions]="likelihoodActions"
+  [title]="'Likelihoods'"
+  (addClick)="onAddLikelihood()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #likelihoodList
+  [columns]="likelihoodColumns"
+  [fetchData]="fetchLikelihoods"
+  [active]="activeTab() === 1"
+  (edit)="onEditLikelihood($event)"
+  (delete)="onDeleteLikelihood($event)"
+  (archive)="onArchiveLikelihood($event)"
+/>

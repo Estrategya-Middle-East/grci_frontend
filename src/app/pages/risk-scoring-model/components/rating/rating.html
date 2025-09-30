@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="ratingFilteration"
+  [showActions]="ratingActions"
+  [title]="'Ratings'"
+  (addClick)="onAddRating()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #ratingList
+  [columns]="ratingColumns"
+  [fetchData]="fetchRatings"
+  [active]="activeTab() === 2"
+  (edit)="onEditRating($event)"
+  (delete)="onDeleteRating($event)"
+  (archive)="onArchiveRating($event)"
+/>

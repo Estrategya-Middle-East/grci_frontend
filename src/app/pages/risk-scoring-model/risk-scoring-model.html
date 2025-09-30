@@ -1,1 +1,24 @@
-<app-view />
+<p-tabs [(value)]="activeTab">
+  <p-tablist>
+    <p-tab [value]="0">Impact</p-tab>
+    <p-tab [value]="1">Likelihood</p-tab>
+    <p-tab [value]="2">Rating</p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+    <!-- Impact -->
+    <p-tabpanel [value]="0">
+      <app-impact [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Likelihood -->
+    <p-tabpanel [value]="1">
+      <app-likelihood [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Rating -->
+    <p-tabpanel [value]="2">
+      <app-rating [activeTab]="activeTab" />
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

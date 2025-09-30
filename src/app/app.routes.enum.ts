@@ -6,6 +6,7 @@ export enum AppRoute {
   ENTITIES = "entities",
   "RESOURCES-MANAGEMENT" = "resources-management",
   "RESOURCES-UNUTILIZED" = "resources-unutilized",
+  "RISK-SCORING-MODEL" = "risk-scoring-model",
 }
 
 export const appRoutes = {
@@ -16,6 +17,7 @@ export const appRoutes = {
   ENTITIES: `${AppRoute.ENTITIES}`,
   "RESOURCES-MANAGEMENT": `${AppRoute["RESOURCES-MANAGEMENT"]}`,
   "RESOURCES-UNUTILIZED": `${AppRoute["RESOURCES-UNUTILIZED"]}`,
+  "RISK-SCORING-MODEL": `${AppRoute["RISK-SCORING-MODEL"]}`,
 };
 
 Object.freeze(appRoutes);

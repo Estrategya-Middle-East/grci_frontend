@@ -1,40 +1,44 @@
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { ApiResponse, PagedResult } from "../../../shared/models/api.mode";
-import { LeaveDayInterface } from "../models/resources-unutilized-time";
 import { BaseService } from "../../../core/services/base-service";
+import { ImpactInterface } from "../models/risk-scoring";
 
 @Injectable({
   providedIn: "root",
 })
-export class LeaveDayService extends BaseService {
-  readonly pageName: string = "ResourceLeaveDays";
+export class ImpactService extends BaseService {
+  readonly pageName: string = "ImpactScales";
 
-  create(payload: LeaveDayInterface) {
+  create(payload: ImpactInterface) {
     return this.http
       .post(`${this.baseUrl}/${this.pageName}`, payload)
       .pipe(map((res: any) => res.data));
   }
 
-  update(id: number, payload: LeaveDayInterface) {
+  update(id: number, payload: ImpactInterface) {
     return this.http
       .put(`${this.baseUrl}/${this.pageName}/${id}`, payload)
       .pipe(map((res: any) => res.data));
   }
 
-  getList(filter: any = {}): Observable<PagedResult<LeaveDayInterface>> {
+  getList(filter: any = {}): Observable<PagedResult<ImpactInterface>> {
     const params = this.buildParams(filter);
     return this.http
-      .get<ApiResponse<PagedResult<any>>>(
-        `${this.baseUrl}/${this.pageName}/GetList`,
-        { params }
+      .get<ApiResponse<PagedResult<ImpactInterface>>>(
+        `${this.baseUrl}/${this.pageName}`,
+        {
+          params,
+        }
       )
       .pipe(map((res) => res.data));
   }
 
-  getById(id: number): Observable<LeaveDayInterface> {
+  getById(id: number): Observable<ImpactInterface> {
     return this.http
-      .get<ApiResponse<any>>(`${this.baseUrl}/${this.pageName}/${id}`)
+      .get<ApiResponse<ImpactInterface>>(
+        `${this.baseUrl}/${this.pageName}/${id}`
+      )
       .pipe(map((res) => res.data));
   }
 

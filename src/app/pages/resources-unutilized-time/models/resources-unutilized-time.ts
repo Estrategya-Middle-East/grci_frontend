@@ -2,7 +2,7 @@
 export interface WeekEndInterface {
   id: number;
   code: number;
-  day: string; // e.g., "Sunday"
+  day: string;
 }
 
 // -------- Leave Days --------
@@ -24,7 +24,7 @@ export interface PublicHolidayInterface {
   id: number;
   code: number;
   title: string;
-  date: string; // ISO string "2024-04-10T00:00:00"
+  date: string;
   year: number;
   isArchived: boolean;
 }

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { ApiResponse, PagedResult } from "../../../shared/models/api.mode";
 import { WeekEndInterface } from "../models/resources-unutilized-time";
-import { BaseService } from "./base-service";
+import { BaseService } from "../../../core/services/base-service";
 
 @Injectable({
   providedIn: "root",

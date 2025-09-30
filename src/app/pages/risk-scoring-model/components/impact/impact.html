@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="impactFilteration"
+  [showActions]="impactActions"
+  [title]="'Impacts'"
+  (addClick)="onAddImpact()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #impactList
+  [columns]="impactColumns"
+  [fetchData]="fetchImpacts"
+  [active]="activeTab() === 0"
+  (edit)="onEditImpact($event)"
+  (delete)="onDeleteImpact($event)"
+  (archive)="onArchiveImpact($event)"
+/>
