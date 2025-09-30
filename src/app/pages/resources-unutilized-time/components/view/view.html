@@ -16,7 +16,7 @@
         (filtersChange)="onFiltersChange('weekEnd', $event)"
       ></app-header>
 
-      <app-list
+      <app-general-list
         #weekEndList
         [columns]="weekEndColumns"
         [fetchData]="fetchWeekends"
@@ -37,7 +37,7 @@
         (filtersChange)="onFiltersChange('holiday', $event)"
       ></app-header>
 
-      <app-list
+      <app-general-list
         #holidayList
         [columns]="publicHolidayColumns"
         [fetchData]="fetchHolidays"
@@ -58,7 +58,7 @@
         (filtersChange)="onFiltersChange('leaveDays', $event)"
       ></app-header>
 
-      <app-list
+      <app-general-list
         #leaveDaysList
         [columns]="leaveDaysColumns"
         [fetchData]="fetchLeaveDays"

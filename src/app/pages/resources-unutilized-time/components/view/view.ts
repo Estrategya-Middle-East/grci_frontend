@@ -1,6 +1,6 @@
 import { Component, inject, ViewChild } from "@angular/core";
 import { TabsModule } from "primeng/tabs";
-import { List } from "../list/list";
+import { GeneralList } from "../../../../shared/components/general-list/general-list";
 import { ResourcesUnutilizedTime } from "../../services/resources-unutilized-time";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
 import {
@@ -24,7 +24,7 @@ import { LeaveDaysPopup } from "../leave-days-popup/leave-days-popup";
   templateUrl: "./view.html",
   styleUrls: ["./view.scss"],
   providers: [DialogService],
-  imports: [TabsModule, List, HeaderComponent],
+  imports: [TabsModule, GeneralList, HeaderComponent],
 })
 export class View {
   private service = inject(ResourcesUnutilizedTime);
@@ -34,9 +34,9 @@ export class View {
   activeTab = 0;
 
   // References to child lists
-  @ViewChild("weekEndList") weekEndList!: List<WeekEnd>;
-  @ViewChild("holidayList") holidayList!: List<PublicHoliday>;
-  @ViewChild("leaveDaysList") leaveDaysList!: List<LeaveDay>;
+  @ViewChild("weekEndList") weekEndList!: GeneralList<WeekEnd>;
+  @ViewChild("holidayList") holidayList!: GeneralList<PublicHoliday>;
+  @ViewChild("leaveDaysList") leaveDaysList!: GeneralList<LeaveDay>;
 
   // -------- Filteration configs --------
   weekEndFilteration: ShowFilteration = {

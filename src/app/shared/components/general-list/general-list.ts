@@ -15,16 +15,16 @@ import {
   NgbModalConfig,
 } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
-import { PagedResult } from "../../../../shared/models/api.mode";
-import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
-import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
+import { PagedResult } from "../../models/api.mode";
+import { DeleteItemSelectedComponent } from "../delete-item-selected/delete-item-selected.component";
+import { CustomPaginatorComponent } from "../custom-paginator/custom-paginator.component";
 import { TableModule } from "primeng/table";
 import { InputTextModule } from "primeng/inputtext";
 import { ToastModule } from "primeng/toast";
 
 @Component({
-  selector: "app-list",
-  templateUrl: "./list.html",
+  selector: "app-general-list",
+  templateUrl: "./general-list.html",
   imports: [
     TableModule,
     InputTextModule,
@@ -33,9 +33,9 @@ import { ToastModule } from "primeng/toast";
     CustomPaginatorComponent,
     DeleteItemSelectedComponent,
   ],
-  styleUrls: ["./list.scss"],
+  styleUrls: ["./general-list.scss"],
 })
-export class List<T = any> implements OnChanges {
+export class GeneralList<T = any> implements OnChanges {
   private modalService = inject(NgbModal);
   private config = inject(NgbModalConfig);
 
