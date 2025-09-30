@@ -22,7 +22,7 @@
               <i class="pi pi-eye me-2"></i> View
             </button>
             }
-            <button ngbDropdownItem (click)="onEdit(row.id)">
+            <button ngbDropdownItem (click)="onEdit(row)">
               <i class="pi pi-pencil me-2"></i> Edit
             </button>
             <button ngbDropdownItem (click)="onDelete(row.id)">
@@ -61,23 +61,23 @@
     (sendOfDialog)="send()"
   >
     <!-- Icon slot -->
-    @if (viewData?.title?.includes('Delete')) {
+    @if (viewData.title.includes('Delete')) {
     <span class="icon d-flex align-items-center justify-content-center">
       <i class="pi pi-exclamation-triangle warning-icon"></i>
     </span>
-    } @else if (viewData?.title?.includes('Archive')) {
+    } @else if (viewData.title.includes('Archive')) {
     <span class="icon d-flex align-items-center justify-content-center">
       <i class="pi pi-folder warning-icon"></i>
     </span>
     }
 
     <!-- Paragraph slot -->
-    @if (viewData?.title?.includes('Delete')) {
+    @if (viewData.title.includes('Delete')) {
     <p class="m-0 p-0 pargDeleteItem">
       Once you press the <span class="bold">'Confirm Deletion'</span> button,
       the data will be permanently deleted.
     </p>
-    } @else if (viewData?.title?.includes('Archive')) {
+    } @else if (viewData.title.includes('Archive')) {
     <p class="m-0 p-0 pargDeleteItem">
       Once you press the <span class="bold">'Confirm Archive'</span> button, the
       data will be permanently archived.

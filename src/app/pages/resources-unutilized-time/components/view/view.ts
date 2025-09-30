@@ -9,23 +9,33 @@ import {
 } from "../../../../shared/components/header/models/header.interface";
 import { tap } from "rxjs";
 import { MessageService } from "primeng/api";
+import {
+  LeaveDay,
+  PublicHoliday,
+  WeekEnd,
+} from "../../models/resources-unutilized-time";
+import { WeekEndPopup } from "../week-end-popup/week-end-popup";
+import { DialogService } from "primeng/dynamicdialog";
+import { PublicHolidayPopup } from "../public-holiday-popup/public-holiday-popup";
 
 @Component({
   selector: "app-view",
-  imports: [TabsModule, List, HeaderComponent],
   templateUrl: "./view.html",
-  styleUrl: "./view.scss",
+  styleUrls: ["./view.scss"],
+  providers: [DialogService],
+  imports: [TabsModule, List, HeaderComponent],
 })
 export class View {
   private service = inject(ResourcesUnutilizedTime);
+  private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
 
   activeTab = 0;
 
   // References to child lists
-  @ViewChild("weekEndList") weekEndList!: List;
-  @ViewChild("holidayList") holidayList!: List;
-  @ViewChild("leaveDaysList") leaveDaysList!: List;
+  @ViewChild("weekEndList") weekEndList!: List<WeekEnd>;
+  @ViewChild("holidayList") holidayList!: List<PublicHoliday>;
+  @ViewChild("leaveDaysList") leaveDaysList!: List<LeaveDay>;
 
   // -------- Filteration configs --------
   weekEndFilteration: ShowFilteration = {
@@ -66,20 +76,23 @@ export class View {
   };
 
   // -------- Columns --------
-  weekEndColumns = [
+  weekEndColumns: { field: keyof WeekEnd | "actions"; header: string }[] = [
     { field: "code", header: "Code" },
     { field: "day", header: "Day" },
     { field: "actions", header: "Actions" },
   ];
 
-  publicHolidayColumns = [
+  publicHolidayColumns: {
+    field: keyof PublicHoliday | "actions";
+    header: string;
+  }[] = [
     { field: "code", header: "Code" },
     { field: "title", header: "Holiday Name" },
     { field: "date", header: "Date" },
     { field: "actions", header: "Actions" },
   ];
 
-  leaveDaysColumns = [
+  leaveDaysColumns: { field: keyof LeaveDay | "actions"; header: string }[] = [
     { field: "code", header: "Code" },
     { field: "year", header: "Year" },
     { field: "annualLeaves", header: "Annual Leave" },
@@ -95,14 +108,38 @@ export class View {
   holidayFilters: Record<string, any> = {};
   leaveDaysFilters: Record<string, any> = {};
 
-  // -------- Fetch functions --------
-  fetchWeekends = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+  // -------- Fetch functions (typed) --------
+  fetchWeekends = ({
+    pageNumber = 1,
+    pageSize = 10,
+    ...filters
+  }: {
+    pageNumber?: number;
+    pageSize?: number;
+    [key: string]: any;
+  } = {}): ReturnType<ResourcesUnutilizedTime["getWeekEnds"]> =>
     this.service.getWeekEnds({ pageNumber, pageSize, ...filters });
 
-  fetchHolidays = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+  fetchHolidays = ({
+    pageNumber = 1,
+    pageSize = 10,
+    ...filters
+  }: {
+    pageNumber?: number;
+    pageSize?: number;
+    [key: string]: any;
+  } = {}): ReturnType<ResourcesUnutilizedTime["getPublicHolidays"]> =>
     this.service.getPublicHolidays({ pageNumber, pageSize, ...filters });
 
-  fetchLeaveDays = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+  fetchLeaveDays = ({
+    pageNumber = 1,
+    pageSize = 10,
+    ...filters
+  }: {
+    pageNumber?: number;
+    pageSize?: number;
+    [key: string]: any;
+  } = {}): ReturnType<ResourcesUnutilizedTime["getLeaveDays"]> =>
     this.service.getLeaveDays({ pageNumber, pageSize, ...filters });
 
   // -------- Handle filter changes from header --------
@@ -113,52 +150,122 @@ export class View {
     if (type === "weekEnd") {
       this.weekEndFilters = { ...filters };
       this.weekEndList.loadData(
-        {
-          ...this.weekEndList.pagination,
-        },
-        { ...this.weekEndFilters }
+        this.weekEndList.pagination,
+        this.weekEndFilters
       );
     } else if (type === "holiday") {
       this.holidayFilters = { ...filters };
       this.holidayList.loadData(
-        {
-          ...this.holidayList.pagination,
-        },
-        { ...this.holidayFilters }
+        this.holidayList.pagination,
+        this.holidayFilters
       );
     } else if (type === "leaveDays") {
       this.leaveDaysFilters = { ...filters };
       this.leaveDaysList.loadData(
-        {
-          ...this.leaveDaysList.pagination,
-        },
-        { ...this.leaveDaysFilters }
+        this.leaveDaysList.pagination,
+        this.leaveDaysFilters
       );
     }
   }
 
   // -------- Add actions --------
   onAddWeekend() {
-    console.log("Open Weekend popup");
+    const ref = this.dialogService.open(WeekEndPopup, {
+      header: "Add Weekend",
+      width: "600px",
+      modal: true,
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        this.weekEndList.loadData(
+          this.weekEndList.pagination,
+          this.weekEndFilters
+        );
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Saved",
+          detail: "Weekend added successfully 🎉",
+        });
+      }
+    });
   }
-  onAddLeaveDays() {
-    console.log("Open Leave Day popup");
-  }
+  onAddLeaveDays() {}
   onAddPublicHolidays() {
-    console.log("Open Public Holidays popup");
+    const ref = this.dialogService.open(PublicHolidayPopup, {
+      header: "Add Public Holiday",
+      width: "600px",
+      modal: true,
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        this.holidayList.loadData(
+          this.weekEndList.pagination,
+          this.weekEndFilters
+        );
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Saved",
+          detail: "Public Holiday added successfully 🎉",
+        });
+      }
+    });
   }
 
   // -------- View / Edit actions --------
-  onEditWeekend(id: number) {
-    console.log("Edit Weekend", id);
+  onEditWeekend(weekend: WeekEnd) {
+    const ref = this.dialogService.open(WeekEndPopup, {
+      header: "Edit Weekend",
+      width: "600px",
+      modal: true,
+      data: weekend, // pass the existing weekend
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        this.weekEndList.loadData(
+          this.weekEndList.pagination,
+          this.weekEndFilters
+        );
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Saved",
+          detail: "Weekend updated successfully 🎉",
+        });
+      }
+    });
   }
 
-  onEditHoliday(id: number) {
-    console.log("Edit Holiday", id);
+  onEditHoliday(row: PublicHoliday) {
+    const ref = this.dialogService.open(PublicHolidayPopup, {
+      header: "Edit Public Holiday",
+      width: "600px",
+      modal: true,
+      data: row, // pass the existing weekend
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        this.holidayList.loadData(
+          this.weekEndList.pagination,
+          this.weekEndFilters
+        );
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Saved",
+          detail: "Public holiday updated successfully 🎉",
+        });
+      }
+    });
   }
 
-  onEditLeaveDay(id: number) {
-    console.log("Edit Leave Day", id);
+  onEditLeaveDay(row: LeaveDay) {
+    console.log("Edit Leave Day", row);
   }
 
   // -------- Delete actions --------
@@ -167,21 +274,19 @@ export class View {
       .deleteWeekEnd(id)
       .pipe(
         tap(() =>
-          this.weekEndList?.loadData({
-            ...this.weekEndList.pagination,
-            ...this.weekEndFilters,
-          })
+          this.weekEndList.loadData(
+            this.weekEndList.pagination,
+            this.weekEndFilters
+          )
         )
       )
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "success",
-            summary: "Success",
-            detail: "Weekend deleted successfully 🎉",
-          });
-        },
-      });
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "success",
+          summary: "Success",
+          detail: "Weekend deleted successfully 🎉",
+        })
+      );
   }
 
   onDeleteHoliday(id: number) {
@@ -189,21 +294,19 @@ export class View {
       .deletePublicHoliday(id)
       .pipe(
         tap(() =>
-          this.holidayList?.loadData({
-            ...this.holidayList.pagination,
-            ...this.holidayFilters,
-          })
+          this.holidayList.loadData(
+            this.holidayList.pagination,
+            this.holidayFilters
+          )
         )
       )
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "success",
-            summary: "Success",
-            detail: "Public Holiday deleted successfully 🎉",
-          });
-        },
-      });
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "success",
+          summary: "Success",
+          detail: "Public Holiday deleted successfully 🎉",
+        })
+      );
   }
 
   onDeleteLeaveDay(id: number) {
@@ -211,21 +314,19 @@ export class View {
       .deleteLeaveDay(id)
       .pipe(
         tap(() =>
-          this.leaveDaysList?.loadData({
-            ...this.leaveDaysList.pagination,
-            ...this.leaveDaysFilters,
-          })
+          this.leaveDaysList.loadData(
+            this.leaveDaysList.pagination,
+            this.leaveDaysFilters
+          )
         )
       )
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "success",
-            summary: "Success",
-            detail: "Leave Day deleted successfully 🎉",
-          });
-        },
-      });
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "success",
+          summary: "Success",
+          detail: "Leave Day deleted successfully 🎉",
+        })
+      );
   }
 
   // -------- Archive actions --------
@@ -234,21 +335,19 @@ export class View {
       .archiveWeekEnd(id)
       .pipe(
         tap(() =>
-          this.weekEndList?.loadData({
-            ...this.weekEndList.pagination,
-            ...this.weekEndFilters,
-          })
+          this.weekEndList.loadData(
+            this.weekEndList.pagination,
+            this.weekEndFilters
+          )
         )
       )
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "info",
-            summary: "Archived",
-            detail: "Weekend archived successfully.",
-          });
-        },
-      });
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "info",
+          summary: "Archived",
+          detail: "Weekend archived successfully.",
+        })
+      );
   }
 
   onArchiveHoliday(id: number) {
@@ -256,21 +355,19 @@ export class View {
       .archivePublicHoliday(id)
       .pipe(
         tap(() =>
-          this.holidayList?.loadData({
-            ...this.holidayList.pagination,
-            ...this.holidayFilters,
-          })
+          this.holidayList.loadData(
+            this.holidayList.pagination,
+            this.holidayFilters
+          )
         )
       )
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "info",
-            summary: "Archived",
-            detail: "Holiday archived successfully.",
-          });
-        },
-      });
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "info",
+          summary: "Archived",
+          detail: "Holiday archived successfully.",
+        })
+      );
   }
 
   onArchiveLeaveDay(id: number) {
@@ -278,20 +375,18 @@ export class View {
       .archiveLeaveDay(id)
       .pipe(
         tap(() =>
-          this.leaveDaysList?.loadData({
-            ...this.leaveDaysList.pagination,
-            ...this.leaveDaysFilters,
-          })
+          this.leaveDaysList.loadData(
+            this.leaveDaysList.pagination,
+            this.leaveDaysFilters
+          )
         )
       )
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "info",
-            summary: "Archived",
-            detail: "Leave Day archived successfully.",
-          });
-        },
-      });
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "info",
+          summary: "Archived",
+          detail: "Leave Day archived successfully.",
+        })
+      );
   }
 }

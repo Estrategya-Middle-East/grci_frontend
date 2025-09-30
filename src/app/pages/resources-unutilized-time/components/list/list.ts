@@ -9,20 +9,22 @@ import {
   TemplateRef,
   SimpleChanges,
 } from "@angular/core";
-import { TableModule } from "primeng/table";
-import { InputTextModule } from "primeng/inputtext";
 import {
   NgbDropdownModule,
   NgbModal,
   NgbModalConfig,
 } from "@ng-bootstrap/ng-bootstrap";
-import { ToastModule } from "primeng/toast";
-import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
-import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
 import { Observable } from "rxjs";
+import { PagedResult } from "../../../../shared/models/api.mode";
+import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
+import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
+import { TableModule } from "primeng/table";
+import { InputTextModule } from "primeng/inputtext";
+import { ToastModule } from "primeng/toast";
 
 @Component({
   selector: "app-list",
+  templateUrl: "./list.html",
   imports: [
     TableModule,
     InputTextModule,
@@ -31,36 +33,47 @@ import { Observable } from "rxjs";
     CustomPaginatorComponent,
     DeleteItemSelectedComponent,
   ],
-  templateUrl: "./list.html",
-  styleUrl: "./list.scss",
+  styleUrls: ["./list.scss"],
 })
-export class List implements OnChanges {
+export class List<T = any> implements OnChanges {
   private modalService = inject(NgbModal);
   private config = inject(NgbModalConfig);
 
-  @Input() columns: any[] = [];
-  @Input() isViewAction: boolean = false;
+  @Input() columns: { field: keyof T | "actions"; header: string }[] = [];
+  @Input() isViewAction = false;
   @Input() fetchData!: (filterPayload: {
     pageNumber: number;
     pageSize: number;
-  }) => Observable<any>;
+    filterField?: string[];
+    filterValue?: any[];
+  }) => Observable<PagedResult<T>>;
   @Input() active = false;
 
   @Output() view = new EventEmitter<number>();
-  @Output() edit = new EventEmitter<number>();
-  @Output() archive = new EventEmitter<any>();
+  @Output() edit = new EventEmitter<T>();
+  @Output() archive = new EventEmitter<number>();
   @Output() delete = new EventEmitter<number>();
 
   @ViewChild("content") content!: TemplateRef<any>;
 
-  data: any[] = [];
-  pagination: any = {
+  data: T[] = [];
+  pagination = {
     pageNumber: 1,
     pageSize: 10,
     totalItems: 0,
     totalPages: 0,
   };
-  viewData: any;
+  viewData: {
+    id: number | null;
+    title: string;
+    sendLabel: string;
+    sendClose: string;
+  } = {
+    id: null,
+    title: "",
+    sendClose: "",
+    sendLabel: "",
+  };
 
   constructor() {
     this.config.backdrop = "static";
@@ -79,16 +92,17 @@ export class List implements OnChanges {
     }
   }
 
-  loadData(pagination: any, filters?: any) {
+  loadData(pagination: any, filters?: Record<string, any>) {
     const filterPayload = {
       pageNumber: pagination.pageNumber,
       pageSize: pagination.pageSize,
       filterField: filters ? Object.keys(filters) : undefined,
       filterValue: filters ? Object.values(filters) : undefined,
     };
+
     if (this.fetchData) {
-      this.fetchData(filterPayload).subscribe((res: any) => {
-        this.data = res.items || res.data?.items || [];
+      this.fetchData(filterPayload).subscribe((res) => {
+        this.data = res.items;
         this.pagination = {
           pageNumber: res.pageNumber,
           pageSize: res.pageSize,
@@ -99,19 +113,18 @@ export class List implements OnChanges {
     }
   }
 
-  // === Actions ===
   onView(id: number) {
     this.view.emit(id);
   }
 
-  onEdit(id: number) {
-    this.edit.emit(id);
+  onEdit(row: T) {
+    this.edit.emit(row);
   }
 
-  onArchive(row: any) {
+  onArchive(row: T) {
     this.viewData = {
-      id: row.id,
-      title: `Archive “${row.id}”`,
+      id: (row as any).id,
+      title: `Archive “${(row as any).id}”`,
       sendLabel: "Confirm Archive",
       sendClose: "Cancel",
     };
@@ -133,11 +146,14 @@ export class List implements OnChanges {
   }
 
   send() {
-    if (this.viewData?.title?.includes("Delete")) {
-      this.delete.emit(this.viewData.id);
-    } else if (this.viewData?.title?.includes("Archive")) {
-      this.archive.emit(this.viewData.row);
+    if (!this.viewData) return;
+
+    if (this.viewData.title.includes("Delete")) {
+      this.delete.emit(this.viewData.id as number);
+    } else if (this.viewData.title.includes("Archive")) {
+      this.archive.emit(this.viewData.id as number);
     }
+
     this.modalService.dismissAll();
   }
 

@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup" class="p-fluid p-formgrid p-grid p-m-3">
+  <!-- Days Only Dropdown -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="holidayDay mb-3">Day*</label>
+    <p-select
+      class="w-100"
+      formControlName="day"
+      [options]="daysOfWeek"
+      optionLabel="name"
+      optionValue="value"
+      placeholder="Select Function"
+      appendTo="body"
+    ></p-select>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-center gap-3 m-4">
+    <button
+      [disabled]="!formGroup.valid"
+      type="button"
+      (click)="onSave()"
+      class="btn btn-primary"
+    >
+      <i class="pi pi-send"></i>Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>
