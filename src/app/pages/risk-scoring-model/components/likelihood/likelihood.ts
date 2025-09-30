@@ -46,7 +46,7 @@ export class Likelihood {
     field: keyof LikelihoodInterface | "actions";
     header: string;
   }[] = [
-    { field: "id", header: "ID" },
+    { field: "code", header: "Code" },
     { field: "title", header: "Likelihood Name" },
     { field: "value", header: "Value" },
     { field: "actions", header: "Actions" },
