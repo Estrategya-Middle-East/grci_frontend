@@ -192,4 +192,14 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: appRoutes.MITIGATION,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/mitigation/mitigation").then((m) => m.Mitigation),
+      },
+    ],
+  },
 ];

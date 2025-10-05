@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="typeFilteration"
+  [showActions]="typeActions"
+  [title]="'Types'"
+  (addClick)="onAddType()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #typeList
+  [columns]="typeColumns"
+  [fetchData]="fetchTypes"
+  [active]="activeTab() === 0"
+  (edit)="onEditType($event)"
+  (delete)="onDeleteType($event)"
+  (archive)="onArchiveType($event)"
+/>

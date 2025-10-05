@@ -1,0 +1,29 @@
+<form [formGroup]="formGroup" class="p-fluid p-formgrid p-grid p-m-3">
+  <!-- Category Name -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="value">Mitigation Category Name*</label>
+    <input
+      id="value"
+      type="text"
+      pInputText
+      formControlName="value"
+      placeholder="Enter Category Name"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-center gap-3 m-4">
+    <button
+      [disabled]="!formGroup.valid"
+      type="button"
+      (click)="onSave()"
+      class="btn btn-primary"
+    >
+      <i class="pi pi-send"></i> Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

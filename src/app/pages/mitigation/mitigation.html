@@ -1,0 +1,30 @@
+<p-tabs [(value)]="activeTab">
+  <p-tablist>
+    <p-tab [value]="0">Mitigation Type</p-tab>
+    <p-tab [value]="1">Mitigation Category</p-tab>
+    <p-tab [value]="2">Mitigation Automation</p-tab>
+    <p-tab [value]="3">Mitigation Nature</p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+    <!-- Type -->
+    <p-tabpanel [value]="0">
+      <app-type [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Category -->
+    <p-tabpanel [value]="1">
+      <app-category [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Automation -->
+    <p-tabpanel [value]="2">
+      <app-automation [activeTab]="activeTab" />
+    </p-tabpanel>
+
+    <!-- Natue -->
+    <p-tabpanel [value]="3">
+      <app-nature [activeTab]="activeTab" />
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
