@@ -1,1 +1,104 @@
-<p>key-process-details works!</p>
+<app-header [title]="'View Key Process'"></app-header>
+
+@if (!loaderService.loading()) { @if (keyProcess()) {
+<div class="p-4 d-flex flex-column">
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h2 class="title">{{ keyProcess()?.name }}</h2>
+    </div>
+
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column align-items-center align-items-md-start"
+    >
+      <p class="mb-2">
+        <span class="title">Type:</span>
+        {{ getProcessTypeLabel(keyProcess()?.type) }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Entity Name:</span> {{ keyProcess()?.entityName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Owner:</span>
+        {{ keyProcess()?.processOwnerName }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchive()"
+    ></button>
+  </div>
+
+  <hr class="text-black-50" />
+
+  <div class="px-4">
+    <p class="d-flex flex-column gap-3 mt-4">
+      <span class="title">Description</span>
+      <span class="text-black-50">{{ keyProcess()?.description }}</span>
+    </p>
+  </div>
+</div>
+} @else {
+<p>Entity not found.</p>
+} }
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- ICON -->
+    @if (viewData.title.includes('Delete')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-trash text-danger" style="font-size: 2.5rem"></i>
+    </span>
+    } @else {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info" style="font-size: 2.5rem"></i>
+    </span>
+    }
+
+    <!-- PARAGRAPH -->
+    @if (viewData.title.includes('Delete')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<p-toast position="bottom-center" class="custom-toast-error" key="bc" />
