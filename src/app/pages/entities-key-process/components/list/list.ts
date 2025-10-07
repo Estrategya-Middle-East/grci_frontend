@@ -10,11 +10,12 @@ import { TableModule } from "primeng/table";
 import { InputTextModule } from "primeng/inputtext";
 import { DeleteItemSelectedComponent } from "../../../../shared/components/delete-item-selected/delete-item-selected.component";
 import { ToastModule } from "primeng/toast";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
-import { Entity } from "../../services/entity";
-import { EntityInterface } from "../../models/entity";
 import { MessageService } from "primeng/api";
-import { appRoutes } from "../../../../app.routes.enum";
+import { deleteItemInterface } from "../../../../shared/components/delete-item-selected/models/delete-item.interface";
+import { EntitiesKeyProcessService } from "../../services/entities-key-process-service";
+import { ProcessManagement } from "../../models/key-process/key-process";
 
 @Component({
   selector: "app-list",
@@ -31,22 +32,24 @@ import { appRoutes } from "../../../../app.routes.enum";
 })
 export class List implements OnChanges {
   @Input() filters: Record<string, any> = {};
-  private entityService = inject(Entity);
+  private processService = inject(EntitiesKeyProcessService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private modalService = inject(NgbModal);
   private config = inject(NgbModalConfig);
   private messageService = inject(MessageService);
-
   @ViewChild("content", { static: false }) content: any;
-  selectedEntityId!: number;
-  selectedArchiveEntityId!: number;
+
+  selectedDeletedProcessId!: number;
+  selectedArchivedProcessId!: number;
+  entityId$ = this.route.paramMap.pipe(map((params) => params.get("entityId")));
+  entityId = toSignal(this.entityId$, { initialValue: null });
 
   columns: any[] = [
-    { field: "name", header: "Entity" },
-    { field: "dimensionTitle", header: "Dimension" },
-    { field: "orgChartLevelName", header: "Org Chart Level" },
-    { field: "organizationTitle", header: "Organization Unit Name" },
+    { field: "name", header: "Process Name" },
+    { field: "description", header: "Description" },
+    { field: "processOwnerName", header: "Owner" },
+    { field: "entityName", header: "Entity" },
     { field: "actions", header: "Actions" },
   ];
 
@@ -55,57 +58,55 @@ export class List implements OnChanges {
     pageSize: 10,
   };
 
-  entitiesList: EntityInterface[] = [];
-  viewData: any = {};
-
-  constructor() {
-    this.config.backdrop = "static";
-    this.config.keyboard = false;
-  }
+  processesList: ProcessManagement[] = [];
+  viewData: deleteItemInterface = { title: "", sendLabel: "", sendClose: "" };
 
   ngOnChanges() {
     this.pagination.pageNumber = 1;
-    this.loadEntities(this.pagination);
+    this.loadProcesses(this.pagination);
   }
 
-  loadEntities(pagination: any) {
+  loadProcesses(pagination: any) {
     const filterPayload = {
       pageNumber: pagination.pageNumber,
       pageSize: pagination.pageSize,
       filterField: Object.keys(this.filters),
       filterValue: Object.values(this.filters),
     };
-    this.entityService.getEntities(filterPayload).subscribe({
-      next: (response) => {
-        this.entitiesList = response.items;
-        this.pagination = {
-          pageNumber: response.pageNumber,
-          pageSize: response.pageSize,
-          totalItems: response.totalItems,
-          totalPages: response.totalPages,
-        };
-      },
-    });
+
+    this.processService
+      .getProcessManagements({ ...filterPayload, entityId: this.entityId() })
+      .subscribe({
+        next: (response) => {
+          this.processesList = response.items;
+          this.pagination = {
+            pageNumber: response.pageNumber,
+            pageSize: response.pageSize,
+            totalItems: response.totalItems,
+            totalPages: response.totalPages,
+          };
+        },
+      });
   }
 
   openDelete(id: number) {
-    this.selectedEntityId = id;
+    this.selectedDeletedProcessId = id;
     this.viewData = {
-      title: "Delete Entity",
+      title: "Delete Key Process",
       sendLabel: "Delete",
       sendClose: "Cancel",
     };
     this.modalService.open(this.content, { centered: true });
   }
 
-  openArchive(entity: EntityInterface) {
-    this.selectedArchiveEntityId = entity.id;
+  openArchived(data: ProcessManagement) {
+    this.selectedArchivedProcessId = data.id;
     this.viewData = {
-      title: `Archive “${entity.name}”`,
+      title: `Archive “${data.name}”`,
       sendLabel: "Confirm Archive",
       sendClose: "Cancel",
     };
-    this.modalService.open(this.content, { centered: true });
+    this.modalService.open(this.content);
   }
 
   close() {
@@ -114,29 +115,29 @@ export class List implements OnChanges {
 
   send() {
     if (this.viewData?.title?.includes("Delete")) {
-      this.entityService
-        .deleteEntity(this.selectedEntityId)
-        .pipe(tap(() => this.loadEntities(this.pagination)))
+      this.processService
+        .deleteProcessManagement(this.selectedDeletedProcessId)
+        .pipe(tap(() => this.loadProcesses(this.pagination)))
         .subscribe({
           next: () => {
             this.messageService.add({
               severity: "success",
-              summary: "Success",
-              detail: "Entity Deleted successfully 🎉",
+              summary: "Deleted",
+              detail: "Key Process deleted successfully 🎉",
             });
             this.modalService.dismissAll();
           },
         });
-    } else if (this.viewData?.title?.includes("Archive")) {
-      this.entityService
-        .archive(this.selectedArchiveEntityId)
-        .pipe(tap(() => this.loadEntities(this.pagination)))
+    } else {
+      this.processService
+        .archive(this.selectedArchivedProcessId)
+        .pipe(tap(() => this.loadProcesses(this.pagination)))
         .subscribe({
           next: () => {
             this.messageService.add({
               severity: "info",
               summary: "Archived",
-              detail: "Strategy has been archived successfully.",
+              detail: "Key Process archived successfully.",
             });
             this.modalService.dismissAll();
           },
@@ -150,11 +151,5 @@ export class List implements OnChanges {
 
   navigateToView(id: number) {
     this.router.navigate([id], { relativeTo: this.route });
-  }
-
-  navigateToKeyProcess(id: number) {
-    this.router.navigate([id, `${appRoutes["KEY-PROCESS"]}`], {
-      relativeTo: this.route,
-    });
   }
 }

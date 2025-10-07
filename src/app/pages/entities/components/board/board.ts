@@ -9,6 +9,7 @@ import { DeleteItemSelectedComponent } from "../../../../shared/components/delet
 import { CustomPaginatorComponent } from "../../../../shared/components/custom-paginator/custom-paginator.component";
 import { EntityInterface } from "../../models/entity";
 import { SlicePipe } from "@angular/common";
+import { appRoutes } from "../../../../app.routes.enum";
 
 @Component({
   selector: "app-board",
@@ -118,5 +119,11 @@ export class Board {
 
   navigateToView(id: number) {
     this.router.navigate([id], { relativeTo: this.route });
+  }
+
+  navigateToKeyProcess(id: number) {
+    this.router.navigate([id, `${appRoutes["KEY-PROCESS"]}`], {
+      relativeTo: this.route,
+    });
   }
 }

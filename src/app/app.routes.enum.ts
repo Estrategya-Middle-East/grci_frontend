@@ -8,6 +8,7 @@ export enum AppRoute {
   "RESOURCES-UNUTILIZED" = "resources-unutilized",
   "RISK-SCORING-MODEL" = "risk-scoring-model",
   "MITIGATION" = "mitigation",
+  "KEY-PROCESS" = "key-process",
 }
 
 export const appRoutes = {
@@ -20,6 +21,7 @@ export const appRoutes = {
   "RESOURCES-UNUTILIZED": `${AppRoute["RESOURCES-UNUTILIZED"]}`,
   "RISK-SCORING-MODEL": `${AppRoute["RISK-SCORING-MODEL"]}`,
   MITIGATION: `${AppRoute.MITIGATION}`,
+  "KEY-PROCESS": `${AppRoute["KEY-PROCESS"]}`,
 };
 
 Object.freeze(appRoutes);

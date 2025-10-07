@@ -162,4 +162,8 @@ export class ListComponent implements OnChanges {
   navigateToView(id: number) {
     this.router.navigate([id], { relativeTo: this.route });
   }
+
+  navigateToStrategies(id: number) {
+    this.router.navigate([id, "strategies"], { relativeTo: this.route });
+  }
 }

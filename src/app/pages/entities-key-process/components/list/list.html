@@ -1,10 +1,8 @@
-<p-table [value]="organizationsList">
+<p-table [value]="processesList">
   <ng-template pTemplate="header">
     <tr>
       @for (col of columns; track $index) {
-      <th>
-        {{ col.header }}
-      </th>
+      <th>{{ col.header }}</th>
       }
     </tr>
   </ng-template>
@@ -32,16 +30,13 @@
               <i class="pi pi-pencil me-2"></i>
               Edit
             </button>
-            <button ngbDropdownItem (click)="navigateToStrategies(row.id)">
-              <i class="pi pi-sitemap me-2"></i> Organization Strategy
-            </button>
-            <button ngbDropdownItem (click)="openArchive(row)">
-              <i class="pi pi-folder me-2"></i>
-              Archive
-            </button>
             <button ngbDropdownItem (click)="openDelete(row.id)">
               <i class="pi pi-trash me-2"></i>
               Delete
+            </button>
+            <button ngbDropdownItem (click)="openArchived(row)">
+              <i class="pi pi-key me-2"></i>
+              Archive
             </button>
           </div>
         </div>
@@ -74,26 +69,26 @@
     (sendOfDialog)="send()"
   >
     <!-- Icon slot -->
-    @if (viewData?.title?.includes('Delete')) {
+    @if (viewData.title.includes('Delete')) {
     <span class="icon d-flex align-items-center justify-content-center">
       <i class="pi pi-exclamation-triangle warning-icon"></i>
     </span>
-    } @else if (viewData?.title?.includes('Archive')) {
+    } @else if (viewData.title.includes('Archive')) {
     <span class="icon d-flex align-items-center justify-content-center">
-      <i class="pi pi-folder warning-icon"></i>
+      <i class="pi pi-key warning-icon"></i>
     </span>
     }
 
     <!-- Paragraph slot -->
-    @if (viewData?.title?.includes('Delete')) {
+    @if (viewData.title.includes('Delete')) {
     <p class="m-0 p-0 pargDeleteItem">
       Once you press the <span class="bold">'Confirm Deletion'</span> button,
-      the customer will be permanently deleted.
+      the data will be permanently deleted.
     </p>
-    } @else if (viewData?.title?.includes('Archive')) {
+    } @else if (viewData.title.includes('Archive')) {
     <p class="m-0 p-0 pargDeleteItem">
       Once you press the <span class="bold">'Confirm Archive'</span> button, the
-      customer will be archived.
+      data will be permanently archived.
     </p>
     }
   </app-delete-item-selected>
@@ -102,6 +97,6 @@
 @if (pagination) {
 <app-custom-paginator
   [pagination]="pagination"
-  (pageNumber)="loadOrganizations($event)"
+  (pageNumber)="loadProcesses($event)"
 ></app-custom-paginator>
 }

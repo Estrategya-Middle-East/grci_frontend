@@ -133,6 +133,39 @@ export const layoutRoutes: Routes = [
             (m) => m.AddEdit
           ),
       },
+      {
+        path: `:entityId/${AppRoute["KEY-PROCESS"]}`,
+        children: [
+          {
+            path: "",
+            loadComponent: () =>
+              import("../pages/entities-key-process/entities-key-process").then(
+                (m) => m.EntitiesKeyProcess
+              ),
+          },
+          {
+            path: "add",
+            loadComponent: () =>
+              import(
+                "../pages/entities-key-process/components/add-edit/add-edit"
+              ).then((m) => m.AddEdit),
+          },
+          {
+            path: ":processId",
+            loadComponent: () =>
+              import(
+                "../pages/entities-key-process/components/key-process-details/key-process-details"
+              ).then((m) => m.KeyProcessDetails),
+          },
+          {
+            path: "edit/:processId",
+            loadComponent: () =>
+              import(
+                "../pages/entities-key-process/components/add-edit/add-edit"
+              ).then((m) => m.AddEdit),
+          },
+        ],
+      },
     ],
   },
   {

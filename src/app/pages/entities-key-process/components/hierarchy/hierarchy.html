@@ -1,0 +1,59 @@
+<div class="hierarchy-container p-4">
+  @if (keyProcesses.length > 0) {
+  <ul class="tree">
+    @for (node of keyProcesses; track node.id) {
+    <li>
+      <div class="node-content flex items-center mb-1">
+        <i class="{{ getIcon(node.type) }} mr-2"></i>
+        <div>
+          <strong>{{ node.name }}</strong>
+          <small class="text-gray-500">({{ node.description }})</small>
+          <div class="text-sm text-gray-600">
+            <i class="pi pi-user mr-1"></i>{{ node.processOwnerName }}
+          </div>
+        </div>
+      </div>
+
+      @if (node.children?.length > 0) {
+      <ul class="ml-6 border-l border-gray-300 pl-3">
+        @for (child of node.children; track child.id) {
+        <ng-container
+          [ngTemplateOutlet]="renderNode"
+          [ngTemplateOutletContext]="{ $implicit: child }"
+        ></ng-container>
+        }
+      </ul>
+      }
+    </li>
+    }
+  </ul>
+  } @else {
+  <p class="text-gray-500 italic">No hierarchy data available.</p>
+  }
+</div>
+
+<ng-template #renderNode let-node>
+  <li>
+    <div class="node-content flex items-center mb-1">
+      <i class="{{ getIcon(node.type) }} mr-2"></i>
+      <div>
+        <strong>{{ node.name }}</strong>
+        <small class="text-gray-500">({{ node.description }})</small>
+        <div class="text-sm text-gray-600">
+          <i class="pi pi-user mr-1"></i>{{ node.processOwnerName }}
+        </div>
+      </div>
+    </div>
+
+    @if (node.children?.length > 0) {
+    <ul class="ml-6 border-l border-gray-300 pl-3">
+      @for (child of node.children; track child.id) {
+      <ng-container
+        [ngTemplateOutlet]="renderNode"
+        [ngTemplateOutletContext]="{ $implicit: child }"
+      ></ng-container>
+      }
+    </ul>
+    }
+  </li>
+</ng-template>
