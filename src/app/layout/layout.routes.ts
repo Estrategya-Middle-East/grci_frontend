@@ -235,4 +235,37 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: appRoutes["MITIGATION-MANAGEMENT"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/mitigation-management/mitigation-management").then(
+            (m) => m.MitigationManagement
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/mitigation-management/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: ":id",
+        loadComponent: () =>
+          import(
+            "../pages/mitigation-management/components/mititgation-management-details/mititgation-management-details"
+          ).then((m) => m.MititgationManagementDetails),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import(
+            "../pages/mitigation-management/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+    ],
+  },
 ];

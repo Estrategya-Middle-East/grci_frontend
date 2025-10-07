@@ -42,7 +42,6 @@ export class ListComponent {
   private dimensionsService = inject(DimensionsService);
   private router = inject(Router);
   private modalService = inject(NgbModal);
-  private config = inject(NgbModalConfig);
   private messageService = inject(MessageService);
 
   @ViewChild("content", { static: false }) content: any;
