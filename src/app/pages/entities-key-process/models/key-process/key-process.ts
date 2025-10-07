@@ -11,5 +11,12 @@ export interface ProcessManagement {
   processOwnerName?: string;
   processOwnerEmail?: string;
   hasChildren?: boolean;
-  children?: string[];
+  children?: ProcessManagement[];
+}
+
+export enum ProcessType {
+  ProcessGroup = 0,
+  Process = 1,
+  Activity = 2,
+  Task = 3,
 }

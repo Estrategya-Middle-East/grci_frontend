@@ -15,7 +15,10 @@ import { CustomPaginatorComponent } from "../../../../shared/components/custom-p
 import { MessageService } from "primeng/api";
 import { deleteItemInterface } from "../../../../shared/components/delete-item-selected/models/delete-item.interface";
 import { EntitiesKeyProcessService } from "../../services/entities-key-process-service";
-import { ProcessManagement } from "../../models/key-process/key-process";
+import {
+  ProcessManagement,
+  ProcessType,
+} from "../../models/key-process/key-process";
 
 @Component({
   selector: "app-list",
@@ -46,12 +49,20 @@ export class List implements OnChanges {
   entityId = toSignal(this.entityId$, { initialValue: null });
 
   columns: any[] = [
+    { field: "type", header: "Type" },
     { field: "name", header: "Process Name" },
     { field: "description", header: "Description" },
     { field: "processOwnerName", header: "Owner" },
     { field: "entityName", header: "Entity" },
     { field: "actions", header: "Actions" },
   ];
+
+  processTypeLabels: Record<ProcessType, string> = {
+    [ProcessType.ProcessGroup]: "Process Group",
+    [ProcessType.Process]: "Process",
+    [ProcessType.Activity]: "Activity",
+    [ProcessType.Task]: "Task",
+  };
 
   pagination: any = {
     pageNumber: 1,
@@ -87,6 +98,10 @@ export class List implements OnChanges {
           };
         },
       });
+  }
+
+  getProcessTypeLabel(type: number) {
+    return this.processTypeLabels[type as ProcessType] || "Unknown";
   }
 
   openDelete(id: number) {

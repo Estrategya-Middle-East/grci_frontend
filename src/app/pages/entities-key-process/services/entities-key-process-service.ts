@@ -46,6 +46,19 @@ export class EntitiesKeyProcessService {
       .pipe(map((res) => res.data));
   }
 
+  getPotentialParent(entityId: string, type: number) {
+    let params = new HttpParams()
+      .set("entityId", entityId)
+      .set("processType", type.toString());
+
+    return this.http
+      .get<ApiResponse<ProcessManagement[]>>(
+        `${this.baseUrl}/potential-parents`,
+        { params }
+      )
+      .pipe(map((res) => res.data));
+  }
+
   getProcessManagementById(id: number): Observable<ProcessManagement> {
     return this.http
       .get<ApiResponse<ProcessManagement>>(`${this.baseUrl}/${id}`)

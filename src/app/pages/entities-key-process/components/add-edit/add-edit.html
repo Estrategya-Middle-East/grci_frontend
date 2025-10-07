@@ -1,1 +1,120 @@
-<p>add-edit works!</p>
+<app-header
+  [title]="processId ? 'Edit Key Process' : 'Add Key Process'"
+></app-header>
+
+<div class="p-4">
+  <form [formGroup]="formGroup" class="key-process-form">
+    <div class="row">
+      <!-- Entity Name (Edit Only) -->
+      @if (processId) {
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Entity Name*</label>
+          <input
+            type="text"
+            formControlName="entityName"
+            readonly
+            class="w-100"
+            placeholder="Entity Name"
+            pInputText
+          />
+        </div>
+      </div>
+      }
+
+      <!-- Process Name -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Process Name*</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="w-100"
+            placeholder="Enter process name"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Process Type -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Process Type*</label>
+          <p-select
+            class="w-100"
+            formControlName="type"
+            [options]="processTypes"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select Process Type"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Parent Process -->
+      @if (formGroup.get('type')?.value && formGroup.get('type')?.value !==
+      processTypes[0].value) {
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Parent Process*</label>
+          <p-select
+            class="w-100"
+            formControlName="parentId"
+            [options]="parentProcesses"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Parent Process"
+          ></p-select>
+        </div>
+      </div>
+      }
+
+      <!-- Process Owner -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Process Owner*</label>
+          <p-select
+            class="w-100"
+            formControlName="processOwnerId"
+            [options]="accounts"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Process Owner"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            formControlName="description"
+            rows="4"
+            class="w-100"
+            placeholder="Enter description"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="col-12">
+        <div class="d-flex justify-content-center gap-3 m-3">
+          <button
+            type="button"
+            (click)="onSave()"
+            class="btn btn-primary"
+            [disabled]="formGroup.invalid"
+          >
+            <i class="pi pi-send"></i>
+            {{ !processId ? "Add" : "Edit" }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            <i class="pi pi-times"></i> Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -51,6 +51,10 @@ export class HeaderComponent implements OnInit {
   } | null>(null);
 
   ngOnInit(): void {
+    if (this.showActions?.add) {
+      this.showActions.add.isLink ??= true; // default to true if undefined
+    }
+
     // Search input debounce
     this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())

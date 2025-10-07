@@ -12,7 +12,7 @@
     <h4 class="title">Key Processes</h4>
 
     @if (switchView) { @defer (when switchView) {
-    <app-hierarchy [filters]="filters" />
+    <app-hierarchy />
     } } @else { @defer (when !switchView) {
     <app-list [filters]="filters" />
     } }

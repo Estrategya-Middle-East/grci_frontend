@@ -40,6 +40,8 @@
             </button>
           </div>
         </div>
+        } @else if (col.field === 'type') {
+        {{ getProcessTypeLabel(row[col.field]) }}
         } @else {
         {{ row[col.field] }}
         }

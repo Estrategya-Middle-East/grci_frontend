@@ -1,6 +1,6 @@
 import {
   transformToBoolean
-} from "./chunk-UAMHIGSX.js";
+} from "./chunk-ICAHE6O3.js";
 import {
   animate,
   state,
@@ -10,31 +10,31 @@ import {
 } from "./chunk-HXBTUHY6.js";
 import {
   Ripple
-} from "./chunk-C7ZZAYTX.js";
+} from "./chunk-IM72CRUT.js";
 import {
   ChevronDownIcon,
   ChevronUpIcon
-} from "./chunk-YWRNG2CJ.js";
-import "./chunk-6AM3VQBH.js";
+} from "./chunk-DU7A23DU.js";
+import "./chunk-ETCBPVD6.js";
 import {
   BaseComponent
-} from "./chunk-4LTRYTVW.js";
+} from "./chunk-UQ5R4NQ6.js";
 import {
   BaseStyle
-} from "./chunk-CAXKVOFG.js";
+} from "./chunk-MYU3T6TY.js";
 import {
   Q,
   SharedModule,
   bt,
   s3 as s,
   z
-} from "./chunk-5SGS3MF2.js";
+} from "./chunk-EBDOWVED.js";
 import {
   CommonModule,
   NgClass,
   NgIf,
   NgTemplateOutlet
-} from "./chunk-N3ALCJNJ.js";
+} from "./chunk-2TA4HI6A.js";
 import "./chunk-YW65FSQM.js";
 import {
   ChangeDetectionStrategy,
@@ -77,7 +77,7 @@ import {
   ɵɵqueryRefresh,
   ɵɵstyleProp,
   ɵɵtemplate
-} from "./chunk-H55KLFGB.js";
+} from "./chunk-LPNEC6QL.js";
 import {
   computed,
   forwardRef,
@@ -86,11 +86,11 @@ import {
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵnamespaceSVG
-} from "./chunk-LPWX3PCL.js";
+} from "./chunk-5IIR44IR.js";
 import "./chunk-JRFR6BLO.js";
 import "./chunk-HWYXSU2G.js";
 import "./chunk-MARUHEWW.js";
-import "./chunk-WDMUDEB6.js";
+import "./chunk-XWLXMCJQ.js";
 
 // node_modules/@primeuix/styles/dist/accordion/index.mjs
 var style2 = "\n    .p-accordionpanel {\n        display: flex;\n        flex-direction: column;\n        border-style: solid;\n        border-width: dt('accordion.panel.border.width');\n        border-color: dt('accordion.panel.border.color');\n    }\n\n    .p-accordionheader {\n        all: unset;\n        cursor: pointer;\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n        padding: dt('accordion.header.padding');\n        color: dt('accordion.header.color');\n        background: dt('accordion.header.background');\n        border-style: solid;\n        border-width: dt('accordion.header.border.width');\n        border-color: dt('accordion.header.border.color');\n        font-weight: dt('accordion.header.font.weight');\n        border-radius: dt('accordion.header.border.radius');\n        transition:\n            background dt('accordion.transition.duration'),\n            color dt('accordion.transition.duration'),\n            outline-color dt('accordion.transition.duration'),\n            box-shadow dt('accordion.transition.duration');\n        outline-color: transparent;\n    }\n\n    .p-accordionpanel:first-child > .p-accordionheader {\n        border-width: dt('accordion.header.first.border.width');\n        border-start-start-radius: dt('accordion.header.first.top.border.radius');\n        border-start-end-radius: dt('accordion.header.first.top.border.radius');\n    }\n\n    .p-accordionpanel:last-child > .p-accordionheader {\n        border-end-start-radius: dt('accordion.header.last.bottom.border.radius');\n        border-end-end-radius: dt('accordion.header.last.bottom.border.radius');\n    }\n\n    .p-accordionpanel:last-child.p-accordionpanel-active > .p-accordionheader {\n        border-end-start-radius: dt('accordion.header.last.active.bottom.border.radius');\n        border-end-end-radius: dt('accordion.header.last.active.bottom.border.radius');\n    }\n\n    .p-accordionheader-toggle-icon {\n        color: dt('accordion.header.toggle.icon.color');\n    }\n\n    .p-accordionpanel:not(.p-disabled) .p-accordionheader:focus-visible {\n        box-shadow: dt('accordion.header.focus.ring.shadow');\n        outline: dt('accordion.header.focus.ring.width') dt('accordion.header.focus.ring.style') dt('accordion.header.focus.ring.color');\n        outline-offset: dt('accordion.header.focus.ring.offset');\n    }\n\n    .p-accordionpanel:not(.p-accordionpanel-active):not(.p-disabled) > .p-accordionheader:hover {\n        background: dt('accordion.header.hover.background');\n        color: dt('accordion.header.hover.color');\n    }\n\n    .p-accordionpanel:not(.p-accordionpanel-active):not(.p-disabled) .p-accordionheader:hover .p-accordionheader-toggle-icon {\n        color: dt('accordion.header.toggle.icon.hover.color');\n    }\n\n    .p-accordionpanel:not(.p-disabled).p-accordionpanel-active > .p-accordionheader {\n        background: dt('accordion.header.active.background');\n        color: dt('accordion.header.active.color');\n    }\n\n    .p-accordionpanel:not(.p-disabled).p-accordionpanel-active > .p-accordionheader .p-accordionheader-toggle-icon {\n        color: dt('accordion.header.toggle.icon.active.color');\n    }\n\n    .p-accordionpanel:not(.p-disabled).p-accordionpanel-active > .p-accordionheader:hover {\n        background: dt('accordion.header.active.hover.background');\n        color: dt('accordion.header.active.hover.color');\n    }\n\n    .p-accordionpanel:not(.p-disabled).p-accordionpanel-active > .p-accordionheader:hover .p-accordionheader-toggle-icon {\n        color: dt('accordion.header.toggle.icon.active.hover.color');\n    }\n\n    .p-accordioncontent-content {\n        border-style: solid;\n        border-width: dt('accordion.content.border.width');\n        border-color: dt('accordion.content.border.color');\n        background-color: dt('accordion.content.background');\n        color: dt('accordion.content.color');\n        padding: dt('accordion.content.padding');\n    }\n";

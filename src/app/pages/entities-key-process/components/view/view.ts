@@ -23,20 +23,10 @@ export class View {
   entityId = toSignal(this.entityId$, { initialValue: null });
   filters: Record<string, any> = {};
 
-  constructor() {
-    effect(() => {
-      const id = this.entityId();
-      if (id) {
-        this.showActions.add.link = `/entities/${id}/key-process/add`;
-      }
-    });
-  }
-
   showActions: ShowActions = {
     add: {
       show: true,
       label: "New Key Process",
-      link: "/key-process/add",
     },
     import: {
       show: false,
@@ -60,6 +50,16 @@ export class View {
     year: { show: false, label: "" },
     import: false,
   };
+
+  constructor() {
+    effect(() => {
+      const id = this.entityId();
+      if (id) {
+        this.showActions.add.link = `/entities/${id}/key-process/add`;
+        console.log(this.showActions);
+      }
+    });
+  }
 
   switchview(event: boolean) {
     this.switchView = event;
