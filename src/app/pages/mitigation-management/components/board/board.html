@@ -37,7 +37,7 @@
       <p class="resource-name text-primary">{{ plan.name }}</p>
       <div class="d-flex justify-content-between">
         <p class="resource-status text-black">
-          {{ plan.status === 1 ? "Active" : "Inactive" }}
+          {{ plan.status === 1 ? "Active" : "Draft" }}
         </p>
         <p class="resource-validity text-primary">
           {{ formatDate(plan.validityFrom) }} -

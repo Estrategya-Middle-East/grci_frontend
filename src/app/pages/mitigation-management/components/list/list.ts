@@ -82,7 +82,7 @@ export class List implements OnChanges {
           validity: `${this.formatDate(plan.validityFrom)} - ${this.formatDate(
             plan.validityTo
           )}`,
-          statusLabel: plan.status === 1 ? "Active" : "Inactive",
+          statusLabel: plan.status === 1 ? "Active" : "Draft",
         }));
 
         this.pagination = {
