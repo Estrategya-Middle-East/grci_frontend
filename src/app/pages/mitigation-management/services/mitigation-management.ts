@@ -19,25 +19,25 @@ export class MitigationManagementService {
   getMitigationTypesLookup(): Observable<lookup[]> {
     return this.http
       .get<any>(`${environment.baseUrl}api/MitigationTypes/lookup`)
-      .pipe(map((res) => res.data));
+      .pipe(map((res) => res.data.items));
   }
 
   getMitigationCategoriesLookup(): Observable<lookup[]> {
     return this.http
       .get<any>(`${environment.baseUrl}api/MitigationCategories/lookup`)
-      .pipe(map((res) => res.data));
+      .pipe(map((res) => res.data.items));
   }
 
   getMitigationAutomationsLookup(): Observable<lookup[]> {
     return this.http
       .get<any>(`${environment.baseUrl}api/MitigationAutomations/lookup`)
-      .pipe(map((res) => res.data));
+      .pipe(map((res) => res.data.items));
   }
 
   getMitigationNaturesLookup(): Observable<lookup[]> {
     return this.http
       .get<any>(`${environment.baseUrl}api/MitigationNatures/lookup`)
-      .pipe(map((res) => res.data));
+      .pipe(map((res) => res.data.items));
   }
 
   getMitigationPlans(
@@ -147,10 +147,11 @@ export class MitigationManagementService {
 
   updateMitigationPlan(
     id: number,
-    plan: Partial<MitigationPlan>
+    plan: MitigationPlanPayload
   ): Observable<MitigationPlan> {
+    const formData = this.buildFormData(plan);
     return this.http
-      .put<ApiResponse<MitigationPlan>>(`${this.baseUrl}/${id}`, plan)
+      .put<{ data: MitigationPlan }>(`${this.baseUrl}/${id}`, formData)
       .pipe(map((res) => res.data));
   }
 
@@ -160,5 +161,11 @@ export class MitigationManagementService {
 
   deleteMitigationPlan(id: number): Observable<any> {
     return this.http.delete<ApiResponse<any>>(`${this.baseUrl}/${id}`);
+  }
+
+  removeEvidenceFromMitigationPlan(evidenceId: number): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/RemoveEvidenceFromMitigationPlan/${evidenceId}`
+    );
   }
 }

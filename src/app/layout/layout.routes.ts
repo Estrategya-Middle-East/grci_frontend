@@ -268,4 +268,9 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: appRoutes.HEATMAP,
+    loadComponent: () =>
+      import("../pages/heatmap/heatmap").then((m) => m.Heatmap),
+  },
 ];

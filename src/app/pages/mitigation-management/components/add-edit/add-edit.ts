@@ -20,9 +20,10 @@ import {
 } from "../../models/mitigation-management";
 import { MitigationManagementService } from "../../services/mitigation-management";
 import { ResourceService } from "../../../resources-management/services/resource";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
-  selector: "app-add-edit-mitigation-plan",
+  selector: "app-add-edit",
   standalone: true,
   imports: [
     CommonModule,
@@ -48,7 +49,7 @@ export class AddEdit implements OnInit {
   mitigationPlanId: number | null = null;
 
   switchStatus = signal<"draft" | "active">("draft");
-  evidencePreviews = signal<(string | undefined)[]>([]);
+  evidencePreviews = signal<{ id?: number; url: string }[]>([]);
   selectedFiles: File[] = [];
 
   owners = signal<{ id: number; name: string }[]>([]);
@@ -111,7 +112,10 @@ export class AddEdit implements OnInit {
 
         // Existing attachments
         if (plan.evidenceAttachments?.length) {
-          const urls = plan.evidenceAttachments.map((a) => a.fileUrl);
+          const urls = plan.evidenceAttachments.map((a) => ({
+            id: a.id,
+            url: `${environment.baseUrl}${a.fileUrl}`,
+          }));
           this.evidencePreviews.set(urls);
         }
 
@@ -168,7 +172,7 @@ export class AddEdit implements OnInit {
       this.natures.set(res.natures);
 
       this.risks.set([
-        { id: 1, name: "Data Breach" },
+        { id: 8, name: "Data Breach" },
         { id: 2, name: "System Downtime" },
         { id: 3, name: "Financial Loss" },
         { id: 4, name: "Regulatory Violation" },
@@ -183,18 +187,61 @@ export class AddEdit implements OnInit {
 
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const files = Array.from(input.files ?? []);
-    this.selectedFiles = files;
+    const newFiles = Array.from(input.files ?? []);
 
-    const previews: string[] = [];
-    files.forEach((file) => {
+    // Append new files to the existing list
+    this.selectedFiles = [...this.selectedFiles, ...newFiles];
+
+    newFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
-        previews.push(reader.result as string);
-        this.evidencePreviews.set([...previews]);
+        // Append new previews (with no backend id)
+        this.evidencePreviews.update((current) => [
+          ...current,
+          { url: reader.result as string }, // ✅ store object not string
+        ]);
       };
       reader.readAsDataURL(file);
     });
+
+    // Reset input so user can reselect the same file later
+    input.value = "";
+  }
+
+  removeEvidence(event: Event, index: number): void {
+    event.stopPropagation();
+    const current = this.evidencePreviews();
+    const evidence = current[index];
+
+    if (this.mitigationPlanId && evidence.id) {
+      this.mitigationService
+        .removeEvidenceFromMitigationPlan(evidence.id)
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: "success",
+              summary: "Removed",
+              detail: "Evidence removed successfully ✅",
+            });
+            this.evidencePreviews.update((prev) =>
+              prev.filter((_, i) => i !== index)
+            );
+          },
+          error: (err) => {
+            console.error("❌ Failed to remove evidence:", err);
+            this.messageService.add({
+              severity: "error",
+              summary: "Error",
+              detail: "Failed to remove evidence 😞",
+            });
+          },
+        });
+    } else {
+      this.evidencePreviews.update((prev) =>
+        prev.filter((_, i) => i !== index)
+      );
+      this.selectedFiles.splice(index, 1);
+    }
   }
 
   onSave(): void {
@@ -205,6 +252,7 @@ export class AddEdit implements OnInit {
 
     const formValue = this.formGroup.value;
 
+    // Prepare base payload
     const mitigationPlan: MitigationPlanPayload = {
       name: formValue.name,
       description: formValue.description,
@@ -217,15 +265,29 @@ export class AddEdit implements OnInit {
       mitigationCategoryId: formValue.categoryId,
       mitigationAutomationId: formValue.automationId,
       mitigationNatureId: formValue.natureId,
-      evidenceAttachments: this.selectedFiles.map((file) => ({
-        id: 0,
-        mitigationPlanId: this.mitigationPlanId ?? 0,
-        title: file.name,
-        fileType: 1,
-        fileUrl: "",
-        file,
-      })),
+      evidenceAttachments: [],
     };
+
+    const existingEvidence = this.evidencePreviews()
+      .filter((e) => e.id)
+      .map((e) => ({
+        id: e.id!,
+        mitigationPlanId: this.mitigationPlanId ?? 0,
+        title: e.url.split("/").pop() ?? "existing-file",
+        fileType: 1,
+        fileUrl: e.url,
+      }));
+
+    const newEvidence = this.selectedFiles.map((file) => ({
+      id: 0,
+      mitigationPlanId: this.mitigationPlanId ?? 0,
+      title: file.name,
+      fileType: 1,
+      fileUrl: "",
+      file,
+    }));
+
+    mitigationPlan.evidenceAttachments = [...existingEvidence, ...newEvidence];
 
     const action$ = this.mitigationPlanId
       ? this.mitigationService.updateMitigationPlan(

@@ -70,7 +70,7 @@
           <p-select
             [options]="types()"
             formControlName="typeId"
-            optionLabel="name"
+            optionLabel="value"
             optionValue="id"
             placeholder="Select type"
             class="w-100"
@@ -85,7 +85,7 @@
           <p-select
             [options]="categories()"
             formControlName="categoryId"
-            optionLabel="name"
+            optionLabel="value"
             optionValue="id"
             placeholder="Select category"
             class="w-100"
@@ -100,7 +100,7 @@
           <p-select
             [options]="automations()"
             formControlName="automationId"
-            optionLabel="name"
+            optionLabel="value"
             optionValue="id"
             placeholder="Select automation"
             class="w-100"
@@ -115,7 +115,7 @@
           <p-select
             [options]="natures()"
             formControlName="natureId"
-            optionLabel="name"
+            optionLabel="value"
             optionValue="id"
             placeholder="Select nature"
             class="w-100"
@@ -185,12 +185,18 @@
           class="uploadFile-multi d-flex flex-wrap align-items-center gap-3 p-2"
           (click)="fileInput.click()"
         >
-          <div
-            *ngFor="let img of evidencePreviews()"
-            class="evidence-thumb d-flex align-items-center justify-content-center"
-          >
-            <img [src]="img" alt="Evidence" class="evidence-preview" />
+          @for (evidence of evidencePreviews(); track $index) {
+          <div class="evidence-thumb position-relative">
+            <img [src]="evidence.url" alt="Evidence" class="evidence-preview" />
+            <button
+              type="button"
+              class="remove-btn"
+              (click)="removeEvidence($event, $index)"
+            >
+              ✕
+            </button>
           </div>
+          }
           <span class="des-upload">+ Add Evidence</span>
           <input
             #fileInput

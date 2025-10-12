@@ -10,6 +10,7 @@ export enum AppRoute {
   "MITIGATION" = "mitigation",
   "KEY-PROCESS" = "key-process",
   "MITIGATION-MANAGEMENT" = "mitigation-management",
+  "HEATMAP" = "heatmap",
 }
 
 export const appRoutes = {
@@ -22,6 +23,7 @@ export const appRoutes = {
   "RESOURCES-UNUTILIZED": `${AppRoute["RESOURCES-UNUTILIZED"]}`,
   "RISK-SCORING-MODEL": `${AppRoute["RISK-SCORING-MODEL"]}`,
   MITIGATION: `${AppRoute.MITIGATION}`,
+  HEATMAP: `${AppRoute.HEATMAP}`,
   "KEY-PROCESS": `${AppRoute["KEY-PROCESS"]}`,
   "MITIGATION-MANAGEMENT": `${AppRoute["MITIGATION-MANAGEMENT"]}`,
 };

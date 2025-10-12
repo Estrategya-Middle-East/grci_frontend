@@ -1,0 +1,40 @@
+<div class="heatmap-container">
+  @if (impactColumns().length && likelihoodRows().length) {
+  <div class="heatmap-wrapper">
+    <!-- X-axis labels (Impact) -->
+    <div class="heatmap-x-labels">
+      <div class="empty-corner"></div>
+      @for (col of impactColumns(); track col.id) {
+      <div class="x-label">{{ col.title }}</div>
+      }
+    </div>
+
+    <!-- Heatmap grid with Y-axis labels (Likelihood) -->
+    <div class="heatmap-body">
+      @for (row of likelihoodRows(); track row.id) {
+      <!-- Y-axis label -->
+      <div class="y-label">{{ row.title }}</div>
+
+      <!-- Row of heatmap cells -->
+      <div
+        class="heatmap-row"
+        [style.gridTemplateColumns]="
+          'repeat(' + impactColumns().length + ', 1fr)'
+        "
+      >
+        @for (col of impactColumns(); track col.id) {
+        <div
+          class="heatmap-cell"
+          [style.background]="getCellColor(col.id, row.id)"
+        >
+          {{ getCellLabel(col.id, row.id) }}
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  } @else {
+  <div class="text-muted text-center p-3">Loading heatmap...</div>
+  }
+</div>
