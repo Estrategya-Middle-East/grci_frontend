@@ -48,7 +48,5 @@ export class View {
     this.switchView = event;
   }
 
-  onFiltersChange(filters: any) {
-    console.log(filters);
-  }
+  onFiltersChange(filters: any) {}
 }
