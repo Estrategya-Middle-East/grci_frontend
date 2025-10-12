@@ -6,8 +6,10 @@ export interface Risk {
 export interface EvidenceAttachment {
   id: number;
   mitigationPlanId: number;
-  fileName: string;
+  title: string;
   fileType: number;
+  fileUrl?: string;
+  file?: File | null;
 }
 
 export interface MitigationType {
@@ -48,4 +50,20 @@ export interface MitigationPlan {
   mitigationAutomation: MitigationAutomation;
   mitigationNatureId: number;
   mitigationNature: MitigationNature;
+  riskIds: number[];
+}
+
+export interface MitigationPlanPayload {
+  name: string;
+  description: string;
+  validityFrom: string;
+  validityTo: string;
+  status: number;
+  riskIds: number[];
+  mitigationPlanOwnerId: string;
+  mitigationTypeId: number;
+  mitigationCategoryId: number;
+  mitigationAutomationId: number;
+  mitigationNatureId: number;
+  evidenceAttachments: EvidenceAttachment[];
 }

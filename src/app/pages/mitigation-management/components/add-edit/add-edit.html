@@ -1,1 +1,217 @@
-<p>add-edit works!</p>
+<app-header [title]="'Mitigation Plan'"></app-header>
+
+<div class="container-CE">
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <!-- Mitigation Plan Name -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Mitigation Plan Name*</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="w-100"
+            placeholder="Enter name"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Mitigation Plan Owner -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Mitigation Plan Owner*</label>
+          <p-select
+            [options]="owners()"
+            formControlName="ownerId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select owner"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Status Switch -->
+      <div class="col-6 mt-3">
+        <div
+          class="c-formControl section-status d-flex align-items-center justify-content-between"
+        >
+          <label class="title-control d-block">Status *</label>
+          <div class="switch-status">
+            <button
+              type="button"
+              class="btn"
+              [class.active]="switchStatus() === 'draft'"
+              (click)="toggleStatus('draft')"
+            >
+              Draft
+            </button>
+            <button
+              type="button"
+              class="btn"
+              [class.active]="switchStatus() === 'active'"
+              (click)="toggleStatus('active')"
+            >
+              Active
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 text-black-50">
+        <hr />
+      </div>
+
+      <!-- Mitigation Type -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Mitigation Type*</label>
+          <p-select
+            [options]="types()"
+            formControlName="typeId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select type"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Mitigation Category -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Mitigation Category*</label>
+          <p-select
+            [options]="categories()"
+            formControlName="categoryId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select category"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Mitigation Automation -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Mitigation Automation*</label>
+          <p-select
+            [options]="automations()"
+            formControlName="automationId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select automation"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Mitigation Nature -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Mitigation Nature*</label>
+          <p-select
+            [options]="natures()"
+            formControlName="natureId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select nature"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Risk -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Risk*</label>
+          <p-select
+            [options]="risks()"
+            formControlName="riskId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select risk"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Validity From -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Validity From*</label>
+          <p-datepicker
+            formControlName="validityFrom"
+            showIcon="true"
+            placeholder="From"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <!-- Validity To -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Validity To*</label>
+          <p-datepicker
+            formControlName="validityTo"
+            showIcon="true"
+            placeholder="To"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            formControlName="description"
+            rows="5"
+            class="w-100"
+            placeholder="Enter description"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Evidence attachments (full width) -->
+      <div class="col-12 mt-3">
+        <label class="title-control d-block">Evidence Attachments</label>
+        <div
+          class="uploadFile-multi d-flex flex-wrap align-items-center gap-3 p-2"
+          (click)="fileInput.click()"
+        >
+          <div
+            *ngFor="let img of evidencePreviews()"
+            class="evidence-thumb d-flex align-items-center justify-content-center"
+          >
+            <img [src]="img" alt="Evidence" class="evidence-preview" />
+          </div>
+          <span class="des-upload">+ Add Evidence</span>
+          <input
+            #fileInput
+            hidden
+            type="file"
+            (change)="onFilesSelected($event)"
+            accept="image/*,application/pdf"
+            multiple
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-center gap-3 pt-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> Save
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>
