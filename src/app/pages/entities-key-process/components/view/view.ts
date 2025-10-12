@@ -56,7 +56,6 @@ export class View {
       const id = this.entityId();
       if (id) {
         this.showActions.add.link = `/entities/${id}/key-process/add`;
-        console.log(this.showActions);
       }
     });
   }
