@@ -1,7 +1,20 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit, inject, signal } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  inject,
+  signal,
+  Signal,
+} from "@angular/core";
 import { HeatmapService } from "./services/heatmap-service";
-import { HeatmapCell, HeatmapInterface, HeatmapLevel } from "./models/heatmap";
+import {
+  HeatmapCell,
+  HeatmapInterface,
+  HeatmapLevel,
+  HeatmapRisk,
+} from "./models/heatmap";
+
 @Component({
   selector: "app-heatmap",
   standalone: true,
@@ -23,15 +36,13 @@ export class Heatmap implements OnInit {
   }
 
   private loadHeatmap(): void {
-    if (this.loadWithRisks) {
-      this.heatmapService.getHeatmapWithRisks().subscribe((data) => {
-        this.setData(data);
-      });
-    } else {
-      this.heatmapService.getHeatmap().subscribe((data) => {
-        this.setData(data);
-      });
-    }
+    const request$ = this.loadWithRisks
+      ? this.heatmapService.getHeatmapWithRisks()
+      : this.heatmapService.getHeatmap();
+
+    request$.subscribe((data: HeatmapInterface) => {
+      this.setData(data);
+    });
   }
 
   private setData(data: HeatmapInterface): void {
@@ -58,5 +69,17 @@ export class Heatmap implements OnInit {
       (c) => c.impactId === impactId && c.likelihoodId === likelihoodId
     );
     return cell ? cell.score.toString() : "";
+  }
+
+  getCellRisks(impactId: number, likelihoodId: number): HeatmapRisk[] {
+    const cell = this.cells().find(
+      (c) => c.impactId === impactId && c.likelihoodId === likelihoodId
+    );
+    return cell?.risks ?? [];
+  }
+
+  getRiskTooltip(impactId: number, likelihoodId: number): string {
+    const risks = this.getCellRisks(impactId, likelihoodId);
+    return risks.map((r) => `${r.riskCode}: ${r.riskEvent}`).join("\n");
   }
 }

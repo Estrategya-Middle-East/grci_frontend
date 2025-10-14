@@ -27,7 +27,18 @@
           class="heatmap-cell"
           [style.background]="getCellColor(col.id, row.id)"
         >
-          {{ getCellLabel(col.id, row.id) }}
+          <div class="cell-score">
+            {{ getCellLabel(col.id, row.id) }}
+          </div>
+          @if (loadWithRisks && getCellRisks(col.id, row.id).length) {
+          <div class="cell-risks" title="{{ getRiskTooltip(col.id, row.id) }}">
+            @for (risk of getCellRisks(col.id, row.id); track risk.riskId) {
+            <div class="risk-item p-2 bg-body-secondary rounded-5 text-black">
+              {{ risk.riskCode }}
+            </div>
+            }
+          </div>
+          }
         </div>
         }
       </div>
