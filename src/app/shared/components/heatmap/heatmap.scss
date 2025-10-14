@@ -17,7 +17,7 @@
 }
 
 .empty-corner {
-  width: 120px; /* matches Y-label width */
+  width: 120px; // Matches y-label width
 }
 
 .x-label {
@@ -63,43 +63,65 @@
   font-size: 0.9rem;
   font-weight: 500;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease;
   cursor: pointer;
   box-sizing: border-box;
+  overflow: hidden; // Ensures absolutely positioned risks stay inside
   padding: 4px;
-  gap: 2px;
 }
 
+// Score in the center of cell
 .cell-score {
+  z-index: 1;
   font-size: 0.85rem;
   font-weight: bold;
-  z-index: 2;
 }
 
 .cell-risks {
   position: absolute;
-  top: 0%;
-  left: 0%;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-height: 100%;
+  overflow-y: auto;
+
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  justify-content: center;
+  align-content: flex-start;
   gap: 2px;
+  padding: 2px;
   font-size: 0.65rem;
   line-height: 1rem;
   text-align: center;
-  z-index: 1;
+  z-index: 2;
 }
 
+// Individual risk code item
 .risk-item {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: #f8f9fa;
+  color: #000;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 0.65rem;
 }
 
+// Scrollbar style (optional)
+.cell-risks::-webkit-scrollbar {
+  width: 4px;
+}
+
+.cell-risks::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+// Responsive adjustments
 @media (max-width: 768px) {
   .heatmap-wrapper {
     width: 85%;
