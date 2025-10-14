@@ -40,6 +40,12 @@ export class MitigationManagementService {
       .pipe(map((res) => res.data.items));
   }
 
+  getMitigationRisksLookup(): Observable<lookup[]> {
+    return this.http
+      .get<any>(`${environment.baseUrl}api/Risks/Lookup`)
+      .pipe(map((res) => res.data.items));
+  }
+
   getMitigationPlans(
     filter: any = {}
   ): Observable<PagedResult<MitigationPlan>> {

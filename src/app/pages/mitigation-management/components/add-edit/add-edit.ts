@@ -14,10 +14,7 @@ import { Select } from "primeng/select";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
 import { MessageService } from "primeng/api";
 import { catchError, forkJoin, of } from "rxjs";
-import {
-  MitigationPlan,
-  MitigationPlanPayload,
-} from "../../models/mitigation-management";
+import { MitigationPlanPayload } from "../../models/mitigation-management";
 import { MitigationManagementService } from "../../services/mitigation-management";
 import { ResourceService } from "../../../resources-management/services/resource";
 import { environment } from "../../../../../environments/environment";
@@ -110,7 +107,6 @@ export class AddEdit implements OnInit {
 
         this.switchStatus.set(plan.status === 1 ? "active" : "draft");
 
-        // Existing attachments
         if (plan.evidenceAttachments?.length) {
           const urls = plan.evidenceAttachments.map((a) => ({
             id: a.id,
@@ -164,19 +160,19 @@ export class AddEdit implements OnInit {
           return of([]);
         })
       ),
+      risks: this.mitigationService.getMitigationRisksLookup().pipe(
+        catchError((err) => {
+          console.error("❌ Failed to load mitigation natures", err);
+          return of([]);
+        })
+      ),
     }).subscribe((res) => {
       this.owners.set(res.owners);
       this.types.set(res.types);
       this.categories.set(res.categories);
       this.automations.set(res.automations);
       this.natures.set(res.natures);
-
-      this.risks.set([
-        { id: 8, name: "Data Breach" },
-        { id: 2, name: "System Downtime" },
-        { id: 3, name: "Financial Loss" },
-        { id: 4, name: "Regulatory Violation" },
-      ]);
+      this.risks.set(res.risks);
     });
   }
 
@@ -189,22 +185,19 @@ export class AddEdit implements OnInit {
     const input = event.target as HTMLInputElement;
     const newFiles = Array.from(input.files ?? []);
 
-    // Append new files to the existing list
     this.selectedFiles = [...this.selectedFiles, ...newFiles];
 
     newFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
-        // Append new previews (with no backend id)
         this.evidencePreviews.update((current) => [
           ...current,
-          { url: reader.result as string }, // ✅ store object not string
+          { url: reader.result as string },
         ]);
       };
       reader.readAsDataURL(file);
     });
 
-    // Reset input so user can reselect the same file later
     input.value = "";
   }
 
@@ -252,7 +245,6 @@ export class AddEdit implements OnInit {
 
     const formValue = this.formGroup.value;
 
-    // Prepare base payload
     const mitigationPlan: MitigationPlanPayload = {
       name: formValue.name,
       description: formValue.description,
