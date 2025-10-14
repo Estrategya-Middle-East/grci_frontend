@@ -1,8 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, inject, signal } from "@angular/core";
+import { Component, Input, OnInit, inject, signal } from "@angular/core";
 import { HeatmapService } from "./services/heatmap-service";
 import { HeatmapCell, HeatmapInterface, HeatmapLevel } from "./models/heatmap";
-
 @Component({
   selector: "app-heatmap",
   standalone: true,
@@ -11,6 +10,8 @@ import { HeatmapCell, HeatmapInterface, HeatmapLevel } from "./models/heatmap";
   styleUrls: ["./heatmap.scss"],
 })
 export class Heatmap implements OnInit {
+  @Input({ required: true }) loadWithRisks: boolean = false;
+
   private heatmapService = inject(HeatmapService);
 
   impactColumns = signal<HeatmapLevel[]>([]);
@@ -22,17 +23,27 @@ export class Heatmap implements OnInit {
   }
 
   private loadHeatmap(): void {
-    this.heatmapService.getHeatmap().subscribe((data: HeatmapInterface) => {
-      data.impactColumns.sort((a, b) => a.position - b.position);
-      data.likelihoodRows.sort((a, b) => b.position - a.position); // reversed to match matrix layout
-      this.impactColumns.set(data.impactColumns);
-      this.likelihoodRows.set(data.likelihoodRows);
-      this.cells.set(data.cells);
-      document.documentElement.style.setProperty(
-        "--impact-count",
-        data.impactColumns.length.toString()
-      );
-    });
+    if (this.loadWithRisks) {
+      this.heatmapService.getHeatmapWithRisks().subscribe((data) => {
+        this.setData(data);
+      });
+    } else {
+      this.heatmapService.getHeatmap().subscribe((data) => {
+        this.setData(data);
+      });
+    }
+  }
+
+  private setData(data: HeatmapInterface): void {
+    data.impactColumns.sort((a, b) => a.position - b.position);
+    data.likelihoodRows.sort((a, b) => b.position - a.position);
+    this.impactColumns.set(data.impactColumns);
+    this.likelihoodRows.set(data.likelihoodRows);
+    this.cells.set(data.cells);
+    document.documentElement.style.setProperty(
+      "--impact-count",
+      data.impactColumns.length.toString()
+    );
   }
 
   getCellColor(impactId: number, likelihoodId: number): string {

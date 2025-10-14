@@ -271,6 +271,13 @@ export const layoutRoutes: Routes = [
   {
     path: appRoutes.HEATMAP,
     loadComponent: () =>
-      import("../pages/heatmap/heatmap").then((m) => m.Heatmap),
+      import("../pages/basic-heatmap/basic-heatmap").then(
+        (m) => m.BasicHeatmap
+      ),
+  },
+  {
+    path: appRoutes["RISK-HEATMAP"],
+    loadComponent: () =>
+      import("../pages/risk-heatmap/risk-heatmap").then((m) => m.RiskHeatmap),
   },
 ];
