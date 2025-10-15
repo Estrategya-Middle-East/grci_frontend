@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="filteration"
+  [showActions]="actions"
+  [title]="'Control Natures'"
+  (addClick)="onAddNature()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #natureList
+  [columns]="columns"
+  [fetchData]="fetchNatures"
+  [active]="activeTab() === 3"
+  (edit)="onEditNature($event)"
+  (delete)="onDeleteNature($event)"
+  (archive)="onArchiveNature($event)"
+/>

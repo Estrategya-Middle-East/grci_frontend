@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="filteration"
+  [showActions]="actions"
+  [title]="'Control Categories'"
+  (addClick)="onAddCategory()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #categoryList
+  [columns]="columns"
+  [fetchData]="fetchCategories"
+  [active]="activeTab() === 0"
+  (edit)="onEditCategory($event)"
+  (delete)="onDeleteCategory($event)"
+  (archive)="onArchiveCategory($event)"
+/>

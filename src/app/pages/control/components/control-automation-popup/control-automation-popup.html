@@ -1,0 +1,29 @@
+<form [formGroup]="formGroup" class="p-fluid p-formgrid p-grid p-m-3">
+  <!-- Control Automation Name -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="name">Control Automation Name*</label>
+    <input
+      id="name"
+      type="text"
+      pInputText
+      formControlName="name"
+      placeholder="Enter Control Automation Name"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-center gap-3 m-4">
+    <button
+      [disabled]="formGroup.invalid"
+      type="button"
+      (click)="onSave()"
+      class="btn btn-primary"
+    >
+      <i class="pi pi-send"></i> Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

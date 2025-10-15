@@ -236,6 +236,16 @@ export const layoutRoutes: Routes = [
     ],
   },
   {
+    path: appRoutes["CONTROL-PARAMETERS"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/control/control").then((m) => m.Control),
+      },
+    ],
+  },
+  {
     path: appRoutes["MITIGATION-MANAGEMENT"],
     children: [
       {

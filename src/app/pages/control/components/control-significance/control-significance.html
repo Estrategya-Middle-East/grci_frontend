@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="filteration"
+  [showActions]="actions"
+  [title]="'Control Significance'"
+  (addClick)="onAddSignificance()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #significanceList
+  [columns]="columns"
+  [fetchData]="fetchSignificances"
+  [active]="activeTab() === 1"
+  (edit)="onEditSignificance($event)"
+  (delete)="onDeleteSignificance($event)"
+  (archive)="onArchiveSignificance($event)"
+/>

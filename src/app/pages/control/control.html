@@ -1,0 +1,23 @@
+<p-tabs [(value)]="activeTab">
+  <p-tablist>
+    <p-tab [value]="0">Control Category</p-tab>
+    <p-tab [value]="1">Control Significance</p-tab>
+    <p-tab [value]="2">Control Automation</p-tab>
+    <p-tab [value]="3">Nature of Control</p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+    <p-tabpanel [value]="0">
+      <app-control-category [activeTab]="activeTab" />
+    </p-tabpanel>
+    <p-tabpanel [value]="1">
+      <app-control-significance [activeTab]="activeTab" />
+    </p-tabpanel>
+    <p-tabpanel [value]="2">
+      <app-control-automation [activeTab]="activeTab" />
+    </p-tabpanel>
+    <p-tabpanel [value]="3">
+      <app-control-nature [activeTab]="activeTab" />
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

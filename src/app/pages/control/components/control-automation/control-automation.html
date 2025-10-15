@@ -1,0 +1,17 @@
+<app-header
+  [showFilteration]="filteration"
+  [showActions]="actions"
+  [title]="'Control Automations'"
+  (addClick)="onAddAutomation()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<app-general-list
+  #automationList
+  [columns]="columns"
+  [fetchData]="fetchAutomations"
+  [active]="activeTab() === 2"
+  (edit)="onEditAutomation($event)"
+  (delete)="onDeleteAutomation($event)"
+  (archive)="onArchiveAutomation($event)"
+/>
