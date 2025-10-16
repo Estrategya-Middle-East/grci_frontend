@@ -1,1 +1,124 @@
-<p>control-management-details works!</p>
+<app-header [title]="'View Control'"></app-header>
+
+@if (!loaderService.loading()) { @if (control()) {
+<div class="p-4 d-flex flex-column">
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <!-- Left Section (Title + Objective) -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h2 class="title">{{ control()?.name }}</h2>
+      <p class="text-black-50">
+        <span>Objective:</span> {{ control()?.controlObjective }}
+      </p>
+    </div>
+
+    <!-- Info Section -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column align-items-center align-items-md-start"
+    >
+      <p class="mb-2">
+        <span class="title">Control Category:</span>
+        {{ control()?.controlCategoryName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Control Automation:</span>
+        {{ control()?.controlAutomationName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Control Significance:</span>
+        {{ control()?.controlSignificanceName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Nature of Control:</span>
+        {{ control()?.controlNatureName }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Validity:</span>
+        {{ formatDate(control()?.validityFrom) }} -
+        {{ formatDate(control()?.validityTo) }}
+      </p>
+      <p class="mb-2">
+        <span class="title">Risk Event:</span>
+        {{ control()?.risks?.[0]?.name }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchive()"
+    ></button>
+  </div>
+
+  <hr class="text-black-50" />
+
+  <!-- Description Section -->
+  <div class="px-4">
+    <p class="d-flex flex-column gap-3">
+      <span class="title">Description</span>
+      <span class="text-black-50">{{ control()?.description }}</span>
+    </p>
+  </div>
+</div>
+} @else {
+<p>Control not found.</p>
+} }
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- ICON -->
+    @if (viewData.title.includes('Delete')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-trash text-danger" style="font-size: 2.5rem"></i>
+    </span>
+    } @else {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info" style="font-size: 2.5rem"></i>
+    </span>
+    }
+
+    <!-- PARAGRAPH -->
+    @if (viewData.title.includes('Delete')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<p-toast position="bottom-center" class="custom-toast-error" key="bc" />
