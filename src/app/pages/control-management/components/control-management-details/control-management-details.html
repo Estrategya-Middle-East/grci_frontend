@@ -3,20 +3,20 @@
 @if (!loaderService.loading()) { @if (control()) {
 <div class="p-4 d-flex flex-column">
   <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
-    <!-- Left Section (Title + Objective) -->
     <div
       class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
     >
       <h2 class="title">{{ control()?.name }}</h2>
-      <p class="text-black-50">
-        <span>Objective:</span> {{ control()?.controlObjective }}
-      </p>
     </div>
 
     <!-- Info Section -->
     <div
       class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column align-items-center align-items-md-start"
     >
+      <p class="mb-2">
+        <span class="title">Control Objective:</span>
+        {{ control()?.controlObjective }}
+      </p>
       <p class="mb-2">
         <span class="title">Control Category:</span>
         {{ control()?.controlCategoryName }}
