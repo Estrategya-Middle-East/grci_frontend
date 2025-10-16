@@ -1,0 +1,214 @@
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+/* ====== Card ====== */
+.resource-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #1976d2;
+  }
+}
+
+/* ====== Card Header ====== */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.resource-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resource-icon-img {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+/* ====== Actions Dropdown ====== */
+.card-actions {
+  .action-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #6c757d;
+
+    &:hover {
+      background: white;
+      border-color: #1976d2;
+      color: #1976d2;
+      transform: scale(1.05);
+    }
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
+
+/* ====== Card Body ====== */
+.card-body {
+  padding: 1.25rem;
+
+  .resource-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .resource-status {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .resource-validity {
+    font-size: 0.85rem;
+  }
+
+  .resource-description {
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #495057;
+  }
+
+  .resource-meta {
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    strong {
+      color: #212529;
+    }
+  }
+}
+
+/* ====== Empty State ====== */
+.container-empty-data {
+  min-height: 200px;
+
+  .empty-icon {
+    font-size: 2rem;
+    color: #adb5bd;
+  }
+
+  .empty-table {
+    color: #6c757d;
+  }
+}
+
+/* ====== Dropdown Menu (ngbDropdown) ====== */
+:host ::ng-deep .dropdown-menu {
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  padding: 0.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  .dropdown-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #495057;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: #f8f9fa;
+      color: #1976d2;
+    }
+
+    i {
+      font-size: 14px;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+/* ====== Modal Icons ====== */
+.icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .warning-icon {
+    font-size: 40px;
+    color: #dc3545;
+  }
+
+  .text-info {
+    font-size: 40px;
+    color: #0d6efd;
+  }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  .resources-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .resource-card {
+    margin: 0 0.5rem;
+  }
+
+  .card-header {
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .resource-icon {
+    width: 40px;
+    height: 40px;
+
+    i {
+      font-size: 18px;
+    }
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .resource-name {
+    font-size: 1.05rem;
+  }
+}
+
+/* ====== Animation ====== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resource-card {
+  animation: fadeInUp 0.5s ease-out;
+}

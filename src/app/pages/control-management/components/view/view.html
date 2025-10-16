@@ -1,0 +1,19 @@
+<app-header
+  [isSwitchView]="switchView"
+  [title]="'controls'"
+  [showFilteration]="showFilteration"
+  [showActions]="showActions"
+  (filtersChange)="onFiltersChange($event)"
+  (switchView)="switchview($event)"
+></app-header>
+
+<div class="container-list">
+  <div class="content-cards">
+    <h4 class="title">Controls</h4>
+    @if (switchView) { @defer (when switchView) {
+    <app-board [filters]="filters"></app-board>
+    } } @else { @defer (when !switchView) {
+    <app-list [filters]="filters"></app-list>
+    } }
+  </div>
+</div>

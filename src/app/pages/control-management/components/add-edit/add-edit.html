@@ -1,0 +1,191 @@
+<app-header [title]="'Control'"></app-header>
+
+<div class="container-CE">
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <!-- Control Name -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Control Name*</label>
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Enter control name"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Control Objective -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Control Objective*</label>
+          <input
+            type="text"
+            formControlName="controlObjective"
+            placeholder="Enter objective"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="col-6 mt-3">
+        <div
+          class="c-formControl section-status d-flex align-items-center justify-content-between"
+        >
+          <label class="title-control d-block">Status*</label>
+          <div class="switch-status">
+            <button
+              type="button"
+              class="btn"
+              [class.active]="switchStatus() === 'draft'"
+              (click)="toggleStatus('draft')"
+            >
+              Draft
+            </button>
+            <button
+              type="button"
+              class="btn"
+              [class.active]="switchStatus() === 'active'"
+              (click)="toggleStatus('active')"
+            >
+              Active
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Validity From -->
+        <div class="col-6 mt-3">
+          <div class="c-formControl">
+            <label class="title-control d-block">Validity From*</label>
+            <p-datepicker
+              formControlName="validityFrom"
+              showIcon="true"
+              placeholder="From"
+              class="w-100"
+            ></p-datepicker>
+          </div>
+        </div>
+
+        <!-- Validity To -->
+        <div class="col-6 mt-3">
+          <div class="c-formControl">
+            <label class="title-control d-block">Validity To*</label>
+            <p-datepicker
+              formControlName="validityTo"
+              showIcon="true"
+              placeholder="To"
+              class="w-100"
+            ></p-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 text-black-50"><hr /></div>
+
+      <!-- Control Category -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Control Category*</label>
+          <p-select
+            [options]="categories()"
+            formControlName="controlCategoryId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select category"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Control Significance -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Control Significance*</label>
+          <p-select
+            [options]="significances()"
+            formControlName="controlSignificanceId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select significance"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Control Automation -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Control Automation*</label>
+          <p-select
+            [options]="automations()"
+            formControlName="controlAutomationId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select automation"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Nature of Control -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Nature of Control*</label>
+          <p-select
+            [options]="natures()"
+            formControlName="controlNatureId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select nature"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Risks -->
+      <div class="col-6 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Risks*</label>
+          <p-select
+            [options]="risks()"
+            formControlName="riskId"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select risk"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-12 mt-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Description*</label>
+          <textarea
+            rows="4"
+            formControlName="description"
+            placeholder="Enter description"
+            class="w-100"
+            pTextarea
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-center gap-3 pt-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> Save
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

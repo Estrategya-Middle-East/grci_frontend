@@ -11,6 +11,7 @@ export enum AppRoute {
   "CONTROL-PARAMETERS" = "control-parameters",
   "KEY-PROCESS" = "key-process",
   "MITIGATION-MANAGEMENT" = "mitigation-management",
+  "CONTROL-MANAGEMENT" = "control-management",
   "HEATMAP" = "heatmap",
   "RISK-HEATMAP" = "risk-heatmap",
 }
@@ -30,6 +31,7 @@ export const appRoutes = {
   "RISK-HEATMAP": `${AppRoute["RISK-HEATMAP"]}`,
   "KEY-PROCESS": `${AppRoute["KEY-PROCESS"]}`,
   "MITIGATION-MANAGEMENT": `${AppRoute["MITIGATION-MANAGEMENT"]}`,
+  "CONTROL-MANAGEMENT": `${AppRoute["CONTROL-MANAGEMENT"]}`,
 };
 
 Object.freeze(appRoutes);

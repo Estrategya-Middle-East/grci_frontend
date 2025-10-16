@@ -1,0 +1,30 @@
+.container-CE {
+  padding: 30px;
+}
+
+input.ng-touched.ng-invalid,
+p-select.ng-touched.ng-invalid,
+p-datepicker.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid {
+  border: 1px solid red !important;
+}
+
+.title-control {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.switch-status {
+  display: flex;
+  gap: 0.5rem;
+  .btn {
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    padding: 0.4rem 1rem;
+    &.active {
+      background: #007ad9;
+      color: #fff;
+      border-color: #007ad9;
+    }
+  }
+}

@@ -1,0 +1,108 @@
+<div class="resources-grid">
+  @if (controls.length > 0) { @for (control of controls; track control.id) {
+  <div class="resource-card">
+    <div class="card-header">
+      <div class="resource-icon">
+        <img
+          src="assets/images/imagCard.png"
+          class="h-100 w-100 resource-icon-img"
+          alt="imagCard"
+        />
+      </div>
+      <div class="card-actions">
+        <div ngbDropdown container="body" class="d-inline-block">
+          <button type="button" class="action-button" ngbDropdownToggle>
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div ngbDropdownMenu>
+            <button ngbDropdownItem (click)="navigateToView(control.id)">
+              <i class="pi pi-eye me-2"></i> View
+            </button>
+            <button ngbDropdownItem (click)="navigateToEdit(control.id)">
+              <i class="pi pi-pencil me-2"></i> Edit
+            </button>
+            <button ngbDropdownItem (click)="openDelete(control.id)">
+              <i class="pi pi-trash me-2"></i> Delete
+            </button>
+            <button ngbDropdownItem (click)="openArchive(control.id)">
+              <i class="pi pi-folder me-2"></i> Archive
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <p class="resource-name text-primary">{{ control.name }}</p>
+
+      <div class="d-flex justify-content-between">
+        <p class="resource-status text-black">
+          {{ control.status === 1 ? "Active" : "Draft" }}
+        </p>
+        <p class="resource-validity text-primary">
+          {{ formatDate(control.validityFrom) }} -
+          {{ formatDate(control.validityTo) }}
+        </p>
+      </div>
+
+      <p>
+        Control Category:
+        <span class="text-black-50"> {{ control.controlCategoryName }} </span>
+      </p>
+      <p>
+        Control Significance:
+        <span class="text-black-50">
+          {{ control.controlSignificanceName }}</span
+        >
+      </p>
+      <p>
+        Control Automation:
+        <span class="text-black-50"> {{ control.controlAutomationName }}</span>
+      </p>
+    </div>
+  </div>
+  } } @else {
+  <div
+    class="container-empty-data w-100 d-flex flex-column justify-content-center align-items-center pt-4 pd-4"
+  >
+    <i class="pi pi-inbox empty-icon mb-2"></i>
+    <span class="empty-table f-s-16">No Controls Found</span>
+  </div>
+  }
+</div>
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    @if (viewData.action === 'delete') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+    </span>
+    } @else if (viewData.action === 'archive') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info"></i>
+    </span>
+    } @if (viewData.action === 'delete') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the plan will be permanently deleted.
+    </p>
+    } @else if (viewData.action === 'archive') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      plan will be archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+@if (pagination) {
+<app-custom-paginator
+  [pagination]="pagination"
+  (pageNumber)="loadControls($event)"
+></app-custom-paginator>
+}

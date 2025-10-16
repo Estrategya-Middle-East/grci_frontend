@@ -279,6 +279,39 @@ export const layoutRoutes: Routes = [
     ],
   },
   {
+    path: appRoutes["CONTROL-MANAGEMENT"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/control-management/control-management").then(
+            (m) => m.ControlManagement
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/control-management/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: ":id",
+        loadComponent: () =>
+          import(
+            "../pages/control-management/components/control-management-details/control-management-details"
+          ).then((m) => m.ControlManagementDetails),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import(
+            "../pages/control-management/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+    ],
+  },
+  {
     path: appRoutes.HEATMAP,
     loadComponent: () =>
       import("../pages/basic-heatmap/basic-heatmap").then(
