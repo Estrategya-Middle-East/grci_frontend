@@ -79,6 +79,7 @@
             <p-datepicker
               formControlName="validityTo"
               showIcon="true"
+              [minDate]="formGroup.get('validityFrom')?.value"
               placeholder="To"
               class="w-100"
             ></p-datepicker>
@@ -152,14 +153,15 @@
       <div class="col-6 mt-3">
         <div class="c-formControl">
           <label class="title-control d-block">Risks*</label>
-          <p-select
+          <p-multiSelect
+            class="w-100"
+            formControlName="riskIds"
             [options]="risks()"
-            formControlName="riskId"
+            [filter]="false"
             optionLabel="name"
             optionValue="id"
-            placeholder="Select risk"
-            class="w-100"
-          />
+            placeholder="Select risk(s)"
+          ></p-multiSelect>
         </div>
       </div>
 

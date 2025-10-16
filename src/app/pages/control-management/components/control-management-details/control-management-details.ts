@@ -136,4 +136,12 @@ export class ControlManagementDetails {
     const year = String(d.getFullYear()).slice(-2);
     return `${day}/${month}/${year}`;
   }
+
+  getRiskNames(): string {
+    const risks = this.control()?.risks;
+    if (!risks || risks.length === 0) {
+      return "—";
+    }
+    return risks.map((r) => r.name).join(", ");
+  }
 }

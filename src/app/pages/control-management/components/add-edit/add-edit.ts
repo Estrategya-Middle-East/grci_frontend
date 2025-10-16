@@ -11,6 +11,7 @@ import { InputTextModule } from "primeng/inputtext";
 import { TextareaModule } from "primeng/textarea";
 import { DatePickerModule } from "primeng/datepicker";
 import { Select } from "primeng/select";
+import { MultiSelectModule } from "primeng/multiselect";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
 import { MessageService } from "primeng/api";
 import { catchError, forkJoin, of } from "rxjs";
@@ -28,6 +29,7 @@ import { lookup } from "../../../../shared/models/lookup.mdoel";
     TextareaModule,
     DatePickerModule,
     Select,
+    MultiSelectModule,
     HeaderComponent,
   ],
   templateUrl: "./add-edit.html",
@@ -42,15 +44,20 @@ export class AddEdit implements OnInit {
 
   formGroup!: FormGroup;
   controlId: number | null = null;
-
   switchStatus = signal<"draft" | "active">("draft");
 
-  // Dropdowns
+  // Dropdown signals
   categories = signal<lookup[]>([]);
   significances = signal<lookup[]>([]);
   automations = signal<lookup[]>([]);
   natures = signal<lookup[]>([]);
   risks = signal<lookup[]>([]);
+
+  // Names for edit mode
+  controlCategoryName?: string;
+  controlSignificanceName?: string;
+  controlAutomationName?: string;
+  controlNatureName?: string;
 
   ngOnInit(): void {
     this.createForm();
@@ -69,8 +76,19 @@ export class AddEdit implements OnInit {
       controlSignificanceId: ["", Validators.required],
       controlAutomationId: ["", Validators.required],
       controlNatureId: ["", Validators.required],
-      riskId: ["", Validators.required],
+      riskIds: [[], Validators.required],
       status: ["draft", Validators.required],
+    });
+
+    // Reset validityTo if validityFrom changes
+    this.formGroup.get("validityFrom")?.valueChanges.subscribe((fromDate) => {
+      const toControl = this.formGroup.get("validityTo");
+      const toDate = toControl?.value;
+
+      // Reset if previously selected To date is before new From date
+      if (fromDate && toDate && new Date(toDate) < new Date(fromDate)) {
+        toControl?.reset();
+      }
     });
   }
 
@@ -99,11 +117,16 @@ export class AddEdit implements OnInit {
           controlSignificanceId: control.controlSignificanceId,
           controlAutomationId: control.controlAutomationId,
           controlNatureId: control.controlNatureId,
-          riskId: control.risks?.[0]?.id ?? "",
+          riskIds: control.risks?.map((r: any) => r.id) ?? [],
           status: control.status === 1 ? "active" : "draft",
         });
 
         this.switchStatus.set(control.status === 1 ? "active" : "draft");
+
+        this.controlCategoryName = control.controlCategoryName;
+        this.controlSignificanceName = control.controlSignificanceName;
+        this.controlAutomationName = control.controlAutomationName;
+        this.controlNatureName = control.controlNatureName;
       },
       error: () => {
         this.messageService.add({
@@ -118,36 +141,19 @@ export class AddEdit implements OnInit {
 
   private loadDropdownData(): void {
     forkJoin({
-      categories: this.controlService.getControlCategoriesLookup().pipe(
-        catchError((err) => {
-          console.error("❌ Failed to load categories", err);
-          return of([]);
-        })
-      ),
-      significances: this.controlService.getControlSignificancesLookup().pipe(
-        catchError((err) => {
-          console.error("❌ Failed to load significances", err);
-          return of([]);
-        })
-      ),
-      automations: this.controlService.getControlAutomationsLookup().pipe(
-        catchError((err) => {
-          console.error("❌ Failed to load automations", err);
-          return of([]);
-        })
-      ),
-      natures: this.controlService.getControlNaturesLookup().pipe(
-        catchError((err) => {
-          console.error("❌ Failed to load natures", err);
-          return of([]);
-        })
-      ),
-      risks: this.controlService.getRisks().pipe(
-        catchError((err) => {
-          console.error("❌ Failed to load risks", err);
-          return of([]);
-        })
-      ),
+      categories: this.controlService
+        .getControlCategoriesLookup()
+        .pipe(catchError(() => of([]))),
+      significances: this.controlService
+        .getControlSignificancesLookup()
+        .pipe(catchError(() => of([]))),
+      automations: this.controlService
+        .getControlAutomationsLookup()
+        .pipe(catchError(() => of([]))),
+      natures: this.controlService
+        .getControlNaturesLookup()
+        .pipe(catchError(() => of([]))),
+      risks: this.controlService.getRisks().pipe(catchError(() => of([]))),
     }).subscribe((res) => {
       this.categories.set(res.categories);
       this.significances.set(res.significances);
@@ -170,6 +176,7 @@ export class AddEdit implements OnInit {
 
     const formValue = this.formGroup.value;
     const payload: ControlPayload = {
+      id: this.controlId || undefined,
       name: formValue.name,
       description: formValue.description,
       controlObjective: formValue.controlObjective,
@@ -179,8 +186,13 @@ export class AddEdit implements OnInit {
       controlSignificanceId: formValue.controlSignificanceId,
       controlAutomationId: formValue.controlAutomationId,
       controlNatureId: formValue.controlNatureId,
-      riskIds: [formValue.riskId],
+      riskIds: formValue.riskIds,
       status: formValue.status === "active" ? 1 : 0,
+
+      controlCategoryName: this.controlCategoryName,
+      controlSignificanceName: this.controlSignificanceName,
+      controlAutomationName: this.controlAutomationName,
+      controlNatureName: this.controlNatureName,
     };
 
     const action$ = this.controlId
