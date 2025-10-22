@@ -279,6 +279,39 @@ export const layoutRoutes: Routes = [
     ],
   },
   {
+    path: appRoutes["RISK-MANAGEMENT"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/risk-management/risk-management").then(
+            (m) => m.RiskManagement
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import("../pages/risk-management/components/add-edit/add-edit").then(
+            (m) => m.AddEdit
+          ),
+      },
+      {
+        path: ":id",
+        loadComponent: () =>
+          import(
+            "../pages/risk-management/components/risk-management-details/risk-management-details"
+          ).then((m) => m.RiskManagementDetails),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import("../pages/risk-management/components/add-edit/add-edit").then(
+            (m) => m.AddEdit
+          ),
+      },
+    ],
+  },
+  {
     path: appRoutes["CONTROL-MANAGEMENT"],
     children: [
       {

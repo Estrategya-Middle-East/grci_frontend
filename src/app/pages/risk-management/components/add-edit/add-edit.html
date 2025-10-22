@@ -1,0 +1,376 @@
+<app-header [title]="riskId ? 'Edit Risk' : 'Add Risk'"></app-header>
+
+<div class="p-4">
+  <form [formGroup]="formGroup" class="resource-form">
+    <div class="row">
+      <!-- Risk Driver -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Risk Driver*</label>
+          <input
+            type="text"
+            formControlName="riskDriver"
+            class="w-100"
+            placeholder="Risk driver"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Risk Event -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Risk Event*</label>
+          <input
+            type="text"
+            formControlName="riskEvent"
+            class="w-100"
+            placeholder="Risk event"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Status*</label>
+          <div class="d-flex gap-4 inputs-wrapper flex-wrap">
+            @for (s of statusOptions; track s.value) {
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                [inputId]="'status-' + s.value"
+                name="status"
+                [value]="s.value"
+                formControlName="status"
+              >
+              </p-radioButton>
+              <label [for]="'rstatus-' + s.value" class="ml-2">{{
+                s.label
+              }}</label>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Consequences -->
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Consequences</label>
+          <textarea
+            rows="3"
+            formControlName="consequences"
+            pInputTextarea
+            class="w-100"
+            placeholder="Consequences"
+          ></textarea>
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Dimension -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Dimension*</label>
+          <p-select
+            [options]="dimensions"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="dimensionId"
+            placeholder="Select dimension"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Entity -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Entity*</label>
+          <p-select
+            [options]="entities"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="entityId"
+            placeholder="Select entity"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Risk Level -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Risk Level*</label>
+          <div class="d-flex gap-4 inputs-wrapper flex-wrap">
+            @for (r of riskLevelOptions; track r.value) {
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                [inputId]="'riskLevel-' + r.value"
+                name="riskLevel"
+                [value]="r.value"
+                formControlName="riskLevel"
+              >
+              </p-radioButton>
+              <label [for]="'riskLevel-' + r.value" class="ml-2">{{
+                r.label
+              }}</label>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Process Group*</label>
+          <p-select
+            [options]="processGroups"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="processId"
+            placeholder="Select Process Group"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Root Cause Category -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Root Cause (Category)*</label>
+          <div class="d-flex gap-2 inputs-wrapper">
+            @for (rc of rootCauses; track rc.id) {
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                [inputId]="'rootCause-' + rc.id"
+                name="rootCauseCategoryId"
+                [value]="rc.id"
+                formControlName="rootCauseCategoryId"
+                (onClick)="onSelectRootCause(rc.id)"
+              >
+              </p-radioButton>
+              <label [for]="'rootCause-' + rc.id" class="ml-2">{{
+                rc.rootCause
+              }}</label>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Root Cause Subcategory -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Root Cause Sub-Category</label>
+          <p-select
+            [options]="rootCauseSubCategories"
+            optionLabel="rootCause"
+            optionValue="id"
+            formControlName="rootCauseSubCategoryId"
+            placeholder="Select sub-category"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Risk Category -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Risk Category*</label>
+          <p-select
+            [options]="riskCategories"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="riskCategoryId"
+            placeholder="Select risk category"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- High Priority Risk -->
+      <div class="col-md-3 d-flex">
+        <div
+          class="c-formControl d-flex justify-content-between align-items-center gap-3"
+        >
+          <label class="title-control d-block">High Priority Risk</label>
+          <p-toggleButton
+            formControlName="highPriorityRisk"
+            onLabel="On"
+            offLabel="Off"
+            [onIcon]="'pi pi-check'"
+            offIcon="pi pi-times"
+          ></p-toggleButton>
+        </div>
+      </div>
+
+      <!-- Strategic Risk -->
+      <div class="col-md-3 d-flex">
+        <div
+          class="c-formControl d-flex justify-content-between align-items-center gap-3"
+        >
+          <label class="title-control d-block">Strategic Risk</label>
+          <p-toggleButton
+            formControlName="strategicRisk"
+            onLabel="On"
+            offLabel="Off"
+            [onIcon]="'pi pi-check'"
+            offIcon="pi pi-times"
+          ></p-toggleButton>
+        </div>
+      </div>
+
+      <!-- Mitigation Status -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Mitigation Status*</label>
+          <div class="d-flex gap-4 inputs-wrapper flex-wrap">
+            @for (m of mitigationOptions; track m.value) {
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                [inputId]="'mitigation-' + m.value"
+                name="mitigationStatus"
+                [value]="m.value"
+                formControlName="mitigationStatus"
+              >
+              </p-radioButton>
+              <label [for]="'mitigation-' + m.value" class="ml-2">{{
+                m.label
+              }}</label>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Risk Owner -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Risk Owner</label>
+          <p-select
+            [options]="accounts"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="riskOwnerId"
+            placeholder="Select owner"
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- State -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">State</label>
+          <div class="d-flex gap-4 inputs-wrapper flex-wrap">
+            @for (st of stateOptions; track st.value) {
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                [inputId]="'state-' + st.value"
+                name="state"
+                [value]="st.value"
+                formControlName="state"
+              >
+              </p-radioButton>
+              <label [for]="'state-' + st.value" class="ml-2">{{
+                st.label
+              }}</label>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Notes</label>
+          <textarea
+            rows="3"
+            formControlName="notes"
+            pInputTextarea
+            class="w-100"
+            placeholder="Notes"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Risk KPIs -->
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-between mb-3">
+          <label class="title-control d-block h5">Risk KPIs</label>
+          <button type="button" class="btn btn-primary mt-2" (click)="addKRI()">
+            <i class="pi pi-plus"></i> Add KRI
+          </button>
+        </div>
+
+        <div formArrayName="riskKRIs">
+          <p-table [value]="riskKRIsFormArray.controls">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Key Risk Indicator</th>
+                <th>Risk Appetite</th>
+                <th style="width: 50px"></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-k let-i="rowIndex">
+              <tr [formGroupName]="i">
+                <td>
+                  <input
+                    type="text"
+                    formControlName="keyRiskIndicator"
+                    pInputText
+                    class="w-100"
+                    placeholder="KRI name"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="riskAppetite"
+                    pInputText
+                    class="w-100"
+                    placeholder="Risk appetite"
+                  />
+                </td>
+                <td class="text-center">
+                  @if (riskKRIsFormArray.length > 1) {
+                  <button
+                    type="button"
+                    class="list-dropdown"
+                    (click)="removeKRI(i)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                  }
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="3" class="text-center text-muted py-3">No KPIs</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 m-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !riskId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

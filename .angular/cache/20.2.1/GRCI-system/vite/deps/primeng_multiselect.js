@@ -1,56 +1,56 @@
 import {
   Checkbox
-} from "./chunk-QHHRLSKG.js";
+} from "./chunk-CXMHTR24.js";
 import {
   IconField,
   InputIcon,
   Tooltip
-} from "./chunk-MAC6W5RQ.js";
+} from "./chunk-PGELB7Y6.js";
 import {
   Chip
-} from "./chunk-7WABKK5V.js";
+} from "./chunk-4MUH2HGE.js";
 import {
   Overlay
-} from "./chunk-HOJ562CT.js";
-import {
-  BaseEditableHolder
-} from "./chunk-YF5YUEO2.js";
-import {
-  InputText
-} from "./chunk-4JBYZMJH.js";
-import "./chunk-CRNTBX2P.js";
+} from "./chunk-25IHZO4Y.js";
 import {
   Scroller
-} from "./chunk-QP7MCRBB.js";
+} from "./chunk-AYYARII6.js";
+import {
+  InputText
+} from "./chunk-O7MDLZW7.js";
 import {
   ObjectUtils
 } from "./chunk-ICAHE6O3.js";
 import "./chunk-HXBTUHY6.js";
 import {
+  Fluid
+} from "./chunk-3DMLXXGY.js";
+import {
   AutoFocus,
   DomHandler,
   unblockBodyScroll
-} from "./chunk-QGROFFBE.js";
-import {
-  Fluid
-} from "./chunk-O74UM6Q2.js";
-import {
-  Ripple
-} from "./chunk-IM72CRUT.js";
+} from "./chunk-WOZWAWIO.js";
 import {
   ChevronDownIcon,
   SearchIcon,
   TimesIcon
-} from "./chunk-DU7A23DU.js";
+} from "./chunk-XTMHAUFP.js";
 import {
   CheckIcon
-} from "./chunk-ETCBPVD6.js";
+} from "./chunk-DMH6U6I4.js";
+import {
+  BaseEditableHolder
+} from "./chunk-3FUNCSBV.js";
+import "./chunk-VT6W2XCT.js";
+import {
+  Ripple
+} from "./chunk-Q2QK6LIO.js";
 import {
   BaseComponent
-} from "./chunk-UQ5R4NQ6.js";
+} from "./chunk-X6HORUFY.js";
 import {
   BaseStyle
-} from "./chunk-MYU3T6TY.js";
+} from "./chunk-X34BO3HM.js";
 import {
   FilterService,
   Footer,
@@ -65,14 +65,14 @@ import {
   b2,
   bt,
   c,
-  j2 as j,
-  k2 as k,
-  s2 as s,
+  j,
+  k,
+  s,
   s3 as s2,
   vt,
   y,
-  z
-} from "./chunk-EBDOWVED.js";
+  z2 as z
+} from "./chunk-OWBGSEJQ.js";
 import {
   FormsModule,
   NG_VALUE_ACCESSOR,
@@ -161,8 +161,8 @@ import {
   ɵɵresetView,
   ɵɵrestoreView
 } from "./chunk-5IIR44IR.js";
-import "./chunk-JRFR6BLO.js";
 import "./chunk-HWYXSU2G.js";
+import "./chunk-JRFR6BLO.js";
 import "./chunk-MARUHEWW.js";
 import {
   __spreadProps,
@@ -2070,7 +2070,7 @@ var MultiSelect = class _MultiSelect extends BaseEditableHolder {
   }
   visibleOptions = computed(() => {
     const options = this.getAllVisibleAndNonVisibleOptions();
-    const isArrayOfObjects = b2(options) && ObjectUtils.isObject(options[0]);
+    const isArrayOfObjects = b(options) && ObjectUtils.isObject(options[0]);
     if (this._filterValue()) {
       let filteredOptions;
       if (isArrayOfObjects) {
@@ -2833,7 +2833,7 @@ var MultiSelect = class _MultiSelect extends BaseEditableHolder {
     return matched;
   }
   hasFocusableElements() {
-    return b(this.overlayViewChild.overlayViewChild.nativeElement, ':not([data-p-hidden-focusable="true"])').length > 0;
+    return b2(this.overlayViewChild.overlayViewChild.nativeElement, ':not([data-p-hidden-focusable="true"])').length > 0;
   }
   hasFilter() {
     return this._filterValue() && this._filterValue().trim().length > 0;

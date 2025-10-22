@@ -1,0 +1,51 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()" class="p-fluid">
+  <!-- Likelihood -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Risk Likelihood*</label>
+    <p-select
+      formControlName="likelihoodScaleId"
+      [options]="likelihoodOptions()"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select Likelihood"
+      class="w-100"
+      appendTo="body"
+    ></p-select>
+  </div>
+
+  <!-- Impact -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Risk Impact*</label>
+    <p-select
+      formControlName="impactScaleId"
+      [options]="impactOptions()"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select Impact"
+      class="w-100"
+      appendTo="body"
+    ></p-select>
+  </div>
+
+  <!-- Comments -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Comments</label>
+    <input
+      type="text"
+      pInputText
+      placeholder="Add comments (optional)"
+      formControlName="comments"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Buttons -->
+  <div class="p-col-12 d-flex justify-content-center gap-3 m-4">
+    <button [disabled]="!formGroup.valid" type="submit" class="btn btn-primary">
+      <i class="pi pi-send"></i> {{ isEditMode ? "Update" : "Save" }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

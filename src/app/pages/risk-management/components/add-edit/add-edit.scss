@@ -1,0 +1,206 @@
+input.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid,
+p-select.ng-touched.ng-invalid,
+p-autoComplete.ng-touched.ng-invalid,
+p-datepicker.ng-touched.ng-invalid,
+p-multiSelect.ng-touched.ng-invalid {
+  border: 1px solid red !important;
+}
+
+p-datepicker {
+  width: 100%;
+}
+
+.inputs-wrapper {
+  border: 1px solid #cbd5e1;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-datatable-table {
+  .p-datatable-thead {
+    tr {
+      background-color: #eef4fd;
+      th {
+        background-color: transparent;
+        border: 0;
+        font-size: 15px;
+        padding: 15px;
+        i {
+          margin-inline-end: 10px;
+          color: #222222;
+        }
+      }
+      th:first-of-type {
+        border-radius: 7.76px 0 0 7.76px !important;
+        -webkit-border-radius: 7.76px 0 0 7.76px !important;
+        -moz-border-radius: 7.76px 0 0 7.76px !important;
+        -ms-border-radius: 7.76px 0 0 7.76px !important;
+        -o-border-radius: 7.76px 0 0 7.76px !important;
+      }
+      th:last-of-type {
+        border-radius: 0 7.76px 7.76px 0 !important;
+        -webkit-border-radius: 0 7.76px 7.76px 0 !important;
+        -moz-border-radius: 0 7.76px 7.76px 0 !important;
+        -ms-border-radius: 0 7.76px 7.76px 0 !important;
+        -o-border-radius: 0 7.76px 7.76px 0 !important;
+      }
+    }
+  }
+}
+.p-datatable-table {
+  tbody {
+    td {
+      border: 0;
+      font-size: 13px;
+      padding: 10px 15px;
+      .dimension-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e3f2fd;
+        border-radius: 6px;
+        color: #1976d2;
+        margin-inline-end: 10px;
+
+        i {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+.text {
+  color: #1e87f0;
+}
+
+.list-dropdown {
+  background-color: #e3f2fd;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #1976d2;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-weight: 700;
+
+  &:hover {
+    background: #bbdefb;
+    transform: translateY(-1px);
+  }
+
+  i {
+    font-size: 16px;
+  }
+}
+.list-dropdown::after {
+  display: none;
+}
+
+/* Empty state styles */
+.container-empty-data {
+  padding: 2rem;
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    color: #dee2e6;
+  }
+
+  .empty-table {
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .warning-icon {
+    font-size: 40px;
+    color: #dc3545;
+  }
+
+  .archive-icon {
+    font-size: 40px;
+    color: #6c757d;
+  }
+}
+
+.risk-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border: 1px solid #d0d7e2;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  background-color: #fff;
+}
+
+.risk-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  label {
+    font-weight: 600;
+    color: #142952;
+    font-size: 1.1rem;
+  }
+
+  ::ng-deep .p-togglebutton {
+    width: 50px;
+    height: 26px;
+    border-radius: 20px;
+    background-color: #d9d9d9;
+    border: none;
+    position: relative;
+    transition: background-color 0.3s ease;
+
+    .p-button-icon {
+      display: none;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background-color: #fff;
+      transition: transform 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    &.p-highlight {
+      background-color: #3b82f6; // Blue active state
+
+      &::after {
+        transform: translateX(24px);
+      }
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+  }
+}

@@ -1,0 +1,71 @@
+export interface RiskKRI {
+  id: number;
+  riskId: number;
+  keyRiskIndicator: string;
+  riskAppetite: string;
+}
+
+export interface RiskManagementInterface {
+  id?: number;
+  code?: string;
+  riskEvent?: string;
+  dimensionId?: number;
+  dimensionName?: string;
+  entityId?: number;
+  entityName?: string;
+  riskLevel?: number;
+  processId?: number;
+  processName?: string;
+  riskCategoryId?: number;
+  riskCategoryName?: string;
+  rootCauseCategoryId?: number;
+  rootCauseCategoryName?: string;
+  rootCauseSubCategoryId?: number;
+  rootCauseSubCategoryName?: string;
+  riskDriver?: string;
+  consequences?: string;
+  status?: number;
+  approvalStatus?: number;
+  riskMitigationStatus?: number;
+  comments?: string;
+  riskOwnerId?: string;
+  riskOwnerName?: string;
+  highPriorityRisk?: boolean;
+  strategicRisk?: boolean;
+  validity?: string;
+  mitigationPlanIds?: number[];
+  controlIds?: number[];
+  riskKRIs?: RiskKRI[];
+  latestLikelihood?: number;
+  latestImpact?: number;
+  latestRiskScore?: number;
+  latestRiskRating?: string;
+}
+
+export interface RiskAssessmentPayloadInterface {
+  id: number;
+  likelihoodScaleId: number;
+  impactScaleId: number;
+  assessmentDate: string;
+  comments?: string;
+}
+
+export interface RiskAssessmentInterface {
+  id: number;
+  riskId: number;
+  riskEvent: string;
+  riskCode: string;
+  likelihoodScaleId: number;
+  likelihoodTitle: string;
+  likelihoodValue: number;
+  impactScaleId: number;
+  impactTitle: string;
+  impactValue: number;
+  score: number;
+  riskRatingId: number;
+  ratingTitle: string;
+  ratingColor: string;
+  assessedBy: string;
+  assessmentDate: string;
+  comments: string;
+}

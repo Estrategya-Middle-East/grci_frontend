@@ -1,0 +1,14 @@
+<app-header
+  [isSwitchView]="switchView"
+  [title]="'Risk Management'"
+  [showFilteration]="showFilteration"
+  [showActions]="showActions"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <div class="content-cards">
+    <h4 class="title">Risks</h4>
+    <app-list [filters]="filters"></app-list>
+  </div>
+</div>
