@@ -1,0 +1,63 @@
+<div class="container-fluid p-4" style="background-color: #f8f9fa;">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom py-3">
+          <h5 class="mb-0" style="color: #1e293b; font-size: 18px; font-weight: 600;">Audit Item</h5>
+        </div>
+        
+        <div class="card-body p-4">
+                <app-audit-toolbar />
+            
+                <app-audit-filter />
+          
+          <!-- @if (auditService.auditItems().length) { -->
+            
+            <app-audit-table>
+                <ng-template #actionTemplate let-row>
+                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
+                    <button
+                        type="button"
+                        class="list-dropdown"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                    >
+                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                         Edit audit item 
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                     Delete audit item
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/UserCircleCheck.svg" alt="">
+                     Assign Responsible Person
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/Copy.svg" alt="">
+                     Assign Audit Category
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/ListMagnifyingGlass.svg" alt="">
+                    Link to Regulatory Framework                        
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/FileMagnifyingGlass.svg" alt="">
+                     Link Auditable Item To Risk Register
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/Folders.svg" alt="">
+                     Set Audit Frequency
+                    </button>                       
+                </div>
+                </div>
+            </ng-template>
+        </app-audit-table>
+          <!-- } -->
+
+          
+        </div>
+      </div>
+    </div>

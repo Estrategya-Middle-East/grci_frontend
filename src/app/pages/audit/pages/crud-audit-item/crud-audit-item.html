@@ -1,0 +1,376 @@
+<div class="container-fluid py-4">
+      <div class="card shadow-sm">
+        <div class="card-header text-dark">
+          <h5 class="mb-0">Add Audit Item</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="auditForm">
+            <!-- Row 1: Code and Audit Item Name -->
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
+                <input type="text" class="form-control filter-search-input" 
+                    placeholder="C-001" 
+                       formControlName="code"
+                    />                  
+                <small class="text-danger" *ngIf="auditForm.get('code')?.invalid && auditForm.get('code')?.touched">
+                  Code is required
+                </small>
+              </div>
+              <div class="col-md-6">
+                <label for="auditItemName" class="form-label">Audit Item name<span class="text-danger">*</span></label>
+                
+                  <input id="auditItemName" type="text" class="form-control filter-search-input" 
+                    placeholder="Enter audit item name"
+                    formControlName="auditItemName"
+                    />
+                <small class="text-danger" *ngIf="auditForm.get('auditItemName')?.invalid && auditForm.get('auditItemName')?.touched">
+                  Audit item name is required
+                </small>
+              </div>
+            </div>
+
+            <!-- Row 2: Audit Item Description -->
+            <div class="row mb-3">
+              <div class="col-12">
+                <label for="description" class="form-label">Audit Item Description</label>
+                <textarea 
+                  id="description"
+                  pInputTextarea 
+                  class="w-100"
+                  formControlName="description"
+                  rows="4"
+                  placeholder="Enter Audit Item Description"></textarea>
+              </div>
+            </div>
+
+            <!-- Row 3: Dimension and Entity -->
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label for="dimension" class="form-label">Dimension<span class="text-danger">*</span></label>
+                <p-select 
+                    inputId="dimension"
+                    [options]="dimensionOptions()"
+                    formControlName="dimension"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder="choose Dimension value"
+                    styleClass="w-100"
+                    [showClear]="true">
+                    </p-select>
+                <small class="text-danger" *ngIf="auditForm.get('dimension')?.invalid && auditForm.get('dimension')?.touched">
+                  Dimension is required
+                </small>
+              </div>
+              <div class="col-md-6">
+                <label for="entity" class="form-label">Entity<span class="text-danger">*</span></label>
+                <p-select 
+                  inputId="entity"
+                  [options]="entityOptions()"
+                     optionLabel="name"
+                    optionValue="id"
+                  formControlName="entity"
+                  placeholder="X Entity"
+                  styleClass="w-100"
+                  [showClear]="true"></p-select>
+                <small class="text-danger" *ngIf="auditForm.get('entity')?.invalid && auditForm.get('entity')?.touched">
+                  Entity is required
+                </small>
+              </div>
+            </div>
+
+            <!-- Row 4: Risks and Priority Level -->
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="form-label">Risks</label>
+                <div class="d-flex flex-column gap-2">
+                  <div formArrayName="risks">
+                    <div *ngFor="let risk of risks.controls; let i = index" class="d-flex gap-2 mb-2">
+                        <input  type="text" class="form-control filter-search-input" 
+                        placeholder="Enter risk"
+                        [formControlName]="i"
+                        />                      
+                      <button 
+                        type="button" 
+                        pButton 
+                        icon="pi pi-times"
+                        class="p-button-danger p-button-sm btnCustom"
+                        (click)="removeRisk(i)"></button>
+                    </div>
+                  </div>
+                  <div class="d-flex gap-2">
+                     <input type="text" class="form-control filter-search-input" 
+                        placeholder="Add new risk" 
+                        [(ngModel)]="newRiskValue"
+                        [ngModelOptions]="{standalone: true}"
+                        />                      
+                   
+                    <button 
+                      type="button" 
+                      pButton 
+                      icon="pi pi-plus"
+                      class="p-button-success p-button-sm btnCustom"
+                      (click)="addRisk()"></button>
+                    <button 
+                      type="button" 
+                      pButton 
+                      icon="pi pi-bars"
+                      class="p-button-info p-button-sm btnCustom"></button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Priority level<span class="text-danger">*</span></label>
+                <div class="d-flex gap-4 mt-2 flex-wrap">
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="low"
+                      name="priorityLevel"
+                      value="low"
+                      formControlName="priorityLevel"></p-radioButton>
+                    <label for="low" class="form-check-label ms-2">Low</label>
+                  </div>
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="medium"
+                      name="priorityLevel"
+                      value="medium"
+                      formControlName="priorityLevel"></p-radioButton>
+                    <label for="medium" class="form-check-label ms-2">Medium</label>
+                  </div>
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="high"
+                      name="priorityLevel"
+                      value="high"
+                      formControlName="priorityLevel"></p-radioButton>
+                    <label for="high" class="form-check-label ms-2">High</label>
+                  </div>
+                </div>
+                <small class="text-danger" *ngIf="auditForm.get('priorityLevel')?.invalid && auditForm.get('priorityLevel')?.touched">
+                  Priority level is required
+                </small>
+              </div>
+            </div>
+
+            <!-- Row 5: Estimated Effort and Audit Category -->
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label for="effort" class="form-label">Estimated effort<span class="text-danger">*</span></label>                
+                <input type="text" class="form-control filter-search-input" 
+                   placeholder="enter Number of hours / year"
+                   formControlName="estimatedEffort"/>                
+                <small class="text-danger" *ngIf="auditForm.get('estimatedEffort')?.invalid && auditForm.get('estimatedEffort')?.touched">
+                  Estimated effort is required
+                </small>
+              </div>
+              <div class="col-md-6">
+                <label for="category" class="form-label">Audit category<span class="text-danger">*</span></label>
+                <div class="d-flex gap-2">
+                  <p-select 
+                    inputId="category"
+                    [options]="categoryOptions()"
+                     optionLabel="name"
+                    optionValue="id"
+                    formControlName="auditCategory"
+                    placeholder="choose audit category"
+                    styleClass="flex-grow-1"
+                    [showClear]="true"></p-select>
+                  <button 
+                    type="button" 
+                    pButton 
+                    icon="pi pi-plus"
+                    class="p-button-info btnCustom"></button>
+                </div>
+                <small class="text-danger" *ngIf="auditForm.get('auditCategory')?.invalid && auditForm.get('auditCategory')?.touched">
+                  Audit category is required
+                </small>
+              </div>
+            </div>
+
+            <!-- Row 6: Audit Frequency and Audit Owner -->
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label for="frequency" class="form-label">Audit frequency<span class="text-danger">*</span></label>
+                <p-select 
+                  inputId="frequency"
+                  [options]="frequencyOptions()"
+                   optionLabel="name"
+                    optionValue="id"
+                  formControlName="auditFrequency"
+                  placeholder="choose audit frequency"
+                  styleClass="w-100"
+                  [showClear]="true"></p-select>
+                <small class="text-danger" *ngIf="auditForm.get('auditFrequency')?.invalid && auditForm.get('auditFrequency')?.touched">
+                  Audit frequency is required
+                </small>
+              </div>
+              <div class="col-md-6">
+                <label for="owner" class="form-label">Audit owner</label>
+                <p-select 
+                  inputId="owner"
+                  [options]="ownerOptions()"
+                   optionLabel="name"
+                    optionValue="id"
+                  formControlName="auditOwner"
+                  placeholder="enter Audit owner name"
+                  styleClass="w-100"
+                  [showClear]="true"></p-select>
+              </div>
+            </div>
+
+            <!-- Row 7: Status and State -->
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="form-label">Status<span class="text-danger">*</span></label>
+                <div class="d-flex gap-3 flex-wrap mt-2">
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="new"
+                      name="status"
+                      value="new"
+                      formControlName="status"></p-radioButton>
+                    <label for="new" class="form-check-label ms-2">New</label>
+                  </div>
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="reviewed"
+                      name="status"
+                      value="reviewed"
+                      formControlName="status"></p-radioButton>
+                    <label for="reviewed" class="form-check-label ms-2">Reviewed</label>
+                  </div>
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="approved"
+                      name="status"
+                      value="approved"
+                      formControlName="status"></p-radioButton>
+                    <label for="approved" class="form-check-label ms-2">Approved</label>
+                  </div>
+                  <div class="form-check">
+                    <p-radioButton 
+                      inputId="send"
+                      name="status"
+                      value="send"
+                      formControlName="status"></p-radioButton>
+                    <label for="send" class="form-check-label ms-2">Send</label>
+                  </div>
+                </div>
+                <small class="text-danger" *ngIf="auditForm.get('status')?.invalid && auditForm.get('status')?.touched">
+                  Status is required
+                </small>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">State <span class="text-danger">*</span></label>
+                <div class="d-flex gap-2 mt-2">
+                  <button 
+                    type="button" 
+                    class="btn flex-grow-1 btnCustom"
+                    [class.btn-secondary]="state() === 'archived'"
+                    [class.btn-outline-secondary]="state() !== 'archived'"
+                    (click)="setState('archived')">
+                    Archived
+                  </button>
+                  <button 
+                    type="button" 
+                    class="btn flex-grow-1 btnCustom"
+                    [class.btn-primary]="state() === 'active'"
+                    [class.btn-outline-primary]="state() !== 'active'"
+                    (click)="setState('active')">
+                    Active
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 8: Regulatory Framework -->
+            <div class="row mb-3">
+              <div class="col-12">
+                <label class="form-label">Regulatory Framework<span class="text-danger">*</span></label>
+                <div class="d-flex flex-column gap-2">
+                  <div formArrayName="frameworks">
+                    <div *ngFor="let framework of frameworks.controls; let i = index" class="d-flex gap-2 mb-2">
+                            <input type="text" class="form-control filter-search-input" 
+                    placeholder="Enter framework"
+                    [formControlName]="i"/>    
+                    
+                      <button 
+                        type="button" 
+                        pButton 
+                        icon="pi pi-times"
+                        class="p-button-danger p-button-sm btnCustom"
+                        (click)="removeFramework(i)"></button>
+                    </div>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <input type="text" class="form-control filter-search-input" 
+                    placeholder="Add new framework"
+                     [(ngModel)]="newFrameworkValue"
+                    [ngModelOptions]="{standalone: true}"
+                    />  
+                    
+                    <button 
+                      type="button" 
+                      pButton 
+                      icon="pi pi-plus"
+                      class="p-button-success p-button-sm btnCustom"
+                      (click)="addFramework()"></button>
+                    <button 
+                      type="button" 
+                      pButton 
+                      icon="pi pi-bars"
+                      class="p-button-info p-button-sm btnCustom"></button>
+                  </div>
+                </div>
+                <small class="text-danger" *ngIf="auditForm.get('frameworks')?.invalid && auditForm.get('frameworks')?.touched">
+                  At least one framework is required
+                </small>
+              </div>
+            </div>
+
+            <!-- Row 9: Comments -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <label for="comments" class="form-label">Comments</label>
+                <textarea 
+                  id="comments"
+                  pInputTextarea 
+                  class="w-100"
+                  formControlName="comments"
+                  rows="4"
+                  placeholder="Enter Comments"></textarea>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center gap-2">
+                <button 
+                  type="button" 
+                  pButton 
+                  label="Save" 
+                  icon="pi pi-send"
+                  class="p-button-primary"
+                  [disabled]="auditForm.invalid"
+                  (click)="onSave()"></button>
+                <button 
+                  type="button" 
+                  pButton 
+                  label="Cancel" 
+                  icon="pi pi-times"
+                  class="p-button-secondary"
+                  (click)="onCancel()"></button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Debug: Form Value (Remove in production) -->
+          <div class="mt-4 p-3 bg-light rounded" *ngIf="showDebug">
+            <h6>Form Value:</h6>
+            <pre>{{ auditForm.value | json }}</pre>
+            <h6>Form Valid: {{ auditForm.valid }}</h6>
+          </div>
+        </div>
+      </div>
+    </div>

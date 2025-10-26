@@ -1,13 +1,13 @@
 import {
+  withHttpTransferCache
+} from "./chunk-NZZXRFAQ.js";
+import {
   DomRendererFactory2,
   EVENT_MANAGER_PLUGINS,
   EventManager,
   EventManagerPlugin,
   SharedStylesHost
 } from "./chunk-3A5F5QCK.js";
-import {
-  withHttpTransferCache
-} from "./chunk-NZZXRFAQ.js";
 import {
   CommonModule,
   DomAdapter,
@@ -1325,4 +1325,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-3GGP2RGT.js.map
+//# sourceMappingURL=chunk-MOPMUT7M.js.map

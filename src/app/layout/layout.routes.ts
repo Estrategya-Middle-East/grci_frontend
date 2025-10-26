@@ -323,4 +323,23 @@ export const layoutRoutes: Routes = [
     loadComponent: () =>
       import("../pages/risk-heatmap/risk-heatmap").then((m) => m.RiskHeatmap),
   },
+   {
+    path: appRoutes.Audit,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-item/audit-item").then(
+            (m) => m.AuditItem
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/audit/pages/crud-audit-item/crud-audit-item"
+          ).then((m) => m.CrudAuditItem),
+      },     
+    ],
+  },
 ];

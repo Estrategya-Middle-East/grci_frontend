@@ -2,7 +2,8 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { DimensionsResponse, Dimension, DimensionsFilter } from "../models";
+import { DimensionsResponse, Dimension, DimensionsFilter, DimensionsLookupsResponse } from "../models";
+import { AuditItem } from "../../audit/models/interfaces/audit-item";
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +34,10 @@ export class DimensionsService {
       params,
     });
   }
-
+  getdiminsionLookup():Observable<AuditItem[]>{
+      return this.http.get<DimensionsLookupsResponse<AuditItem>>(`${this.baseUrl}/lookup`)
+      .pipe(map(res=>res.data))
+  }
   getDimensionById(id: number): Observable<Dimension> {
     return this.http
       .get<any>(`${this.baseUrl}/${id}`)
@@ -56,7 +60,7 @@ export class DimensionsService {
   deleteDimension(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
-
+ 
   archive(id: number): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${id}/archive`, {});
   }
