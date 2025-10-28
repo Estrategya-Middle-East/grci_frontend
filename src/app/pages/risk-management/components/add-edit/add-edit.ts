@@ -21,7 +21,12 @@ import { RiskManagementService } from "../../services/risk-management-service";
 import { TextareaModule } from "primeng/textarea";
 import { ToggleButtonModule } from "primeng/togglebutton";
 import { DatePickerModule } from "primeng/datepicker";
-import { RiskManagementInterface } from "../../models/risk-management";
+import {
+  RiskLevelEnum,
+  RiskManagementInterface,
+  RiskMitigationStatusEnum,
+  RiskStatusEnum,
+} from "../../models/risk-management";
 
 @Component({
   selector: "app-add-edit",
@@ -58,29 +63,21 @@ export class AddEdit {
   rootCauseSubCategories: any[] = [];
   processGroups: any[] = [];
 
-  statusOptions = [
-    { label: "Open", value: 0 },
-    { label: "In Progress", value: 1 },
-    { label: "Closed", value: 2 },
-  ];
+  statusOptions = Object.entries(RiskStatusEnum)
+    .filter(([_, v]) => typeof v === "number")
+    .map(([label, value]) => ({ label, value }));
 
-  riskLevelOptions = [
-    { label: "Process Group", value: 0 },
-    { label: "Process", value: 1 },
-    { label: "Activity", value: 2 },
-    { label: "Task", value: 4 },
-  ];
+  riskLevelOptions = Object.entries(RiskLevelEnum)
+    .filter(([_, v]) => typeof v === "number")
+    .map(([label, value]) => ({ label, value }));
 
-  mitigationOptions = [
-    { label: "Mitigated", value: 0 },
-    { label: "In Progress", value: 1 },
-    { label: "Unmitigated", value: 2 },
-  ];
+  mitigationOptions = Object.entries(RiskMitigationStatusEnum)
+    .filter(([_, v]) => typeof v === "number")
+    .map(([label, value]) => ({ label, value }));
 
-  stateOptions = [
-    { label: "Active", value: 0 },
-    { label: "Archived", value: 1 },
-  ];
+  // stateOptions = Object.entries(RiskStateEnum)
+  //   .filter(([_, v]) => typeof v === "number")
+  //   .map(([label, value]) => ({ label, value }));
 
   ngOnInit(): void {
     this.createForm();
@@ -107,7 +104,7 @@ export class AddEdit {
       strategicRisk: [false],
       mitigationStatus: [0],
       riskOwnerId: [null],
-      state: [0],
+      // state: [0],
       notes: [""],
       riskKRIs: this.fb.array([]),
     });
@@ -169,7 +166,7 @@ export class AddEdit {
           rootCauseSubCategoryId: res.rootCauseSubCategoryId,
           mitigationStatus: res.riskMitigationStatus ?? 0,
           riskOwnerId: res.riskOwnerId,
-          state: res.status,
+          // state: res.status,
           notes: res.comments,
           riskCategoryId: res.riskCategoryId,
           highPriorityRisk: res.highPriorityRisk ?? false,

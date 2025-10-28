@@ -1,1 +1,171 @@
-<p>risk-management-details works!</p>
+<app-header [title]="'View Risk'"></app-header>
+
+@if (!loaderService.loading()) { @if (risk()) {
+<div class="p-4 d-flex flex-column">
+  <!-- Info Section -->
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <!-- Left block -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h2 class="title">{{ risk()?.riskEvent }}</h2>
+      <p class="text-black-50"><span>Code:</span> {{ risk()?.code }}</p>
+    </div>
+
+    <!-- Right block -->
+    <div
+      class="col-sm-12 col-md-8 col-lg-8 d-flex flex-column align-items-start justify-content-center"
+    >
+      <p><span class="title">Risk Driver:</span> {{ risk()?.riskDriver }}</p>
+      <p><span class="title">Dimension:</span> {{ risk()?.dimensionName }}</p>
+      <p>
+        <span class="title">Potential Causes:</span>
+        {{ risk()?.rootCauseSubCategoryName }}
+      </p>
+      <!-- <p>
+        <span class="title">Risk Severity:</span> {{ risk()?.latestRiskRating }}
+      </p> -->
+      <p><span class="title">Key Processes:</span> {{ risk()?.processName }}</p>
+
+      <p>
+        <span class="title">Status:</span>
+        {{ RiskStatusEnum[risk()?.status ?? 0] }}
+      </p>
+
+      <p>
+        <span class="title">Mitigation Status:</span>
+        {{ RiskMitigationStatusEnum[risk()?.riskMitigationStatus ?? 0] }}
+      </p>
+
+      <p>
+        <span class="title">Strategic Risk:</span>
+        {{ risk()?.strategicRisk ? "Yes" : "No" }}
+      </p>
+
+      <p>
+        <span class="title">High Priority Risk:</span>
+        {{ risk()?.highPriorityRisk ? "Yes" : "No" }}
+      </p>
+
+      <p>
+        <span class="title">Risk Category:</span> {{ risk()?.riskCategoryName }}
+      </p>
+      <p><span class="title">Entity:</span> {{ risk()?.entityName }}</p>
+      <p>
+        <span class="title">Strategic Relevance:</span>
+        {{ risk()?.rootCauseCategoryName }}
+      </p>
+      <p>
+        <span class="title">Underlying Risks:</span>
+        {{ risk()?.rootCauseSubCategoryName }}
+      </p>
+      <p><span class="title">Consequences:</span> {{ risk()?.consequences }}</p>
+
+      <!-- <p>
+    <span class="title">State:</span>
+    {{ risk()?.state }}
+  </p> -->
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start mt-4"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchive()"
+    ></button>
+  </div>
+
+  <hr class="text-black-50" />
+
+  <!-- KRIs Section -->
+  <div class="col-12 mt-4">
+    <label class="title-control text-primary d-block h5">
+      Key Risk Indicators (KRIs)
+    </label>
+
+    @if (risk()?.riskKRIs?.length) {
+    <p-table [value]="risk()?.riskKRIs || []">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Key Risk Indicator</th>
+          <th>Risk Appetite</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-kri>
+        <tr>
+          <td>{{ kri.keyRiskIndicator }}</td>
+          <td>{{ kri.riskAppetite }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    } @else {
+    <div
+      class="container-empty-data w-100 d-flex justify-content-center align-items-center py-4"
+    >
+      <div class="empty-state">
+        <i class="pi pi-inbox empty-icon"></i>
+        <span class="empty-table f-s-16">No KRIs Found</span>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+} @else {
+<p>Risk not found.</p>
+} }
+
+<!-- Delete/Archive Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- Icon -->
+    @if (viewData.action === 'delete') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+    </span>
+    } @else if (viewData.action === 'archive') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info"></i>
+    </span>
+    }
+
+    <!-- Paragraph -->
+    @if (viewData.action === 'delete') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else if (viewData.action === 'archive') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<!-- Toast -->
+<p-toast position="bottom-center" class="custom-toast-error" key="bc"></p-toast>

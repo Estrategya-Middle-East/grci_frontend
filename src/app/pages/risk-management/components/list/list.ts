@@ -51,6 +51,7 @@ export class List implements OnChanges {
   selectedArchiveRiskId!: number;
 
   columns: any[] = [
+    { field: "code", header: "Code" },
     { field: "riskEvent", header: "Risk Event" },
     { field: "riskDriver", header: "Risk Driver" },
     { field: "dimensionName", header: "Dimension" },

@@ -69,3 +69,27 @@ export interface RiskAssessmentInterface {
   assessmentDate: string;
   comments: string;
 }
+
+export enum RiskStatusEnum {
+  Open = 0,
+  InProgress = 1,
+  Closed = 2,
+}
+
+export enum RiskLevelEnum {
+  ProcessGroup = 0,
+  Process = 1,
+  Activity = 2,
+  Task = 4,
+}
+
+export enum RiskMitigationStatusEnum {
+  Mitigated = 0,
+  InProgress = 1,
+  Unmitigated = 2,
+}
+
+// export enum RiskStateEnum {
+//   Active = 0,
+//   Archived = 1,
+// }
