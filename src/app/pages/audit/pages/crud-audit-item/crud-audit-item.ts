@@ -1,4 +1,4 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Select, SelectModule } from 'primeng/select';
@@ -11,6 +11,13 @@ import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { AuditItemService } from '../../services/auditItem/audit-item-service';
+import {  MultiSelectModule } from 'primeng/multiselect';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DialogService } from 'primeng/dynamicdialog';
+import { AddDialog } from '../../components/dialogs/add-dialog/add-dialog';
 @Component({
   selector: 'app-crud-audit-item',
   standalone:true,
@@ -21,11 +28,17 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     ButtonModule,        // ✅ Added
     InputTextModule,     // ✅ Added if needed
     TextareaModule,
-    SelectModule],
+    SelectModule,
+    MultiSelectModule,
+    ToastModule],
+    providers:[DialogService],
   templateUrl: './crud-audit-item.html',
   styleUrl: './crud-audit-item.scss'
 })
 export class CrudAuditItem {
+private messageService = inject(MessageService);
+private dialogService = inject(DialogService);
+
 auditForm!: FormGroup;
   state = signal<string>('active');
   showDebug = false; // Set to true to see form values
@@ -35,27 +48,9 @@ auditForm!: FormGroup;
   newFrameworkValue = '';
 
   // Dropdown options signals
-  dimensionOptions = signal<AuditItem[]>([
-    
-  ]);
+ 
 
-  entityOptions = signal<EntitiesItem[]>([
-   
-  ]);
-
-  categoryOptions = signal<AuditCategory[]>([
-    
-  ]);
-
-  frequencyOptions = signal<FrequencyData[]>([
-    
-  ]);
-
-  ownerOptions = signal<lookup[]>([
-   
-  ]);
-
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,public auditService:AuditItemService) {
     // Effect to sync state signal with form
     effect(() => {
       if (this.auditForm) {
@@ -66,30 +61,24 @@ auditForm!: FormGroup;
 
   ngOnInit() {
     this.initForm();
+    this.auditService.getAllFiltersDropDowns().subscribe()
   }
 
   initForm() {
-    this.auditForm = this.fb.group({
-      code: ['C-001', Validators.required],
-      auditItemName: ['', Validators.required],
-      description: [''],
-      dimension: [null, Validators.required],
-      entity: [null, Validators.required],
-      risks: this.fb.array([
-        this.fb.control('X value risk')
-      ]),
-      priorityLevel: ['', Validators.required],
-      estimatedEffort: ['', Validators.required],
-      auditCategory: [null, Validators.required],
-      auditFrequency: [null, Validators.required],
-      auditOwner: [null],
-      status: ['new', Validators.required],
-      state: ['active', Validators.required],
-      frameworks: this.fb.array([
-        this.fb.control('x Framework', Validators.required)
-      ], Validators.required),
-      comments: ['']
-    });
+        this.auditForm = this.fb.group({
+        title: ['', Validators.required],
+        description: [''],
+        dimensionId: [null, Validators.required],
+        entityId: [null, Validators.required],
+        riskIds: [[]], // array of IDs
+        priority: [null, Validators.required],
+        estimatedEffort: [null, Validators.required],
+        auditCategoryId: [null, Validators.required],
+        auditFrequencyId: [null, Validators.required],
+        auditOwnerId: [null],
+        regulatoryFrameworks: ['', Validators.required],
+        comments: ['']
+      });
   }
 
   // Getters for FormArrays
@@ -137,18 +126,24 @@ auditForm!: FormGroup;
   onSave() {
     if (this.auditForm.valid) {
       const formData = this.auditForm.value;
-      console.log('Form Data:', formData);
       
       // Here you would typically send the data to your backend service
-      // this.auditService.createAuditItem(formData).subscribe(...)
-      
-      alert('Audit item saved successfully!');
-    } else {
-      // Mark all fields as touched to show validation errors
-      Object.keys(this.auditForm.controls).forEach(key => {
-        this.auditForm.get(key)?.markAsTouched();
-      });
-      alert('Please fill all required fields');
+      this.auditService.createAuditItem(formData).subscribe({
+        next:(res)=>{
+          this.messageService.add({
+              severity: "success",
+              summary: "Success",
+              detail: res.message,
+            });
+          },error:(err)=>{
+          this.messageService.add({
+              severity: "error",
+              summary: "Error",
+              detail: err.error.error[0],
+            });
+
+        }
+      })      
     }
   }
 
@@ -170,4 +165,35 @@ auditForm!: FormGroup;
       this.state.set('active');
     }
   }
+   onAddcategory() {
+      const ref = this.dialogService.open(AddDialog, {
+        header: "Add Audit Categories",
+        width: "600px",
+        modal: true,
+      });
+      
+      ref.onClose.subscribe((result) => {
+        if (result) {
+          
+          this.auditService.addCategory(result.value).subscribe({
+            next:(res)=>{
+
+              this.messageService.add({
+                severity: "success",
+                summary: "Success",
+                detail: res.message,
+              });
+             this.auditService.getAllFiltersDropDowns().subscribe()
+            },error:(err:HttpErrorResponse)=>{
+              this.messageService.add({
+                severity: "error",
+                summary: "Error",
+                detail: err.error.error[0],
+              });
+              
+            }
+          })
+        }
+      });
+    }
 }

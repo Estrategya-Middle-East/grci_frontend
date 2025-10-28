@@ -5,7 +5,7 @@ export interface AuditCategories<T> {
   succeeded: boolean;
   message: string;
   errors: string[];
-  data: PaginatedData<T>;
+  data: T;
 }
 
 export interface Meta {

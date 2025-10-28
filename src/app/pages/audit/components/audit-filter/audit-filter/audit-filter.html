@@ -20,7 +20,7 @@
 
         <div class="row g-3 filter-row-top">
           <div class="col-3">
-            <p-select #filterSelect  [options]="dimensionOptions()"
+            <p-select #filterSelect  [options]="auditService.dimensionOptions()"
                         (onChange)="updateFilters('DimensionId',$event.value)"
                         optionLabel="name"
                         optionValue="id"                     
@@ -28,7 +28,7 @@
                         styleClass="w-100"></p-select>
           </div>
           <div class="col-3">
-            <p-select #filterSelect  [options]="entityOptions()" 
+            <p-select #filterSelect  [options]="auditService.entityOptions()" 
                         (onChange)="updateFilters('EntityId',$event.value)"
                         optionLabel="name"
                         optionValue="id"    
@@ -36,7 +36,7 @@
                       styleClass="w-100"></p-select>
           </div>
           <div class="col-3">
-            <p-select #filterSelect  [options]="categoryOptions()" 
+            <p-select #filterSelect  [options]="auditService.categoryOptions()" 
                         (onChange)="updateFilters('AuditCategoryId',$event.value)"
                         optionLabel="name"
                         optionValue="id" 
@@ -68,7 +68,7 @@
                         styleClass="w-100"></p-select>
                       </div>
                       <div class="col-3">
-                        <p-select #filterSelect  [options]="frequencyOptions()" 
+                        <p-select #filterSelect  [options]="auditService.frequencyOptions()" 
                         (onChange)="updateFilters('AuditFrequencyId',$event.value)"
                         optionLabel="name"
                         optionValue="id" 
@@ -76,7 +76,7 @@
                         styleClass="w-100"></p-select>
                       </div>
                       <div class="col-3">
-                        <p-select #filterSelect  [options]="ownerOptions()" 
+                        <p-select #filterSelect  [options]="auditService.ownerOptions()" 
                         (onChange)="updateFilters('AuditOwnerId',$event.value)"
                         optionLabel="name"
                         optionValue="id" 

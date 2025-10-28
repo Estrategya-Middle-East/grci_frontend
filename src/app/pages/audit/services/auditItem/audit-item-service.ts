@@ -3,11 +3,15 @@ import { AuditItem, AuditFilters, TableColumn, AuditItemsResponse } from '../../
 import { DimensionsService } from '../../../dimensions/services/dimensions.service';
 import { ResourceService } from '../../../resources-management/services/resource';
 import { combineLatest, map, Observable } from 'rxjs';
-import { AuditCategories, AuditCategory } from '../../models/interfaces/audit-categories';
+import { AuditCategories, AuditCategory, PaginatedData } from '../../models/interfaces/audit-categories';
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {  FrequencyData, FrequencyResponse } from '../../models/interfaces/audit-frequancy';
 import { EntitiesItem, EntitiesResponse } from '../../models/interfaces/audit-entities';
+import { lookup } from '../../../../shared/models/lookup.mdoel';
+import { RiskItem, RiskResponse } from '../../models/interfaces/audit-risks';
+import { AddauditItem, AddauditItemResponse } from '../../models/interfaces/add-audit-item';
+import { StorageLocationItem, StorageLocationResponse } from '../../models/interfaces/location-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +36,12 @@ export class AuditItemService {
   ]);
   private filtersSignal = signal<{ [key: string]: any }>({});
   private auditPaginationFilter = signal<Object>({})
+    public ownerOptions = signal<lookup[]>([])
+    public dimensionOptions = signal<AuditItem[]>([])
+    public categoryOptions = signal<AuditCategory[]>([])
+    public frequencyOptions = signal<FrequencyData[]>([])
+    public entityOptions = signal<EntitiesItem[]>([])
+    public risksOptions = signal<RiskItem[]>([])
 
   auditItems = this.auditItemsSignal.asReadonly();
   auditHeaders = this.auditHeaderSignal.asReadonly();
@@ -52,15 +62,43 @@ export class AuditItemService {
     const auditCategories$ = this.getAllCategories();
     const auditFrequencies$ = this.getAllFrequencies();
     const auditEntities$ = this.getAllEntities();
+    const auditRisks$ = this.getAllRisks();
 
-    return combineLatest({dimensionLookups$, auditOwners$,auditCategories$,auditFrequencies$,auditEntities$});
-  }
+    return combineLatest({dimensionLookups$, auditOwners$,auditCategories$,auditFrequencies$,auditEntities$,auditRisks$}).pipe(
+      map( res =>{
+            this.ownerOptions.set(res.auditOwners$)
+            this.dimensionOptions.set(res.dimensionLookups$)
+            this.categoryOptions.set(res.auditCategories$)
+            this.frequencyOptions.set(res.auditFrequencies$)
+            this.entityOptions.set(res.auditEntities$)
+            this.risksOptions.set(res.auditRisks$)
+      }
+    )
+  )
+}
+getAllRisks():Observable<RiskItem[]> {
+  return this.http
+    .get<RiskResponse>(`${this.baseUrl}/Risks/Lookup`)
+    .pipe(map((res) => res.data.items));
+}
   getAllCategories():Observable<AuditCategory[]>{
     return this.http
-          .get<AuditCategories<AuditCategory>>(
+          .get<AuditCategories<PaginatedData<AuditCategory>>>(
             `${this.baseUrl}/AuditCategories/lookup`,       
           )
           .pipe(map((res) => res.data.items));
+  }
+  addCategory(data: object): Observable<any> {
+    return this.http.post<AuditCategories<string>>(
+      `${this.baseUrl}/AuditCategories`,
+      data
+    );
+  }
+
+  getStorageLocations(): Observable<StorageLocationItem[]> {
+    return this.http
+      .get<StorageLocationResponse>(`${this.baseUrl}/StorageLocation`)
+      .pipe(map(res => res.data.items));
   }
   getAllFrequencies():Observable<FrequencyData[]>{
     return this.http
@@ -137,17 +175,8 @@ getTableData(filters:Object): Observable<AuditItem[]> {
       }
     }
   }
-  // toggleItemSelection(index: number) {
-  //   this.auditItemsSignal.update(items => {
-  //     const updated = [...items];
-  //     updated[index] = { ...updated[index], selected: !updated[index].selected };
-  //     return updated;
-  //   });
-  // }
-
-  // toggleAllSelection(selected: boolean) {
-  //   this.auditItemsSignal.update(items =>
-  //     items.map(item => ({ ...item, selected }))
-  //   );
-  // }
+createAuditItem(payload: Partial<AddauditItem>): Observable<AddauditItemResponse> {
+    return this.http
+      .post<AddauditItemResponse>(`${this.baseUrl}/AuditItems`, payload)     
+  }
 }

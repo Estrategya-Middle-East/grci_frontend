@@ -21,11 +21,11 @@ export class AuditFilter implements OnInit,OnDestroy {
   @ViewChildren('filterSelect') allSelects!: QueryList<Select>;
   searchText = '';
   
-  dimensionOptions = signal<AuditItem[]>([]);
+  // dimensionOptions = signal<AuditItem[]>([]);
   
-  entityOptions = signal<EntitiesItem[]>([]);
+  // entityOptions = signal<EntitiesItem[]>([]);
   
-  categoryOptions = signal<AuditCategory[]>([]);
+  // categoryOptions = signal<AuditCategory[]>([]);
   
   statusOptions = signal<FilterOption[]>([
     { label: 'New', value: '0' },
@@ -41,9 +41,9 @@ export class AuditFilter implements OnInit,OnDestroy {
     { label: 'Low', value: '2' }
   ]);
   
-  frequencyOptions = signal<FrequencyData[]>([]);
+  // frequencyOptions = signal<FrequencyData[]>([]);
   
-  ownerOptions = signal<lookup[]>([]);
+  // ownerOptions = signal<lookup[]>([]);
 
   constructor(public auditService: AuditItemService) {}
   
@@ -52,16 +52,7 @@ export class AuditFilter implements OnInit,OnDestroy {
   }
 getDropdownsValues(){
 
-  this.auditService.getAllFiltersDropDowns().subscribe({
-    next:(res)=>{     
-       
-      this.ownerOptions.set(res.auditOwners$)
-      this.dimensionOptions.set(res.dimensionLookups$)
-      this.categoryOptions.set(res.auditCategories$)
-      this.frequencyOptions.set(res.auditFrequencies$)
-      this.entityOptions.set(res.auditEntities$)
-    }
-  })
+  this.auditService.getAllFiltersDropDowns().subscribe()
 }
   onApply() {
     console.log('Apply filters');

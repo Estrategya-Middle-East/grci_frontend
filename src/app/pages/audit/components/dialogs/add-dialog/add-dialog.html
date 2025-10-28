@@ -1,0 +1,71 @@
+ <form [formGroup]="categoryForm" (ngSubmit)="onSave()">
+    <div class="field">
+      <label for="categoryName" class="font-medium">
+        Audit Category name<span class="text-danger">*</span>
+      </label>
+      <input
+        id="categoryName"
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="enter Audit Category name"
+        class="w-full"
+      />
+      <small class="text-danger" *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+        Category name is required
+      </small>
+    </div>
+    <div class="field">
+      <div class="col-12">
+            <label for="comments" class="form-label">Describtion</label>
+            <textarea
+              id="Describtion"
+              pInputTextarea
+              class="w-100"
+              rows="4"
+              formControlName="description"
+              placeholder="Enter Describtion">
+            </textarea>
+          </div>
+    </div>
+    <div class="field">
+      <div class="col-12">
+            <label for="StorageLocation" class="form-label">Storage Location<span class="text-danger">*</span></label>
+            <p-select
+              inputId="auditOwnerId"
+              [options]="storageLocationProp"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="storageLocationId"
+              placeholder="Choose Storage Location"
+              styleClass="w-100"
+              [showClear]="true">
+            </p-select>
+            <small class="text-danger" *ngIf="categoryForm.get('storageLocationId')?.invalid && categoryForm.get('storageLocationId')?.touched">
+         Storage Location is required
+      </small>
+          </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center gap-2 mt-3">
+            <button
+              type="button"
+              pButton
+              label="Save"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="categoryForm.invalid"
+              (click)="onSave()">
+              
+            </button>
+            <button
+              type="button"
+              pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()">
+              
+            </button>
+          </div>
+  </form>
