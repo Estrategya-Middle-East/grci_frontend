@@ -77,9 +77,9 @@ export enum RiskStatusEnum {
 }
 
 export enum RiskLevelEnum {
-  ProcessGroup = 0,
-  Process = 1,
-  Activity = 2,
+  ProcessGroup = 1,
+  Process = 2,
+  Activity = 3,
   Task = 4,
 }
 
