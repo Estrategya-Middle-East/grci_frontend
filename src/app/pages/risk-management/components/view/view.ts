@@ -35,11 +35,11 @@ export class View {
 
   showFilteration: ShowFilteration = {
     tabeOne: {
-      show: true,
+      show: false,
       label: "Board View",
     },
     tabeTwo: {
-      show: true,
+      show: false,
       label: "List View",
     },
     search: {
