@@ -40,6 +40,7 @@ import { RiskManagementInterface } from "../../models/risk-management";
   styleUrl: "./add-edit.scss",
 })
 export class AddEdit {
+  readonly today = new Date();
   private fb = inject(FormBuilder);
   private riskService = inject(RiskManagementService);
   private route = inject(ActivatedRoute);
@@ -55,12 +56,7 @@ export class AddEdit {
   rootCauses: any[] = [];
   riskCategories: any[] = [];
   rootCauseSubCategories: any[] = [];
-
-  processGroups = [
-    { name: "processGroup1", id: 0 },
-    { name: "processGroup2", id: 1 },
-    { name: "processGroup3", id: 2 },
-  ];
+  processGroups: any[] = [];
 
   statusOptions = [
     { label: "Open", value: 0 },
@@ -72,7 +68,7 @@ export class AddEdit {
     { label: "Process Group", value: 0 },
     { label: "Process", value: 1 },
     { label: "Activity", value: 2 },
-    { label: "Task", value: 3 },
+    { label: "Task", value: 4 },
   ];
 
   mitigationOptions = [
@@ -90,6 +86,7 @@ export class AddEdit {
     this.createForm();
     this.checkIfEditMode();
     this.loadDropdowns();
+    this.setupReactiveWatchers();
   }
 
   private createForm(): void {
@@ -101,11 +98,11 @@ export class AddEdit {
       validity: ["", Validators.required],
       dimensionId: [null, Validators.required],
       entityId: [null, Validators.required],
-      riskLevel: [0, Validators.required],
+      riskLevel: [null],
       rootCauseCategoryId: [null],
       rootCauseSubCategoryId: [null],
       riskCategoryId: [null, Validators.required],
-      processId: [null, Validators.required],
+      processId: [null],
       highPriorityRisk: [false],
       strategicRisk: [false],
       mitigationStatus: [0],
@@ -116,6 +113,16 @@ export class AddEdit {
     });
 
     this.addKRI();
+  }
+
+  setupReactiveWatchers() {
+    this.formGroup.get("entityId")?.valueChanges.subscribe(() => {
+      this.loadProcessGroups();
+    });
+
+    this.formGroup.get("riskLevel")?.valueChanges.subscribe(() => {
+      this.loadProcessGroups();
+    });
   }
 
   get riskKRIsFormArray(): FormArray {
@@ -149,7 +156,6 @@ export class AddEdit {
   private loadRisk(id: number): void {
     this.riskService.getRiskById(id).subscribe({
       next: (res) => {
-        // patch main fields
         this.formGroup.patchValue({
           riskDriver: res.riskDriver,
           riskEvent: res.riskEvent,
@@ -189,6 +195,9 @@ export class AddEdit {
         } else {
           this.addKRI();
         }
+
+        // trigger process group load if entity and riskLevel exist
+        this.loadProcessGroups();
       },
       error: () => {
         this.router.navigateByUrl(AppRoute["RISK-MANAGEMENT"] || "/risks");
@@ -239,10 +248,28 @@ export class AddEdit {
     this.riskService.loadRootCauseSubCategories(parentId).subscribe({
       next: (res) => {
         this.rootCauseSubCategories = res;
+        console.log(this.rootCauseSubCategories);
       },
       error: () => {
         this.rootCauseSubCategories = [];
       },
+    });
+  }
+
+  private loadProcessGroups(): void {
+    const entityId = this.formGroup.get("entityId")?.value;
+    const processType = this.formGroup.get("riskLevel")?.value;
+
+    this.formGroup.patchValue({ processId: null });
+
+    if (!entityId || !processType) {
+      this.processGroups = [];
+      return;
+    }
+
+    this.riskService.getProcessGroupLookup(entityId, processType).subscribe({
+      next: (res) => (this.processGroups = res),
+      error: () => (this.processGroups = []),
     });
   }
 
@@ -261,7 +288,8 @@ export class AddEdit {
       consequences: raw.consequences,
       dimensionId: raw.dimensionId,
       entityId: raw.entityId,
-      processId: raw.processId,
+      riskLevel: raw.riskLevel || undefined,
+      processId: raw.processId || undefined,
       rootCauseCategoryId: raw.rootCauseCategoryId,
       rootCauseSubCategoryId: raw.rootCauseSubCategoryId,
       riskMitigationStatus: raw.mitigationStatus,
@@ -291,7 +319,7 @@ export class AddEdit {
         });
         this.router.navigateByUrl(AppRoute["RISK-MANAGEMENT"] || "/risks");
       },
-      error: (err) => {
+      error: () => {
         this.messageService.add({
           severity: "error",
           summary: "Error",

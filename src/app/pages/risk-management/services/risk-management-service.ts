@@ -76,6 +76,20 @@ export class RiskManagementService {
       .pipe(map((res) => res.data));
   }
 
+  getProcessGroupLookup(
+    entityId: number,
+    processType: number
+  ): Observable<lookup[]> {
+    let params = new HttpParams()
+      .set("entityId", entityId)
+      .set("processType", processType);
+    return this.http
+      .get<any>(`${environment.baseUrl}api/ProcessManagements/lookup`, {
+        params,
+      })
+      .pipe(map((res) => res.data));
+  }
+
   getRiskRootCauses(): Observable<
     { id: number; rootCause: string; parent: number; isMainCategory: boolean }[]
   > {

@@ -103,7 +103,7 @@
       <!-- Risk Level -->
       <div class="col-md-6">
         <div class="c-formControl mb-3">
-          <label class="title-control d-block">Risk Level*</label>
+          <label class="title-control d-block">Risk Level</label>
           <div class="d-flex gap-4 inputs-wrapper flex-wrap">
             @for (r of riskLevelOptions; track r.value) {
             <div class="d-flex gap-2 align-items-center">
@@ -123,6 +123,7 @@
         </div>
       </div>
 
+      @if (formGroup.get('riskLevel')?.value) {
       <div class="col-md-6">
         <div class="c-formControl mb-3">
           <label class="title-control d-block">Process Group*</label>
@@ -136,6 +137,7 @@
           />
         </div>
       </div>
+      }
 
       <hr class="text-black-50" />
 
@@ -155,7 +157,7 @@
               >
               </p-radioButton>
               <label [for]="'rootCause-' + rc.id" class="ml-2">{{
-                rc.rootCause
+                rc.name
               }}</label>
             </div>
             }
@@ -169,7 +171,7 @@
           <label class="title-control d-block">Root Cause Sub-Category</label>
           <p-select
             [options]="rootCauseSubCategories"
-            optionLabel="rootCause"
+            optionLabel="name"
             optionValue="id"
             formControlName="rootCauseSubCategoryId"
             placeholder="Select sub-category"
@@ -283,6 +285,19 @@
             </div>
             }
           </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="c-formControl">
+          <label class="title-control d-block">Validity*</label>
+          <p-datepicker
+            formControlName="validity"
+            showIcon="true"
+            placeholder="validity"
+            class="w-100"
+            [minDate]="today"
+          ></p-datepicker>
         </div>
       </div>
 
