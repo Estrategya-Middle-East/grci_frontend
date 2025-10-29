@@ -432,7 +432,12 @@
             />
           </svg>
         </div>
-        <div class="title">Audit Universe</div>
+          <div
+          [routerLink]="['/audit']"
+          [routerLinkActive]="'active'"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="title">Audit Universe</div>
+       
       </div>
     </div>
     <div

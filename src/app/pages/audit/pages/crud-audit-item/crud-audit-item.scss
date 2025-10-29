@@ -1,0 +1,75 @@
+:host ::ng-deep {
+      .p-inputtext,
+      .p-dropdown,
+      .p-inputtextarea {
+        width: 100%;
+      }
+
+      .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+
+      .text-danger {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+
+      .card {
+        border: none;
+        border-radius: 0.5rem;
+      }
+
+      .card-header {
+        border-radius: 0.5rem 0.5rem 0 0;
+        padding: 1rem 1.5rem;
+      }
+
+      .p-button-sm {
+        padding: 0.5rem 0.75rem;
+      }
+
+      @media (max-width: 768px) {
+        .d-flex.gap-4 {
+          flex-direction: column;
+          gap: 0.5rem !important;
+        }
+        
+        .card-body {
+          padding: 1rem;
+        }
+      }
+    }
+    .btnCustom{
+        height: 36px;
+    }
+    .btnState{
+      @extend .btnCustom;
+      width: 107px;
+
+    }
+    .switch-Headquarter {
+  margin-inline-start: 25px;
+  button {
+    display: inline-flex;
+    background-color: #d9d9d9;
+    width: 88px;
+    height: 34px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    font-weight: 600;
+    box-shadow: none;
+    outline: 0;
+  }
+  button.active {
+    background-color: #1e87f0;
+    color: white;
+  }
+  button:last-of-type {
+    margin-inline-start: -10px;
+  }
+}

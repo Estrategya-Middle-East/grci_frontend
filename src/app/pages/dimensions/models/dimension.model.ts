@@ -24,3 +24,16 @@ export interface DimensionsFilter {
   totalItems?: number;
   totalPages?: number;
 }
+export interface DimensionsLookupsResponse<T> {
+  statusCode: number;
+  meta: string;
+  succeeded: boolean;
+  message: string;
+  errors: string[];
+  data: T[];
+}
+
+export interface Item {
+  id: number;
+  name: string;
+}

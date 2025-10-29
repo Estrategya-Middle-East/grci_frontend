@@ -16,7 +16,7 @@ interface PageEvent {
 })
 export class CustomPaginatorComponent {
   @Input() first: number = 0;
-  @Input() pagination: any = {};
+  @Input() pagination: {pageNumber?: number;pageSize?: number;totalItems?:number} = {};
   @Input() rows: number = 10;
   @Output() pageNumber = new EventEmitter<any>();
 

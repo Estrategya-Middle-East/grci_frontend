@@ -66,7 +66,9 @@ export class Entity {
   deleteEntity(id: number): Observable<any> {
     return this.http.delete<ApiResponse<any>>(`${this.baseUrl}/${id}`);
   }
-
+  getEntitiesLookups(){
+    
+  }
   getOrganizationalUnitLookUp(): Observable<lookup[]> {
     return this.http
       .get<any>(`${environment.baseUrl}api/OrganizationalUnits/lookup`)

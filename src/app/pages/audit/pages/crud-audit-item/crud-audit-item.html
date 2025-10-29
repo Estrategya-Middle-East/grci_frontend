@@ -1,0 +1,332 @@
+<div class="container-fluid">
+  <div class="card shadow-sm">
+    <div class="card-header text-dark">
+      <h5 class="mb-0">Add Audit Item</h5>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="auditForm">
+        <!-- will be added in the edit screen -->
+        <!-- Row 1: Title -->
+        <div class="row mb-3">
+          @if (router.url.includes('edit')) {
+          
+            <div class="col-md-6 mb-3 mb-md-0">
+              <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
+              <input type="text" class="form-control filter-search-input" 
+              placeholder="C-001" 
+              formControlName="code"
+              />                  
+              
+            </div>
+          }
+          <div class="col-md-6">
+            <label for="title" class="form-label">
+              Audit Item Title<span class="text-danger">*</span>
+            </label>
+            <input
+              id="title"
+              type="text"
+              class="form-control filter-search-input"
+              placeholder="Enter audit item title"
+              formControlName="title"
+            />
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('title')?.invalid && auditForm.get('title')?.touched"
+            >
+              Audit item title is required
+            </small>
+          </div>
+        </div>
+
+        <!-- Row 2: Description -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              id="description"
+              pInputTextarea
+              class="w-100"
+              rows="4"
+              formControlName="description"
+              placeholder="Enter audit item description">
+            </textarea>
+          </div>
+        </div>
+
+        <!-- Row 3: Dimension and Entity -->
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label for="dimensionId" class="form-label">
+              Dimension<span class="text-danger">*</span>
+            </label>
+            <p-select
+              inputId="dimensionId"
+              [options]="auditService.dimensionOptions()"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="dimensionId"
+              placeholder="Choose Dimension"
+              styleClass="w-100"
+              [showClear]="true">
+            </p-select>
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('dimensionId')?.invalid && auditForm.get('dimensionId')?.touched"
+            >
+              Dimension is required
+            </small>
+          </div>
+
+          <div class="col-md-6">
+            <label for="entityId" class="form-label">
+              Entity<span class="text-danger">*</span>
+            </label>
+            <p-select
+              inputId="entityId"
+              [options]="auditService.entityOptions()"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="entityId"
+              placeholder="Choose Entity"
+              styleClass="w-100"
+              [showClear]="true">
+            </p-select>
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('entityId')?.invalid && auditForm.get('entityId')?.touched"
+            >
+              Entity is required
+            </small>
+          </div>
+        </div>
+
+        <!-- Row 4: Risks and Priority -->
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label for="riskIds" class="form-label">Risks</label>
+            <p-multiSelect
+              class="w-100"
+              formControlName="riskIds"
+              [options]="auditService.risksOptions()"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="Select risk(s)">
+            </p-multiSelect>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">
+              Priority<span class="text-danger">*</span>
+            </label>
+            <div class="d-flex gap-4 mt-2">
+              <div class="form-check">
+                <p-radioButton
+                  inputId="low"
+                  name="priority"
+                  [value]="1"
+                  formControlName="priority">
+                </p-radioButton>
+                <label for="low" class="form-check-label ms-2">Low</label>
+              </div>
+              <div class="form-check">
+                <p-radioButton
+                  inputId="medium"
+                  name="priority"
+                  [value]="2"
+                  formControlName="priority">
+                </p-radioButton>
+                <label for="medium" class="form-check-label ms-2">Medium</label>
+              </div>
+              <div class="form-check">
+                <p-radioButton
+                  inputId="high"
+                  name="priority"
+                  [value]="3"
+                  formControlName="priority">
+                </p-radioButton>
+                <label for="high" class="form-check-label ms-2">High</label>
+              </div>
+            </div>
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('priority')?.invalid && auditForm.get('priority')?.touched"
+            >
+              Priority is required
+            </small>
+          </div>
+        </div>
+
+        <!-- Row 5: Estimated Effort and Audit Category -->
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label for="estimatedEffort" class="form-label">
+              Estimated Effort<span class="text-danger">*</span>
+            </label>
+            <input
+              type="number"
+              id="estimatedEffort"
+              class="form-control filter-search-input"
+              placeholder="Enter number of hours/year"
+              formControlName="estimatedEffort"
+            />
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('estimatedEffort')?.invalid && auditForm.get('estimatedEffort')?.touched"
+            >
+              Estimated effort is required
+            </small>
+          </div>
+
+          <div class="col-md-6">
+            <label for="auditCategoryId" class="form-label">
+              Audit Category<span class="text-danger">*</span>
+            </label>
+            <div class="d-flex justify-content-between">
+
+              <p-select
+              inputId="auditCategoryId"
+              [options]="auditService.categoryOptions()"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="auditCategoryId"
+              placeholder="Choose Audit Category"
+              styleClass="w-100"
+              [showClear]="true">
+            </p-select>
+            <button (click)="onAddcategory()" class="btn btn-primary mx-2"><i class="pi pi-plus"></i></button>
+          </div>
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('auditCategoryId')?.invalid && auditForm.get('auditCategoryId')?.touched"
+            >
+              Audit category is required
+            </small>
+          </div>
+        </div>
+
+        <!-- Row 6: Audit Frequency and Owner -->
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label for="auditFrequencyId" class="form-label">
+              Audit Frequency<span class="text-danger">*</span>
+            </label>
+            <p-select
+              inputId="auditFrequencyId"
+              [options]="auditService.frequencyOptions()"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="auditFrequencyId"
+              placeholder="Choose Audit Frequency"
+              styleClass="w-100"
+              [showClear]="true">
+            </p-select>
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('auditFrequencyId')?.invalid && auditForm.get('auditFrequencyId')?.touched"
+            >
+              Audit frequency is required
+            </small>
+          </div>
+
+          <div class="col-md-6">
+            <label for="auditOwnerId" class="form-label">Audit Owner</label>
+            <p-select
+              inputId="auditOwnerId"
+              [options]="auditService.ownerOptions()"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="auditOwnerId"
+              placeholder="Choose Audit Owner"
+              styleClass="w-100"
+              [showClear]="true">
+            </p-select>
+          </div>
+        </div>
+
+        <!-- Row 7: Regulatory Frameworks -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="regulatoryFrameworks" class="form-label">
+              Regulatory Framework<span class="text-danger">*</span>
+            </label>
+            <input
+              id="regulatoryFrameworks"
+              type="text"
+              class="form-control filter-search-input"
+              placeholder="Enter Regulatory Framework"
+              formControlName="regulatoryFrameworks"
+            />
+            <small
+              class="text-danger"
+              *ngIf="auditForm.get('regulatoryFrameworks')?.invalid && auditForm.get('regulatoryFrameworks')?.touched"
+            >
+              Regulatory framework is required
+            </small>
+          </div>
+          <!-- <div class="col-md-6 d-flex align-items-center">
+            <div class="c-formControl section-Headquarter d-flex align-items-center">
+             <label class="title-control d-block">Status <span class="text-danger">*</span></label>
+             <div class="switch-Headquarter">
+               <button
+                 type="button"
+                 class="btn"
+                 [class.active]="switchHeadquarter() === 2"
+                 (click)="toggleHeadquarter(2)"
+               >
+                 No
+               </button>
+               <button
+                 type="button"
+                 class="btn"
+                 [class.active]="switchHeadquarter() === 1"
+                 (click)="toggleHeadquarter(1)"
+               >
+                 Yes
+               </button>
+             </div>
+           </div>
+          </div> -->
+        </div>
+        <!-- Row 8: Comments -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <label for="comments" class="form-label">Comments</label>
+            <textarea
+              id="comments"
+              pInputTextarea
+              class="w-100"
+              rows="4"
+              formControlName="comments"
+              placeholder="Enter Comments">
+            </textarea>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-center gap-2">
+            <button
+              type="button"
+              pButton
+              label="Save"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="auditForm.invalid"
+              (click)="onSave()">
+            </button>
+            <button
+              type="button"
+              pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()">
+            </button>
+          </div>
+        </div>
+      </form>      
+    </div>
+  </div>
+</div>
