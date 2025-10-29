@@ -156,7 +156,6 @@ getTableData(filters:Object): Observable<AuditItem[]> {
   updateFilters(filters: any) {
     
     this.filtersSignal.update(current => ({ ...current, ...filters }));
-    console.log("this.filtersSignal",this.filtersSignal());
     
   }
 
@@ -203,6 +202,10 @@ createAuditItem(payload: Partial<AddauditItem>): Observable<AddauditItemResponse
 editAuditItem(payload: Partial<AddauditItem>,id:string): Observable<AddauditItemResponse> {
     return this.http
       .put<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`, payload)     
+  }
+deleteAuditItem(id:string): Observable<AddauditItemResponse> {
+    return this.http
+      .delete<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`)     
   }
 getAuditItemById(id: string): Observable<AddauditItemViewModel> {
   return this.http

@@ -26,7 +26,7 @@
                     <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
                          Edit audit item 
                     </button>
-                    <button ngbDropdownItem >
+                    <button ngbDropdownItem (click)="deleteAuditItem( row.id , row.title)" >
                     <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
                      Delete audit item
                     </button>

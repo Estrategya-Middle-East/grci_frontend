@@ -199,7 +199,11 @@ auditForm!: FormGroup;
                 summary: "Success",
                 detail: res.message,
               });
-             this.auditService.getAllCategories().subscribe()
+             this.auditService.getAllCategories().subscribe(
+             (res)=>{
+              this.auditService.categoryOptions.set(res)
+             }
+             )
             },error:(err:HttpErrorResponse)=>{
               this.messageService.add({
                 severity: "error",
