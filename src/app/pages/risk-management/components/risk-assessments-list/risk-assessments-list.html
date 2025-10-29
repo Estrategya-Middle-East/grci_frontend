@@ -1,0 +1,18 @@
+<app-header
+  [showFilteration]="filteration"
+  [showActions]="actions"
+  [title]="'Risk Assessments'"
+  (addClick)="onAdd()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <app-general-list
+    #riskAssessmentsList
+    [columns]="columns"
+    [fetchData]="fetchData"
+    [active]="true"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+  />
+</div>

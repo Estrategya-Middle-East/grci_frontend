@@ -16,8 +16,8 @@ import { RiskManagementService } from "../../services/risk-management-service";
 import { RiskManagementInterface } from "../../models/risk-management";
 import { DialogService } from "primeng/dynamicdialog";
 import { AssignOwnerPopup } from "../assign-owner-popup/assign-owner-popup";
-import { RiskAssessmentPopup } from "../risk-assessment-popup/risk-assessment-popup";
 import { CommonModule } from "@angular/common";
+import { appRoutes } from "../../../../app.routes.enum";
 
 @Component({
   selector: "app-list",
@@ -213,26 +213,8 @@ export class List implements OnChanges {
   }
 
   openRiskAssessment(row: RiskManagementInterface) {
-    const ref = this.dialogService.open(RiskAssessmentPopup, {
-      header: `Risk Assessment - ${row.riskEvent}`,
-      width: "800px",
-      modal: true,
-      data: {
-        riskId: row.id,
-        riskScore: row.latestRiskScore || 0,
-        riskRating: row.latestRiskRating || "",
-      },
-    });
-
-    ref.onClose.subscribe((result) => {
-      if (result) {
-        this.loadRisks(this.pagination);
-        this.messageService.add({
-          severity: "info",
-          summary: "Updated",
-          detail: "Risk assessment saved successfully ✅",
-        });
-      }
+    this.router.navigate([row.id, appRoutes["RISK-ASSESSMENTS"]], {
+      relativeTo: this.route,
     });
   }
 }

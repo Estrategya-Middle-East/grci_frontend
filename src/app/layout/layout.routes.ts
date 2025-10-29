@@ -309,6 +309,13 @@ export const layoutRoutes: Routes = [
             (m) => m.AddEdit
           ),
       },
+      {
+        path: `:id/${AppRoute["RISK-ASSESSMENTS"]}`,
+        loadComponent: () =>
+          import(
+            "../pages/risk-management/components/risk-assessments-list/risk-assessments-list"
+          ).then((m) => m.RiskAssessmentsList),
+      },
     ],
   },
   {

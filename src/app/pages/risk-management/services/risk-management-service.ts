@@ -139,20 +139,55 @@ export class RiskManagementService {
       .pipe(map((res) => res.data));
   }
 
-  getRiskAssesment(riskId: number) {
+  getRiskAssesment(assessmentId: number) {
     return this.http
-      .get<any>(`${environment.baseUrl}api/RiskAssessments/${riskId}`)
+      .get<any>(`${environment.baseUrl}api/RiskAssessments/${assessmentId}`)
+      .pipe(map((res) => res.data));
+  }
+
+  getRiskAssesmentList(riskId: number, filter: any = {}) {
+    let params = new HttpParams().set("riskId", riskId);
+
+    if (filter.pageNumber !== undefined) {
+      params = params.set("PageNumber", filter.pageNumber);
+    }
+    if (filter.pageSize !== undefined) {
+      params = params.set("PageSize", filter.pageSize);
+    }
+
+    if (filter.filterField && filter.filterValue) {
+      filter.filterField.forEach((field: string, i: number) => {
+        const value = filter.filterValue[i];
+        if (value !== undefined && field) {
+          params = params.set(field, value);
+        }
+      });
+    }
+
+    return this.http
+      .get<any>(`${environment.baseUrl}api/RiskAssessments/Getlist`, { params })
       .pipe(map((res) => res.data));
   }
 
   updateRiskAssessment(
-    riskId: number,
+    riskAssessmentId: number,
     payload: RiskAssessmentPayloadInterface
   ) {
     return this.http
-      .put<any>(`${environment.baseUrl}api/RiskAssessments/${riskId}`, {
-        ...payload,
-      })
+      .put<any>(
+        `${environment.baseUrl}api/RiskAssessments/${riskAssessmentId}`,
+        {
+          ...payload,
+        }
+      )
+      .pipe(map((res) => res.data));
+  }
+
+  deleteRiskAssessment(riskAssessmentId: number) {
+    return this.http
+      .delete<any>(
+        `${environment.baseUrl}api/RiskAssessments/${riskAssessmentId}`
+      )
       .pipe(map((res) => res.data));
   }
 

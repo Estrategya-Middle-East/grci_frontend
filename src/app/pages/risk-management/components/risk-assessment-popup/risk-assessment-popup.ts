@@ -13,7 +13,8 @@ import { InputTextModule } from "primeng/inputtext";
 import { RiskManagementService } from "../../services/risk-management-service";
 import { MessageService } from "primeng/api";
 import { forkJoin, of } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, finalize } from "rxjs/operators";
+import { DatePickerModule } from "primeng/datepicker";
 
 @Component({
   selector: "app-risk-assessment-popup",
@@ -24,11 +25,13 @@ import { catchError } from "rxjs/operators";
     ButtonModule,
     SelectModule,
     InputTextModule,
+    // DatePickerModule,
   ],
   templateUrl: "./risk-assessment-popup.html",
   styleUrls: ["./risk-assessment-popup.scss"],
 })
 export class RiskAssessmentPopup implements OnInit {
+  readonly today = new Date();
   private fb = inject(FormBuilder);
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
@@ -36,15 +39,21 @@ export class RiskAssessmentPopup implements OnInit {
   private messageService = inject(MessageService);
 
   formGroup!: FormGroup;
-  riskId!: number;
   isEditMode = false;
   loading = true;
+
+  riskId!: number;
+  assessmentId!: number | null;
 
   likelihoodOptions = signal<{ id: number; name: string }[]>([]);
   impactOptions = signal<{ id: number; name: string }[]>([]);
 
   ngOnInit(): void {
-    this.riskId = this.config.data?.riskId;
+    const data = this.config.data;
+    this.riskId = data?.riskId;
+    this.assessmentId = data?.assessmentId ?? null;
+    this.isEditMode = !!this.assessmentId;
+
     this.initForm();
     this.loadDropdowns();
   }
@@ -53,36 +62,45 @@ export class RiskAssessmentPopup implements OnInit {
     this.formGroup = this.fb.group({
       likelihoodScaleId: [null, Validators.required],
       impactScaleId: [null, Validators.required],
+      // validity: [null, Validators.required],
       comments: [""],
     });
   }
 
   private loadDropdowns(): void {
-    forkJoin({
+    const requests = {
       likelihoods: this.service
         .getRiskLikelihoodLookUp()
         .pipe(catchError(() => of([]))),
       impacts: this.service
         .getRiskImpactsLookUp()
         .pipe(catchError(() => of([]))),
-      assessment: this.service
-        .getRiskAssesment(this.riskId)
-        .pipe(catchError(() => of(null))),
-    }).subscribe(({ likelihoods, impacts, assessment }) => {
-      this.likelihoodOptions.set(likelihoods || []);
-      this.impactOptions.set(impacts || []);
+    };
 
-      if (assessment) {
-        this.isEditMode = true;
-        this.formGroup.patchValue({
-          likelihoodScaleId: assessment.likelihoodScaleId,
-          impactScaleId: assessment.impactScaleId,
-          comments: assessment.comments || "",
-        });
-      }
+    // If edit mode, also load the assessment details
+    if (this.isEditMode && this.assessmentId) {
+      Object.assign(requests, {
+        assessment: this.service
+          .getRiskAssesment(this.assessmentId)
+          .pipe(catchError(() => of(null))),
+      });
+    }
 
-      this.loading = false;
-    });
+    forkJoin(requests)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe(({ likelihoods, impacts, assessment }: any) => {
+        this.likelihoodOptions.set(likelihoods || []);
+        this.impactOptions.set(impacts || []);
+
+        if (assessment) {
+          this.formGroup.patchValue({
+            likelihoodScaleId: assessment.likelihoodScaleId,
+            impactScaleId: assessment.impactScaleId,
+            // validity: assessment.validity,
+            comments: assessment.comments || "",
+          });
+        }
+      });
   }
 
   submit(): void {
@@ -93,22 +111,34 @@ export class RiskAssessmentPopup implements OnInit {
 
     const payload = this.formGroup.value;
     const request$ = this.isEditMode
-      ? this.service.updateRiskAssessment(this.riskId, payload)
+      ? this.service.updateRiskAssessment(this.assessmentId!, payload)
       : this.service.addRiskAssessment(this.riskId, payload);
 
-    request$.subscribe(() => {
-      this.messageService.add({
-        severity: "success",
-        summary: this.isEditMode ? "Updated" : "Saved",
-        detail: `Risk assessment ${
-          this.isEditMode ? "updated" : "saved"
-        } successfully 🎉`,
+    request$
+      .pipe(
+        finalize(() => (this.loading = false)),
+        catchError((err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to save risk assessment",
+          });
+          throw err;
+        })
+      )
+      .subscribe((res) => {
+        this.messageService.add({
+          severity: "success",
+          summary: this.isEditMode ? "Updated" : "Saved",
+          detail: `Risk assessment ${
+            this.isEditMode ? "updated" : "created"
+          } successfully 🎉`,
+        });
+        this.ref.close(res);
       });
-      this.ref.close(payload);
-    });
   }
 
   close(): void {
-    this.ref.close();
+    this.ref.close(null);
   }
 }
