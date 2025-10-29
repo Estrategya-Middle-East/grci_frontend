@@ -39,3 +39,7 @@ export interface Risk {
   riskCategory: string;
   riskRating: string;
 }
+export interface AddauditItemViewModel extends Omit<AddauditItem, 'riskIds' | 'risks'> {
+  riskIds: string;
+  risks: string;
+}

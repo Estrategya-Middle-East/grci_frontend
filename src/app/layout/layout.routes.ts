@@ -340,6 +340,13 @@ export const layoutRoutes: Routes = [
             "../pages/audit/pages/crud-audit-item/crud-audit-item"
           ).then((m) => m.CrudAuditItem),
       },     
+      {
+        path: "edit",
+        loadComponent: () =>
+          import(
+            "../pages/audit/pages/crud-audit-item/crud-audit-item"
+          ).then((m) => m.CrudAuditItem),
+      },     
     ],
   },
 ];

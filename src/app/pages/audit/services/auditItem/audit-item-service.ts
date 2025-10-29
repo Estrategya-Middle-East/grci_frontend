@@ -10,7 +10,7 @@ import {  FrequencyData, FrequencyResponse } from '../../models/interfaces/audit
 import { EntitiesItem, EntitiesResponse } from '../../models/interfaces/audit-entities';
 import { lookup } from '../../../../shared/models/lookup.mdoel';
 import { RiskItem, RiskResponse } from '../../models/interfaces/audit-risks';
-import { AddauditItem, AddauditItemResponse } from '../../models/interfaces/add-audit-item';
+import { AddauditItem, AddauditItemResponse, AddauditItemViewModel } from '../../models/interfaces/add-audit-item';
 import { StorageLocationItem, StorageLocationResponse } from '../../models/interfaces/location-storage';
 
 @Injectable({
@@ -164,19 +164,64 @@ getTableData(filters:Object): Observable<AuditItem[]> {
     this.filtersSignal.set({});
   }
   public resetAllSignals(): void {
-    
-    for (const key of Object.keys(this)) {
-      
-      const prop = (this as any)[key];
+  const defaultValues: Record<string, any> = {
+    auditItemsSignal: [],
+    auditHeaderSignal: [
+      { header: 'Risk Code', field: 'code' },
+      { header: 'Audit item', field: 'title' },
+      { header: 'Dimension', field: 'dimensionName' },
+      { header: 'Entity', field: 'entityName' },
+      { header: 'Audit Category', field: 'auditCategoryName' },
+      { header: 'Estimated effort', field: 'estimatedEffort' },
+      { header: 'Status', field: 'status' },
+      { header: 'Priority level', field: 'priority' },
+      { header: 'Audit Frequency', field: 'auditFrequencyName' },
+      { header: 'Audit Owner', field: 'auditOwnerName' },
+      { header: 'Action', field: 'action' }
+    ],
+    filtersSignal: {},
+    auditPaginationFilter: {},
+    ownerOptions: [],
+    dimensionOptions: [],
+    categoryOptions: [],
+    frequencyOptions: [],
+    entityOptions: [],
+    risksOptions: [],
+  };
 
-      // ✅ Correct way to check if the property is a signal
-      if (isSignal(prop) && 'set' in prop) {
-        (prop as WritableSignal<any>).set(null);
-      }
+  for (const key of Object.keys(defaultValues)) {
+    if (isSignal((this as any)[key])) {
+      (this as any)[key].set(defaultValues[key]);
     }
   }
+}
+
 createAuditItem(payload: Partial<AddauditItem>): Observable<AddauditItemResponse> {
     return this.http
       .post<AddauditItemResponse>(`${this.baseUrl}/AuditItems`, payload)     
   }
+editAuditItem(payload: Partial<AddauditItem>,id:string): Observable<AddauditItemResponse> {
+    return this.http
+      .put<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`, payload)     
+  }
+getAuditItemById(id: string): Observable<AddauditItemViewModel> {
+  return this.http
+    .get<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`)
+    .pipe(
+      map(res => {
+        const item = res.data;
+
+        // ✅ Convert risks and riskIds to string (comma-separated or empty string)
+        const risksString = item.risks?.map(r => r.riskId).join(', ') || '';
+        const riskIdsString = item.riskIds?.join(', ') || '';
+
+        return {
+          ...item,
+          risks: risksString,
+          riskIds: riskIdsString
+        };
+      })
+    );
+}
+
 }

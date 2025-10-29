@@ -6,22 +6,20 @@
 
     <div class="card-body">
       <form [formGroup]="auditForm">
-<!-- will be added in the edit screen -->
-              @if (false) {
-
-                <div class="col-md-6 mb-3 mb-md-0">
-                  <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
-                  <input type="text" class="form-control filter-search-input" 
-                  placeholder="C-001" 
-                  formControlName="code"
-                  />                  
-                  <small class="text-danger" *ngIf="auditForm.get('code')?.invalid && auditForm.get('code')?.touched">
-                    Code is required
-                  </small>
-                </div>
-              }
-                <!-- Row 1: Title -->
+        <!-- will be added in the edit screen -->
+        <!-- Row 1: Title -->
         <div class="row mb-3">
+          @if (router.url.includes('edit')) {
+          
+            <div class="col-md-6 mb-3 mb-md-0">
+              <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
+              <input type="text" class="form-control filter-search-input" 
+              placeholder="C-001" 
+              formControlName="code"
+              />                  
+              
+            </div>
+          }
           <div class="col-md-6">
             <label for="title" class="form-label">
               Audit Item Title<span class="text-danger">*</span>
@@ -267,8 +265,30 @@
               Regulatory framework is required
             </small>
           </div>
+          <!-- <div class="col-md-6 d-flex align-items-center">
+            <div class="c-formControl section-Headquarter d-flex align-items-center">
+             <label class="title-control d-block">Status <span class="text-danger">*</span></label>
+             <div class="switch-Headquarter">
+               <button
+                 type="button"
+                 class="btn"
+                 [class.active]="switchHeadquarter() === 2"
+                 (click)="toggleHeadquarter(2)"
+               >
+                 No
+               </button>
+               <button
+                 type="button"
+                 class="btn"
+                 [class.active]="switchHeadquarter() === 1"
+                 (click)="toggleHeadquarter(1)"
+               >
+                 Yes
+               </button>
+             </div>
+           </div>
+          </div> -->
         </div>
-
         <!-- Row 8: Comments -->
         <div class="row mb-4">
           <div class="col-12">
@@ -306,14 +326,7 @@
             </button>
           </div>
         </div>
-      </form>
-
-      <!-- Debug Section -->
-      <div class="mt-4 p-3 bg-light rounded" *ngIf="showDebug">
-        <h6>Form Value:</h6>
-        <pre>{{ auditForm.value | json }}</pre>
-        <h6>Form Valid: {{ auditForm.valid }}</h6>
-      </div>
+      </form>      
     </div>
   </div>
 </div>

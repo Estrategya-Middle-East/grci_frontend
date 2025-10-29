@@ -18,15 +18,16 @@ import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AddDialog } from '../../components/dialogs/add-dialog/add-dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-crud-audit-item',
   standalone:true,
   imports: [CommonModule,
-    ReactiveFormsModule,
+  ReactiveFormsModule,
     FormsModule,
-    RadioButtonModule,   // ✅ Added
-    ButtonModule,        // ✅ Added
-    InputTextModule,     // ✅ Added if needed
+    RadioButtonModule,   
+    ButtonModule,        
+    InputTextModule,     
     TextareaModule,
     SelectModule,
     MultiSelectModule,
@@ -38,11 +39,13 @@ import { AddDialog } from '../../components/dialogs/add-dialog/add-dialog';
 export class CrudAuditItem {
 private messageService = inject(MessageService);
 private dialogService = inject(DialogService);
+  private Activatedroute = inject(ActivatedRoute);
 
 auditForm!: FormGroup;
   state = signal<string>('active');
   showDebug = false; // Set to true to see form values
-  
+  switchHeadquarter = signal(1);
+
   // Temporary values for adding new items
   newRiskValue = '';
   newFrameworkValue = '';
@@ -50,7 +53,7 @@ auditForm!: FormGroup;
   // Dropdown options signals
  
 
-  constructor(private fb: FormBuilder,public auditService:AuditItemService) {
+  constructor(private fb: FormBuilder,public auditService:AuditItemService,public router:Router) {
     // Effect to sync state signal with form
     effect(() => {
       if (this.auditForm) {
@@ -59,13 +62,20 @@ auditForm!: FormGroup;
     });
   }
 
+  id = this.Activatedroute.snapshot.queryParamMap?.get('id')|| "1"
   ngOnInit() {
     this.initForm();
     this.auditService.getAllFiltersDropDowns().subscribe()
+    this.getAuditItem(this.id)
   }
-
+  getAuditItem(id:string){
+    this.auditService.getAuditItemById(id).subscribe((res)=>{
+      this.auditForm.patchValue(res);
+    })
+  }
   initForm() {
         this.auditForm = this.fb.group({
+        code:[{ value: '', disabled: true }],
         title: ['', Validators.required],
         description: [''],
         dimensionId: [null, Validators.required],
@@ -128,42 +138,48 @@ auditForm!: FormGroup;
       const formData = this.auditForm.value;
       
       // Here you would typically send the data to your backend service
-      this.auditService.createAuditItem(formData).subscribe({
-        next:(res)=>{
-          this.messageService.add({
-              severity: "success",
-              summary: "Success",
-              detail: res.message,
-            });
-          },error:(err)=>{
-          this.messageService.add({
-              severity: "error",
-              summary: "Error",
-              detail: err.error.error[0],
-            });
-
-        }
-      })      
+      if (this.router.url.includes('edit')) {        
+        this.auditService.editAuditItem(formData,this.id).subscribe({
+          next:(res)=>{
+            this.messageService.add({
+                severity: "success",
+                summary: "Success",
+                detail: res.message,
+              });
+            },error:(err)=>{
+            this.messageService.add({
+                severity: "error",
+                summary: "Error",
+                detail: err.error.error[0],
+              });
+  
+          }
+        })      
+      }else{
+        this.auditService.createAuditItem(formData).subscribe({
+          next:(res)=>{
+            this.messageService.add({
+                severity: "success",
+                summary: "Success",
+                detail: res.message,
+              });
+            },error:(err)=>{
+            this.messageService.add({
+                severity: "error",
+                summary: "Error",
+                detail: err.error.error[0],
+              });
+  
+          }
+        })      
+      }
     }
   }
 
-  onCancel() {
-    if (confirm('Are you sure you want to cancel? All changes will be lost.')) {
-      this.auditForm.reset({
-        code: 'C-001',
-        status: 'new',
-        state: 'active'
-      });
+  onCancel() {  
       
-      // Reset form arrays
-      this.risks.clear();
-      this.risks.push(this.fb.control('X value risk'));
-      
-      this.frameworks.clear();
-      this.frameworks.push(this.fb.control('x Framework', Validators.required));
-      
-      this.state.set('active');
-    }
+      this.router.navigate(['audit'])
+    
   }
    onAddcategory() {
       const ref = this.dialogService.open(AddDialog, {
@@ -183,7 +199,7 @@ auditForm!: FormGroup;
                 summary: "Success",
                 detail: res.message,
               });
-             this.auditService.getAllFiltersDropDowns().subscribe()
+             this.auditService.getAllCategories().subscribe()
             },error:(err:HttpErrorResponse)=>{
               this.messageService.add({
                 severity: "error",
@@ -196,4 +212,8 @@ auditForm!: FormGroup;
         }
       });
     }
+
+  toggleHeadquarter(value: number): void {
+    this.switchHeadquarter.set(value);
+  }
 }

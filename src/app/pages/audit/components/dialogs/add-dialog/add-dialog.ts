@@ -29,8 +29,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
   styleUrl: './add-dialog.scss'
 })
 export class AddDialog implements OnInit {
- @Input() visible = false;
-  @Output() cancel = new EventEmitter<void>();
   private dialogRef = inject(DynamicDialogRef);
   categoryForm: FormGroup;
   storageLocationProp:StorageLocationItem[] = []
@@ -49,15 +47,13 @@ export class AddDialog implements OnInit {
     if (this.categoryForm.valid) {
       
       this.dialogRef.close(this.categoryForm)
-      this.visible = false;
     } else {
       this.categoryForm.markAllAsTouched();
     }
   }
 
   onCancel() {
-    this.visible = false;
-    this.cancel.emit();
+    this.dialogRef.close()    
   }
   getStorageLocation(){
     this.auditService.getStorageLocations().subscribe({
