@@ -38,17 +38,9 @@ export class AuditTable implements OnInit {
 
   ngOnInit(): void {
     
-    
-
-    // ✅ Load first 10 records initially
-    this.loadControls({ pageNumber: 1, pageSize: 10 });
   }
-
-  loadControls(event: { pageNumber: number; pageSize: number }) {       
-    this.pagination = {      
-      pageNumber: event.pageNumber,
-      pageSize: event.pageSize,     
-    };
-    this.auditService.getTableData(this.pagination).subscribe()
-  }
+loadControls(event:{ pageNumber: number; pageSize: number }){
+  this.auditService.pagination.set(event)
+}
+  
 }

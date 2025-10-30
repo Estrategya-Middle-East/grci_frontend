@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { AuditToolbar } from "../../components/audit-toolbar/audit-toolbar/audit-toolbar";
 import { AuditFilter } from "../../components/audit-filter/audit-filter/audit-filter";
 import { AuditTable } from "../../components/audit-table/audit-table";
@@ -19,14 +19,19 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './audit-item.scss'
 })
 export class AuditItem implements OnInit{
-  constructor(public auditService:AuditItemService){}
+  constructor(public auditService:AuditItemService){
+    effect(()=>{
+      const pagination = this.auditService.pagination()
+
+      this.auditService.getTableData(pagination).subscribe()
+    })
+  }
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
-
   ngOnInit(): void {
-    
+    this.auditService.getTableData(this.auditService.pagination()).subscribe()
   }
-deleteAuditItem(id:string,title:string) {
+  deleteAuditItem(id:string,title:string) {
       const ref = this.dialogService.open(MessageRequest, {
        header: ' ', // Empty space to show the close button, or remove for no header
           width: '600px',
@@ -62,5 +67,5 @@ deleteAuditItem(id:string,title:string) {
          
         }
       });
-    }
+  }
 }

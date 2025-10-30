@@ -6,10 +6,10 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { AuditCategories, AuditCategory, PaginatedData } from '../../models/interfaces/audit-categories';
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {  FrequencyData, FrequencyResponse } from '../../models/interfaces/audit-frequancy';
+import {  FrequencyData, FrequencyResponse, RiskCategory } from '../../models/interfaces/audit-frequancy';
 import { EntitiesItem, EntitiesResponse } from '../../models/interfaces/audit-entities';
 import { lookup } from '../../../../shared/models/lookup.mdoel';
-import { RiskItem, RiskResponse } from '../../models/interfaces/audit-risks';
+import { RiskData, RiskItem, RiskResponse } from '../../models/interfaces/audit-risks';
 import { AddauditItem, AddauditItemResponse, AddauditItemViewModel } from '../../models/interfaces/add-audit-item';
 import { StorageLocationItem, StorageLocationResponse } from '../../models/interfaces/location-storage';
 
@@ -21,19 +21,7 @@ export class AuditItemService {
 
   private baseUrl = environment.baseUrl + "api";
   public auditItemsSignal = signal<AuditItem[]>([]);
-  public auditHeaderSignal = signal<TableColumn[]>([
-    { header: 'Risk Code', field: 'code' },
-    { header: 'Audit item', field: 'title' },
-    { header: 'Dimension', field: 'dimensionName' },
-    { header: 'Entity', field: 'entityName' },
-    { header: 'Audit Category', field: 'auditCategoryName' },
-    { header: 'Estimated effort', field: 'estimatedEffort' },
-    { header: 'Status', field: 'status' },
-    { header: 'Priority level', field: 'priority' },
-    { header: 'Audit Frequency', field: 'auditFrequencyName' },
-    { header: 'Audit Owner', field: 'auditOwnerName' },
-    { header: 'Action', field: 'action' }
-  ]);
+  public auditHeaderSignal = signal<TableColumn[]>([]);
   private filtersSignal = signal<{ [key: string]: any }>({});
   private auditPaginationFilter = signal<Object>({})
     public ownerOptions = signal<lookup[]>([])
@@ -42,6 +30,10 @@ export class AuditItemService {
     public frequencyOptions = signal<FrequencyData[]>([])
     public entityOptions = signal<EntitiesItem[]>([])
     public risksOptions = signal<RiskItem[]>([])
+    public pagination = signal<{ pageNumber: number; pageSize: number }>({
+      pageNumber:1,
+      pageSize:10
+    })
 
   auditItems = this.auditItemsSignal.asReadonly();
   auditHeaders = this.auditHeaderSignal.asReadonly();
@@ -78,7 +70,7 @@ export class AuditItemService {
 }
 getAllRisks():Observable<RiskItem[]> {
   return this.http
-    .get<RiskResponse>(`${this.baseUrl}/Risks/Lookup`)
+    .get<RiskResponse<RiskData>>(`${this.baseUrl}/Risks/Lookup`)
     .pipe(map((res) => res.data.items));
 }
   getAllCategories():Observable<AuditCategory[]>{
@@ -100,9 +92,14 @@ getAllRisks():Observable<RiskItem[]> {
       .get<StorageLocationResponse>(`${this.baseUrl}/StorageLocation`)
       .pipe(map(res => res.data.items));
   }
+  getRiskRating(): Observable<RiskItem[]> {
+    return this.http
+      .get<RiskResponse<RiskItem[]>>(`${this.baseUrl}/AuditFrequencies/GetRiskRatingsLookup`)
+      .pipe(map(res => res.data));
+  }
   getAllFrequencies():Observable<FrequencyData[]>{
     return this.http
-          .get<FrequencyResponse>(
+          .get<FrequencyResponse<FrequencyData[]>>(
             `${this.baseUrl}/AuditFrequencies/lookup`,           
           )
           .pipe(map((res) => res.data));
@@ -124,35 +121,37 @@ getAllRisks():Observable<RiskItem[]> {
   //         .pipe(map((res) => res.data.items));
   // }
 getTableData(filters:Object): Observable<AuditItem[]> {
-  
   let params = new HttpParams();
-
   // Loop through each filter key and append valid ones
   Object.entries(filters).forEach(([key, value]) => {
-    
-      
       params = params.set(key, value.toString());
-    
   });
-  
   return this.http
     .get<AuditItemsResponse>(`${this.baseUrl}/AuditItems/GetList`, { params })
     .pipe(
-      map((res) => {
-        
+      map((res) => {        
         const items = (res.data?.items ?? []).map((item) => ({
           ...item,
           action: true,
-        }));
-        
+        }));        
         this.auditItemsSignal.set(items);
+        this.auditHeaderSignal.set([
+          { header: 'Risk Code', field: 'code' },
+          { header: 'Audit item', field: 'title' },
+          { header: 'Dimension', field: 'dimensionName' },
+          { header: 'Entity', field: 'entityName' },
+          { header: 'Audit Category', field: 'auditCategoryName' },
+          { header: 'Estimated effort', field: 'estimatedEffort' },
+          { header: 'Status', field: 'status' },
+          { header: 'Priority level', field: 'priority' },
+          { header: 'Audit Frequency', field: 'auditFrequencyName' },
+          { header: 'Audit Owner', field: 'auditOwnerName' },
+          { header: 'Action', field: 'action' }
+      ]);
         return items;
       })
     );
 }
-
- 
-
   updateFilters(filters: any) {
     
     this.filtersSignal.update(current => ({ ...current, ...filters }));
@@ -195,36 +194,75 @@ getTableData(filters:Object): Observable<AuditItem[]> {
   }
 }
 
-createAuditItem(payload: Partial<AddauditItem>): Observable<AddauditItemResponse> {
+  createAuditItem(payload: Partial<AddauditItem>): Observable<AddauditItemResponse> {
     return this.http
       .post<AddauditItemResponse>(`${this.baseUrl}/AuditItems`, payload)     
   }
-editAuditItem(payload: Partial<AddauditItem>,id:string): Observable<AddauditItemResponse> {
+  editAuditItem(payload: Partial<AddauditItem>,id:string): Observable<AddauditItemResponse> {
     return this.http
       .put<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`, payload)     
   }
-deleteAuditItem(id:string): Observable<AddauditItemResponse> {
+  deleteAuditItem(id:string): Observable<AddauditItemResponse> {
     return this.http
       .delete<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`)     
   }
-getAuditItemById(id: string): Observable<AddauditItemViewModel> {
+  deleteFrequencyAuditItem(id:string): Observable<AddauditItemResponse> {
+    return this.http
+      .delete<AddauditItemResponse>(`${this.baseUrl}/AuditFrequencies/${id}`)     
+  }
+  getAuditItemById(id: string): Observable<AddauditItemViewModel> {
+    return this.http
+      .get<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`)
+      .pipe(
+        map(res => {
+          const item = res.data;
+
+          // ✅ Convert risks and riskIds to string (comma-separated or empty string)
+          const risksString = item.risks?.map(r => r.riskId).join(', ') || '';
+          const riskIdsString = item.riskIds?.join(', ') || '';
+
+          return {
+            ...item,
+            risks: risksString,
+            riskIds: riskIdsString
+          };
+        })
+      );
+  }
+  getAuditCategoriestFrequency(filters:Object){
+    let params = new HttpParams();
+  // Loop through each filter key and append valid ones
+  Object.entries(filters).forEach(([key, value]) => {
+      params = params.set(key, value.toString());
+  });
   return this.http
-    .get<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`)
+    .get<AuditItemsResponse>(`${this.baseUrl}/AuditFrequencies/GetList`, { params })
     .pipe(
-      map(res => {
-        const item = res.data;
-
-        // ✅ Convert risks and riskIds to string (comma-separated or empty string)
-        const risksString = item.risks?.map(r => r.riskId).join(', ') || '';
-        const riskIdsString = item.riskIds?.join(', ') || '';
-
-        return {
+      map((res) => {        
+        const items = (res.data?.items ?? []).map((item) => ({
           ...item,
-          risks: risksString,
-          riskIds: riskIdsString
-        };
+          action: true,
+        }));        
+        this.auditItemsSignal.set(items);
+        this.auditHeaderSignal.set([
+          { header: 'Code', field: 'id' },
+          { header: 'Audit Frequency name', field: 'name' },        
+          { header: 'Action', field: 'action' }
+        ])
+        return items;
       })
     );
-}
-
+  }
+   addAuditFrequancy(data: object): Observable<FrequencyResponse<RiskCategory>> {
+    return this.http.post<FrequencyResponse<RiskCategory>>(
+      `${this.baseUrl}/AuditFrequencies`,
+      data
+    )
+  }
+   editAuditFrequancy(data: object,id:string): Observable<FrequencyResponse<RiskCategory>> {
+    return this.http.put<FrequencyResponse<RiskCategory>>(
+      `${this.baseUrl}/AuditFrequencies/${id}`,
+      data
+    )
+  }
 }

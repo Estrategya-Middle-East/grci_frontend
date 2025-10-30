@@ -1,0 +1,72 @@
+ <form [formGroup]="frequancyForm" (ngSubmit)="onSave()">
+    <div class="field">
+      <label for="categoryName" class="font-medium">
+        Audit Frequancy name<span class="text-danger">*</span>
+      </label>
+      <input
+        id="frequancyName"
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="enter Audit Frequancy name"
+        class="w-full"
+      />
+      <small class="text-danger" *ngIf="frequancyForm.get('name')?.invalid && frequancyForm.get('name')?.touched">
+        Frequancy name is required
+      </small>
+    </div>
+    <div class="field">
+      <div class="col-12">
+            <label for="comments" class="form-label">Describtion</label>
+            <textarea
+              id="Describtion"
+              pInputTextarea
+              class="w-100"
+              rows="4"
+              formControlName="description"
+              placeholder="Enter Describtion">
+            </textarea>
+          </div>
+    </div>
+    <div class="field">
+      <div class="col-12">
+            <label for="StorageLocation" class="form-label">Risk Rating<span class="text-danger">*</span></label>
+            <p-select
+              inputId="riskRatingIds"
+              [options]="riskRatingList"
+              optionLabel="title"
+              optionValue="id"
+              formControlName="riskRatingIds"
+              placeholder="Choose Risk Rating"
+              styleClass="w-100"
+              [appendTo]="'body'"
+              [showClear]="true">
+            </p-select>
+            <small class="text-danger" *ngIf="frequancyForm.get('riskRatingIds')?.invalid && frequancyForm.get('riskRatingIds')?.touched">
+         Risk Rating is required
+      </small>
+          </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center gap-2 mt-3">
+            <button
+              type="button"
+              pButton
+              label="Save"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="frequancyForm.invalid"
+              (click)="onSave()">
+              
+            </button>
+            <button
+              type="button"
+              pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()">
+              
+            </button>
+          </div>
+  </form>

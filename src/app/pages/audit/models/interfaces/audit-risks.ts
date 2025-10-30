@@ -13,11 +13,11 @@ export interface RiskData {
   hasNextPage: boolean;
 }
 
-export interface RiskResponse {
+export interface RiskResponse<T> {
   statusCode: number;
   meta: string;
   succeeded: boolean;
   message: string;
   errors: string[];
-  data: RiskData;
+  data: T;
 }
