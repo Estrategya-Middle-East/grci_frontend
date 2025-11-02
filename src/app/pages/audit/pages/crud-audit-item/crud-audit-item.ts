@@ -62,11 +62,13 @@ auditForm!: FormGroup;
     });
   }
 
-  id = this.Activatedroute.snapshot.queryParamMap?.get('id')|| "1"
+  id = this.Activatedroute.snapshot.queryParamMap?.get('id')
   ngOnInit() {
     this.initForm();
     this.auditService.getAllFiltersDropDowns().subscribe()
-    this.getAuditItem(this.id)
+    if (this.id) {      
+      this.getAuditItem(this.id)
+    }
   }
   getAuditItem(id:string){
     this.auditService.getAuditItemById(id).subscribe((res)=>{
@@ -138,7 +140,7 @@ auditForm!: FormGroup;
       const formData = this.auditForm.value;
       
       // Here you would typically send the data to your backend service
-      if (this.router.url.includes('edit')) {        
+      if (this.router.url.includes('edit') && this.id) {        
         this.auditService.editAuditItem(formData,this.id).subscribe({
           next:(res)=>{
             this.messageService.add({

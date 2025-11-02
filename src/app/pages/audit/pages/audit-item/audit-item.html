@@ -24,27 +24,35 @@
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button ngbDropdownItem  [routerLink]="['/audit','edit']" [queryParams]="{ id: row.id }">
                     <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
-                         Edit audit item 
+                      Edit audit item 
                     </button>
                     <button ngbDropdownItem (click)="deleteAuditItem( row.id , row.title)" >
                     <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
-                     Delete audit item
+                      Delete audit item
                     </button>
                     <button ngbDropdownItem >
                     <img class="mx-1" src="../../../../../assets/images/UserCircleCheck.svg" alt="">
-                     Assign Responsible Person
+                      Audit Item Schedule
                     </button>
                     <button ngbDropdownItem [routerLink]="['/audit','category']">
                     <img class="mx-1" src="../../../../../assets/images/Copy.svg" alt="">
-                     Assign Audit Category
+                      Assign Audit Category
                     </button>
                     <button ngbDropdownItem >
                     <img class="mx-1" src="../../../../../assets/images/ListMagnifyingGlass.svg" alt="">
-                    Link to Regulatory Framework                        
+                      Audit Item Feedback               
                     </button>
                     <button ngbDropdownItem >
                     <img class="mx-1" src="../../../../../assets/images/FileMagnifyingGlass.svg" alt="">
-                     Link Auditable Item To Risk Register
+                      Audit Item Engagement
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/ListMagnifyingGlass.svg" alt="">
+                      Audit Team              
+                    </button>
+                    <button ngbDropdownItem >
+                    <img class="mx-1" src="../../../../../assets/images/FileMagnifyingGlass.svg" alt="">
+                      Audit Cycle
                     </button>
                     <button ngbDropdownItem [routerLink]="['/audit','frequancy']" [queryParams]="{ id: row.id }">
                     <img class="mx-1" src="../../../../../assets/images/Folders.svg" alt="">
