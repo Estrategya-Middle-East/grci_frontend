@@ -1,8 +1,8 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, untracked } from '@angular/core';
 import { AuditToolbar } from "../../components/audit-toolbar/audit-toolbar/audit-toolbar";
 import { AuditTable } from "../../components/audit-table/audit-table";
 import { AuditFilter } from "../../components/audit-filter/audit-filter/audit-filter";
-import { AudtiCategoriesToolbar } from '../../components/audti-categories-toolbar/audti-categories-toolbar';
+import { AudtiFrequanciesToolbar } from '../../components/audti-frequancies-toolbar/audti-frequancies-toolbar';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { AddAuditFrequencyDialog } from '../../components/dialogs/add-audit-freq
 
 @Component({
   selector: 'app-audit-frequency',
-  imports: [CommonModule,AudtiCategoriesToolbar, AuditTable, AuditTable,NgbDropdownModule,RouterModule],
+  imports: [CommonModule,AudtiFrequanciesToolbar, AuditTable, AuditTable,NgbDropdownModule,RouterModule],
   providers:[DialogService],
   templateUrl: './audit-frequency.html',
   styleUrl: './audit-frequency.scss'
@@ -26,7 +26,7 @@ export class AuditFrequency implements OnInit {
   private messageService = inject(MessageService)
   constructor(){
     effect(()=>{
-      const pagination = this.auditService.pagination()
+      const pagination = untracked(() => this.auditService.pagination());
 
     this.auditService.getAuditCategoriestFrequency(pagination).subscribe()  
     })

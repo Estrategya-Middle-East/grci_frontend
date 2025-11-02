@@ -1,22 +1,21 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { AuditItemService } from '../../services/auditItem/audit-item-service';
-import { FormsModule } from '@angular/forms';
-import { DialogService } from 'primeng/dynamicdialog';
-import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AddAuditFrequencyDialog } from '../dialogs/add-audit-frequency-dialog/add-audit-frequency-dialog';
-import { debounceTime, distinctUntilChanged, Subject, switchMap, takeUntil } from 'rxjs';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { AuditItemService } from '../../services/auditItem/audit-item-service';
+import { AddAuditFrequencyDialog } from '../dialogs/add-audit-frequency-dialog/add-audit-frequency-dialog';
+import { AddDialog } from '../dialogs/add-dialog/add-dialog';
 
 @Component({
-  selector: 'app-audti-categories-toolbar',
+  selector: 'app-audit-categories-toolbar',
   imports: [],
-  providers:[DialogService],
-  templateUrl: './audti-categories-toolbar.html',
-  styleUrl: './audti-categories-toolbar.scss'
+  templateUrl: './audit-categories-toolbar.html',
+  styleUrl: './audit-categories-toolbar.scss'
 })
-export class AudtiCategoriesToolbar implements OnInit {
-  private dialogService = inject(DialogService)
+export class AuditCategoriesToolbar {
+private dialogService = inject(DialogService)
   private messageService = inject(MessageService)
   private searchSubject = new Subject<string>();
 constructor(public auditService:AuditItemService,private destroyRef: DestroyRef){}
@@ -24,28 +23,32 @@ constructor(public auditService:AuditItemService,private destroyRef: DestroyRef)
      this.searchSubject.pipe(
         debounceTime(1000),               
         distinctUntilChanged(),          
-        switchMap(searchValue => {       
-          return this.auditService.getAuditCategoriestFrequency({
+        switchMap(searchValue => {    
+             
+          return this.auditService.getAuditCategoriestList({
             ...this.auditService.pagination(),
-            Name: searchValue ?? ''
+            FilterValue: searchValue ?? ''
           });
         }),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe()
   }
-  getAuditFrequanciesList(searchValue:string){
+  getAuditCategoriesList(searchValue:string){
+    
     this.searchSubject.next(searchValue)    
   }
-  addNewAuditFrequancy() {
-        const ref = this.dialogService.open(AddAuditFrequencyDialog, {
-          header: "Add Audit Frequancy",
+  addNewAuditCategory() {
+    
+        const ref = this.dialogService.open(AddDialog, {
+          header: "Add Audit Category",
           width: "600px",
           modal: true,
         });
         
         ref.onClose.subscribe((result) => {
-          if (result) {
-            this.auditService.addAuditFrequancy(result).subscribe({
+          if (result.value) {
+            
+            this.auditService.addAuditCategory(result.value).subscribe({
               next:(res)=>{
   
                 this.messageService.add({
@@ -53,7 +56,7 @@ constructor(public auditService:AuditItemService,private destroyRef: DestroyRef)
                   summary: "Success",
                   detail: res.message,
                 });
-                this.auditService.getAuditCategoriestFrequency(this.auditService.pagination()).subscribe() 
+                this.auditService.getAuditCategoriestList(this.auditService.pagination()).subscribe() 
                this.auditService.getAllCategories().subscribe(
                (res)=>{
                 this.auditService.categoryOptions.set(res)

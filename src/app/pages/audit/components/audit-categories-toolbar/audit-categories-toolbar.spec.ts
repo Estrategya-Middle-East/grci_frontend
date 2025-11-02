@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AudtiCategoriesToolbar } from './audti-categories-toolbar';
+import { AuditCategoriesToolbar } from './audit-categories-toolbar';
 
-describe('AudtiCategoriesToolbar', () => {
-  let component: AudtiCategoriesToolbar;
-  let fixture: ComponentFixture<AudtiCategoriesToolbar>;
+describe('AuditCategoriesToolbar', () => {
+  let component: AuditCategoriesToolbar;
+  let fixture: ComponentFixture<AuditCategoriesToolbar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AudtiCategoriesToolbar]
+      imports: [AuditCategoriesToolbar]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AudtiCategoriesToolbar);
+    fixture = TestBed.createComponent(AuditCategoriesToolbar);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,4 +1,4 @@
-import { Component, isSignal, OnDestroy, OnInit, QueryList, signal, ViewChildren, WritableSignal } from '@angular/core';
+import { Component, DestroyRef, isSignal, OnDestroy, OnInit, QueryList, signal, ViewChildren, WritableSignal } from '@angular/core';
 import { AuditItem, FilterOption } from '../../../models/interfaces/audit-item';
 import { AuditItemService } from '../../../services/auditItem/audit-item-service';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,8 @@ import { lookup } from '../../../../../shared/models/lookup.mdoel';
 import { AuditCategory } from '../../../models/interfaces/audit-categories';
 import { FrequencyData } from '../../../models/interfaces/audit-frequancy';
 import { EntitiesItem } from '../../../models/interfaces/audit-entities';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-audit-filter',
@@ -41,27 +43,23 @@ export class AuditFilter implements OnInit,OnDestroy {
     { label: 'Low', value: '2' }
   ]);
   
-  // frequencyOptions = signal<FrequencyData[]>([]);
-  
-  // ownerOptions = signal<lookup[]>([]);
 
   constructor(public auditService: AuditItemService) {}
   
   ngOnInit(): void {
     this.getDropdownsValues()
+    
   }
 getDropdownsValues(){
 
   this.auditService.getAllFiltersDropDowns().subscribe()
 }
   onApply() {
-    console.log('Apply filters');
     this.auditService.getTableData(this.auditService.filters()).subscribe()
   }
   updateFilters(filterKey:string,value:string){
     
     this.auditService.updateFilters({[filterKey]:value})
-    console.log(this.auditService.filters())
   }
   onReset() {
     

@@ -30,4 +30,5 @@ export interface AuditCategory {
   storageLocationId: number | null;
   id: number;
   name: string;
+  action?:Boolean
 }

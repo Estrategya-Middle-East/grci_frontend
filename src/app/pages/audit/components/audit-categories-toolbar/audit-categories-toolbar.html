@@ -1,7 +1,7 @@
 <div class="toolbar-container">
       <div class="toolbar-left">
         <span class="risks-badge">
-          Risks <span class="risks-count">{{ auditService.auditItems().length }}</span>
+          Audit Categories <span class="risks-count">{{ auditService.auditItems().length }}</span>
         </span>
         
         <div class="search-group">
@@ -11,15 +11,12 @@
             </svg>
           </span>
           <input type="text" class="form-control search-input" 
-                 placeholder="Search Audit Items"                 
-                 (input)="searchTitle($event.target.value)">                
+                 placeholder="Search Audit Categories" 
+                 (input)="getAuditCategoriesList($event.target.value)"
+                 >
         </div>
         
-        <button class="btn btnoutlineBlue btn-sm filter-button" >
-            Filter
-         <img src="../../../../../../assets/images/filterbtn.svg" alt="">
-         <img src="../../../../../../assets/images/arrowUp.svg" alt="">         
-        </button>
+       
       </div>
       
       <div class="toolbar-right">
@@ -35,13 +32,12 @@
             <img src="../../../../../../assets/images/linesLeft.svg" alt="">       
         </button>
         <button class="btn btn-sm action-button btnApply"
-           [routerLink]="['/audit','add']"
-            [routerLinkActive]="'active'"
-            [routerLinkActiveOptions]="{ exact: false }">
+        (click)="addNewAuditCategory()"
+         >
           <svg width="16" height="16" fill="white">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
           </svg>
-          New Audit Item
+          New Audit Categories
         </button>
       </div>
     </div>

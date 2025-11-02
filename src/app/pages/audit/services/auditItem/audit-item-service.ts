@@ -1,4 +1,4 @@
-import { Injectable, isSignal, signal, WritableSignal } from '@angular/core';
+import { Injectable, isSignal, signal, untracked, WritableSignal } from '@angular/core';
 import { AuditItem, AuditFilters, TableColumn, AuditItemsResponse } from '../../models/interfaces/audit-item';
 import { DimensionsService } from '../../../dimensions/services/dimensions.service';
 import { ResourceService } from '../../../resources-management/services/resource';
@@ -30,9 +30,10 @@ export class AuditItemService {
     public frequencyOptions = signal<FrequencyData[]>([])
     public entityOptions = signal<EntitiesItem[]>([])
     public risksOptions = signal<RiskItem[]>([])
-    public pagination = signal<{ pageNumber: number; pageSize: number }>({
+    public pagination = signal<{ pageNumber: number; pageSize: number,totalItems?:number }>({
       pageNumber:1,
-      pageSize:10
+      pageSize:10,
+      totalItems:0
     })
 
   auditItems = this.auditItemsSignal.asReadonly();
@@ -129,11 +130,21 @@ getTableData(filters:Object): Observable<AuditItem[]> {
   return this.http
     .get<AuditItemsResponse>(`${this.baseUrl}/AuditItems/GetList`, { params })
     .pipe(
-      map((res) => {        
+      map((res) => {   
+        const totalItems = res.data?.totalItems ?? 0;
+          const current = this.pagination();
+
+          // ✅ Prevent effect loop using untracked()
+          if (current.totalItems !== totalItems) {
+            untracked(() => {
+              this.pagination.set({ ...current, totalItems });
+            });
+          }
         const items = (res.data?.items ?? []).map((item) => ({
           ...item,
           action: true,
-        }));        
+        }));     
+        
         this.auditItemsSignal.set(items);
         this.auditHeaderSignal.set([
           { header: 'Risk Code', field: 'code' },
@@ -210,6 +221,10 @@ getTableData(filters:Object): Observable<AuditItem[]> {
     return this.http
       .delete<AddauditItemResponse>(`${this.baseUrl}/AuditFrequencies/${id}`)     
   }
+  deleteCategoryAuditItem(id:string): Observable<FrequencyResponse<string>> {
+    return this.http
+      .delete<FrequencyResponse<string>>(`${this.baseUrl}/AuditCategories/${id}`)     
+  }
   getAuditItemById(id: string): Observable<AddauditItemViewModel> {
     return this.http
       .get<AddauditItemResponse>(`${this.baseUrl}/AuditItems/${id}`)
@@ -238,7 +253,16 @@ getTableData(filters:Object): Observable<AuditItem[]> {
   return this.http
     .get<AuditItemsResponse>(`${this.baseUrl}/AuditFrequencies/GetList`, { params })
     .pipe(
-      map((res) => {        
+      map((res) => {      
+        const totalItems = res.data?.totalItems ?? 0;
+          const current = this.pagination();
+
+          // ✅ Prevent effect loop using untracked()
+          if (current.totalItems !== totalItems) {
+            untracked(() => {
+              this.pagination.set({ ...current, totalItems });
+            });
+          }  
         const items = (res.data?.items ?? []).map((item) => ({
           ...item,
           action: true,
@@ -253,6 +277,48 @@ getTableData(filters:Object): Observable<AuditItem[]> {
       })
     );
   }
+  getAuditCategoriestList(filters: object): Observable<AuditItem[]> {
+    let params = new HttpParams();
+
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        params = params.set(key, value.toString());
+      }
+    });
+
+    return this.http
+      .get<AuditCategories<PaginatedData<AuditItem>>>(`${this.baseUrl}/AuditCategories`, { params })
+      .pipe(
+        map((res) => {
+          const totalItems = res.data?.totalItems ?? 0;
+          const current = this.pagination();
+
+          // ✅ Prevent effect loop using untracked()
+          if (current.totalItems !== totalItems) {
+            untracked(() => {
+              this.pagination.set({ ...current, totalItems });
+            });
+          }
+
+          const items: AuditItem[] = (res.data?.items ?? []).map((item) => ({
+            ...item,
+            action: true,
+          }));
+
+          // ✅ Set signals
+          this.auditItemsSignal.set(items);
+          this.auditHeaderSignal.set([
+            { header: 'Code', field: 'id' },
+            { header: 'Audit Category name', field: 'name' },
+            { header: 'Storage Location', field: 'storageLocationId' },
+            { header: 'Description', field: 'description' },
+            { header: 'Action', field: 'action' },
+          ]);
+
+          return items;
+        })
+      );
+  }
    addAuditFrequancy(data: object): Observable<FrequencyResponse<RiskCategory>> {
     return this.http.post<FrequencyResponse<RiskCategory>>(
       `${this.baseUrl}/AuditFrequencies`,
@@ -262,6 +328,18 @@ getTableData(filters:Object): Observable<AuditItem[]> {
    editAuditFrequancy(data: object,id:string): Observable<FrequencyResponse<RiskCategory>> {
     return this.http.put<FrequencyResponse<RiskCategory>>(
       `${this.baseUrl}/AuditFrequencies/${id}`,
+      data
+    )
+  }
+   editAuditCategory(data: object,id:string): Observable<FrequencyResponse<string>> {
+    return this.http.put<FrequencyResponse<string>>(
+      `${this.baseUrl}/AuditCategories/${id}`,
+      data
+    )
+  }
+   addAuditCategory(data: object): Observable<FrequencyResponse<string>> {
+    return this.http.post<FrequencyResponse<string>>(
+      `${this.baseUrl}/AuditCategories`,
       data
     )
   }

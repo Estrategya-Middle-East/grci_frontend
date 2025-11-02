@@ -394,6 +394,13 @@ export const layoutRoutes: Routes = [
             "../pages/audit/pages/audit-frequency/audit-frequency"
           ).then((m) => m.AuditFrequency),
       },     
+      {
+        path: "category",
+        loadComponent: () =>
+          import(
+            "../pages/audit/pages/audit-category/audit-category"
+          ).then((m) => m.AuditCategory),
+      },     
     ],
   },
 ];

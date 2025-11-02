@@ -18,28 +18,13 @@ import { AuditItem } from '../../models/interfaces/audit-item';
 })
 export class AuditTable implements OnInit {
   @ContentChild('actionTemplate') actionsTemplate!: TemplateRef<any>;
-  pagination:{pageNumber?: number;pageSize?: number;totalItems?:number} = {
-    pageNumber: 1,
-    pageSize: 10,
-    totalItems: 0
-  };
-  get updatedPagination() {
-  return {
-    ...this.pagination,
-    totalItems: this.auditService.auditItems()?.length || 0,
-  };
-}
-  constructor(public auditService: AuditItemService) {
-    effect(()=>{
-    const allItems = this.auditService.auditItems();
-    this.pagination.totalItems = allItems.length;
-    })
-  }
+  constructor(public auditService: AuditItemService) {}
 
   ngOnInit(): void {
     
   }
 loadControls(event:{ pageNumber: number; pageSize: number }){
+  
   this.auditService.pagination.set(event)
 }
   

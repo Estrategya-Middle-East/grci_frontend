@@ -10,7 +10,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { AuditItemService } from '../../../services/auditItem/audit-item-service';
 import { StorageLocationItem } from '../../../models/interfaces/location-storage';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-add-dialog',
@@ -32,7 +32,7 @@ export class AddDialog implements OnInit {
   private dialogRef = inject(DynamicDialogRef);
   categoryForm: FormGroup;
   storageLocationProp:StorageLocationItem[] = []
-  constructor(private fb: FormBuilder,private auditService:AuditItemService) {
+  constructor(private fb: FormBuilder,private auditService:AuditItemService,private config:DynamicDialogConfig) {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -59,6 +59,13 @@ export class AddDialog implements OnInit {
     this.auditService.getStorageLocations().subscribe({
       next:(res)=>{
         this.storageLocationProp  = res
+        if (this.config.data) {
+          this.categoryForm.patchValue({
+            "name":this.config.data.name,
+            "description":this.config.data.describtion,
+            "storageLocationId":this.config.data.storageLocationId
+          })          
+        }
       }
     })
   }

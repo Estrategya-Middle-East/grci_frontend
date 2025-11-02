@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, untracked } from '@angular/core';
 import { AuditToolbar } from "../../components/audit-toolbar/audit-toolbar/audit-toolbar";
 import { AuditFilter } from "../../components/audit-filter/audit-filter/audit-filter";
 import { AuditTable } from "../../components/audit-table/audit-table";
@@ -21,7 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AuditItem implements OnInit{
   constructor(public auditService:AuditItemService){
     effect(()=>{
-      const pagination = this.auditService.pagination()
+      const pagination = untracked(() => this.auditService.pagination());
 
       this.auditService.getTableData(pagination).subscribe()
     })

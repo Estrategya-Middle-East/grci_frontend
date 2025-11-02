@@ -35,6 +35,6 @@
 </p-table>
  
 <app-custom-paginator
-  [pagination]="updatedPagination"
+  [pagination]="auditService.pagination()"
   (pageNumber)="loadControls($event)">
 </app-custom-paginator>
