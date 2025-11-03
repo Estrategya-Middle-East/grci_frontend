@@ -401,6 +401,13 @@ export const layoutRoutes: Routes = [
             "../pages/audit/pages/audit-category/audit-category"
           ).then((m) => m.AuditCategory),
       },     
+      {
+        path: "schedule",
+        loadComponent: () =>
+          import(
+            "../pages/audit/pages//audit-schedule/audit-schedule"
+          ).then((m) => m.AuditSchedule),
+      },     
     ],
   },
 ];
