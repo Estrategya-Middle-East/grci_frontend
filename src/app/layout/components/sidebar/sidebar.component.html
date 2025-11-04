@@ -287,6 +287,20 @@
             </div>
           </div>
         </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/risk-root-causes']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Risk Root Causes</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
       </p-accordion-panel>
 
       <!-- <p-accordion-panel value="2">
@@ -432,12 +446,14 @@
             />
           </svg>
         </div>
-          <div
+        <div
           [routerLink]="['/audit']"
           [routerLinkActive]="'active'"
           [routerLinkActiveOptions]="{ exact: false }"
-          class="title">Audit Universe</div>
-       
+          class="title"
+        >
+          Audit Universe
+        </div>
       </div>
     </div>
     <div

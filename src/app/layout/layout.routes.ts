@@ -359,6 +359,13 @@ export const layoutRoutes: Routes = [
       ),
   },
   {
+    path: appRoutes["RISK-ROOT-CAUSES"],
+    loadComponent: () =>
+      import("../pages/risk-root-causes/risk-root-causes").then(
+        (m) => m.RiskRootCauses
+      ),
+  },
+  {
     path: appRoutes["RISK-HEATMAP"],
     loadComponent: () =>
       import("../pages/risk-heatmap/risk-heatmap").then((m) => m.RiskHeatmap),
