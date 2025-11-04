@@ -363,7 +363,7 @@ export const layoutRoutes: Routes = [
     loadComponent: () =>
       import("../pages/risk-heatmap/risk-heatmap").then((m) => m.RiskHeatmap),
   },
-   {
+  {
     path: appRoutes.Audit,
     children: [
       {
@@ -376,38 +376,45 @@ export const layoutRoutes: Routes = [
       {
         path: "add",
         loadComponent: () =>
-          import(
-            "../pages/audit/pages/crud-audit-item/crud-audit-item"
-          ).then((m) => m.CrudAuditItem),
-      },     
+          import("../pages/audit/pages/crud-audit-item/crud-audit-item").then(
+            (m) => m.CrudAuditItem
+          ),
+      },
       {
         path: "edit",
         loadComponent: () =>
-          import(
-            "../pages/audit/pages/crud-audit-item/crud-audit-item"
-          ).then((m) => m.CrudAuditItem),
-      },     
+          import("../pages/audit/pages/crud-audit-item/crud-audit-item").then(
+            (m) => m.CrudAuditItem
+          ),
+      },
       {
         path: "frequancy",
         loadComponent: () =>
-          import(
-            "../pages/audit/pages/audit-frequency/audit-frequency"
-          ).then((m) => m.AuditFrequency),
-      },     
+          import("../pages/audit/pages/audit-frequency/audit-frequency").then(
+            (m) => m.AuditFrequency
+          ),
+      },
       {
         path: "category",
         loadComponent: () =>
-          import(
-            "../pages/audit/pages/audit-category/audit-category"
-          ).then((m) => m.AuditCategory),
-      },     
+          import("../pages/audit/pages/audit-category/audit-category").then(
+            (m) => m.AuditCategory
+          ),
+      },
       {
         path: "schedule",
         loadComponent: () =>
-          import(
-            "../pages/audit/pages//audit-schedule/audit-schedule"
-          ).then((m) => m.AuditSchedule),
-      },     
+          import("../pages/audit/pages/audit-schedule/audit-schedule").then(
+            (m) => m.AuditSchedule
+          ),
+      },
+      {
+        path: "engagement",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-engagement/audit-engagement").then(
+            (m) => m.AuditEngagement
+          ),
+      },
     ],
   },
 ];

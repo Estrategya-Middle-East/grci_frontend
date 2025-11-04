@@ -30,38 +30,54 @@
         </div>
 
         <!-- Row 2: Description -->
-        <div class="row mb-3">
-              <div class="col-md-6">
-            <label for="title" class="form-label">
-                Activity Name
-            </label>
+         <div class="d-flex justify-content-between w-100">
+         <label for="resources" class="form-label">Key Activities<span class="text-danger">*</span></label>
+          
+         </div>
+        <div formArrayName="keyActivities">
+        <div *ngFor="let activity of keyActivities.controls; let i = index" [formGroupName]="i"
+            class="row my-3 border border-1 border-dark rounded p-3">
+          
+          <div class="col-md-6">
+            <label for="activityName-{{ i }}" class="form-label">Activity Name</label>
             <input
-              id="title"
+              id="activityName-{{ i }}"
               type="text"
-              class="form-control filter-search-input"
+              class="form-control"
               placeholder="Enter Activity Name"
               formControlName="activityName"
             />
-            <small
-              class="text-danger"
-              *ngIf="auditForm.get('activityName')?.invalid && auditForm.get('activityName')?.touched"
-            >
-              Audit item title is required
+            <small class="text-danger"
+                  *ngIf="activity.get('activityName')?.invalid && activity.get('activityName')?.touched">
+              Activity name is required
             </small>
           </div>
+
           <div class="col-md-6">
-            <label for="description" class="form-label">Description</label>
-            <textarea
-              id="description"
-              pInputTextarea
-              class="w-100"
-              rows="4"
+            <label for="description-{{ i }}" class="form-label">Description</label>
+            <input
+              id="description-{{ i }}"
+              type="text"
+              class="form-control"
+              placeholder="Enter description"
               formControlName="description"
-              placeholder="Enter description">
-            </textarea>
+            />
           </div>
-          
+
+          <div class="col-12 mt-2 text-end">
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeKeyActivity(i)" *ngIf="keyActivities.length > 1">
+              Remove
+            </button>
+          </div>
         </div>
+
+          <div class="text-end">
+            <button type="button" class="btn btn-primary btn-sm" (click)="addKeyActivity()">
+              + Add Activity
+            </button>
+          </div>
+        </div>
+
 
         <!-- Row 3: Dimension and Entity -->
         <div class="row mb-3">
@@ -189,7 +205,7 @@
                     <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
                      Delete audit Frequency item
                     </button>
-                    <button ngbDropdownItem  (click)="EditAuditItemSchadule(row)">
+                    <button ngbDropdownItem  (click)="setFormData(row)">
                     <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
                          Edit audit item 
                     </button>                     

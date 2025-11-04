@@ -50,6 +50,10 @@ import {
   AuditScheduleResponse,
   AuditScheduleTableRow,
 } from "../../models/interfaces/audit-schedule";
+import {
+  EngagementItem,
+  EngagementResponse,
+} from "../../models/interfaces/audit-engagement";
 
 @Injectable({
   providedIn: "root",
@@ -189,15 +193,6 @@ export class AuditItemService {
       .get<EntitiesResponse>(`${this.baseUrl}/Entities/lookup`)
       .pipe(map((res) => res.data));
   }
-
-  // commented untill get backend support
-  // getAllEntities():Observable<[]>{
-  //   return this.http
-  //         .get<<<>>>(
-  //           `${this.baseUrl}/AuditItems/GetAuditOverviewEntityAuditItem`,
-  //         )
-  //         .pipe(map((res) => res.data.items));
-  // }
   getTableData(filters: Object): Observable<AuditItem[]> {
     let params = new HttpParams();
     // Loop through each filter key and append valid ones
@@ -240,9 +235,41 @@ export class AuditItemService {
         })
       );
   }
-  getauditItemsScheduleList(
-    filters: Object
-  ): Observable<AuditScheduleTableRow[]> {
+  getAuditEngagementList(filters: Object): Observable<EngagementItem[]> {
+    let params = new HttpParams();
+    // Loop through each filter key and append valid ones
+    Object.entries(filters).forEach(([key, value]) => {
+      params = params.set(key, value.toString());
+    });
+    return this.http
+      .get<EngagementResponse>(`${this.baseUrl}/AuditEngagements`, { params })
+      .pipe(
+        map((res) => {
+          const totalItems = res.data?.totalItems ?? 0;
+          const current = this.pagination();
+
+          // ✅ Prevent effect loop using untracked()
+          if (current.totalItems !== totalItems) {
+            untracked(() => {
+              this.pagination.set({ ...current, totalItems });
+            });
+          }
+          const items = (res.data?.items ?? []).map((item) => ({
+            ...item,
+            action: true,
+          }));
+
+          this.auditItemsSignal.set(items);
+          this.auditHeaderSignal.set([
+            { header: "Code", field: "id" },
+            { header: "Control Automation Name", field: "description" },
+            { header: "Action", field: "action" },
+          ]);
+          return items;
+        })
+      );
+  }
+  getauditItemsScheduleList(filters: Object): Observable<AuditScheduleItem[]> {
     let params = new HttpParams();
     // Loop through each filter key and append valid ones
     Object.entries(filters).forEach(([key, value]) => {
@@ -263,23 +290,20 @@ export class AuditItemService {
               this.pagination.set({ ...current, totalItems });
             });
           }
-          const items = (res.data?.items ?? []).flatMap((item) =>
-            (item.keyActivities.length ? item.keyActivities : [null]).map(
-              (activity) => ({
-                id: item.id,
-                auditItemId: item.id,
-                title: item.title,
-                auditItemTitle: item.auditItemTitle,
-                startDate: item.startDate,
-                endDate: item.endDate,
-                resources: item.resources,
-                activityName: activity?.activityName ?? "",
-                description: activity?.description ?? "",
-                action: true,
-              })
-            )
-          );
+          const items = (res.data?.items ?? []).map((item) => ({
+            ...item,
+            action: true,
 
+            // join all activity names together
+            activityName: (item.keyActivities ?? [])
+              .map((act) => act.activityName)
+              .join(" | "),
+
+            // join all descriptions together
+            description: (item.keyActivities ?? [])
+              .map((act) => act.description)
+              .join(" | "),
+          }));
           this.auditItemsSignal.set(items);
           this.auditHeaderSignal.set([
             { header: "Title", field: "title" },
@@ -506,6 +530,12 @@ export class AuditItemService {
       data
     );
   }
+  addAuditEngagement(data: object): Observable<FrequencyResponse<string>> {
+    return this.http.post<FrequencyResponse<string>>(
+      `${this.baseUrl}/AuditEngagements`,
+      data
+    );
+  }
   EditAuditSchedule(
     data: object,
     id: string
@@ -513,6 +543,20 @@ export class AuditItemService {
     return this.http.put<AuditScheduleResponse>(
       `${this.baseUrl}/AuditSchedules/${id}`,
       data
+    );
+  }
+  EditAuditEngagement(
+    data: object,
+    id: string
+  ): Observable<FrequencyResponse<string>> {
+    return this.http.put<FrequencyResponse<string>>(
+      `${this.baseUrl}/AuditEngagements/${id}`,
+      data
+    );
+  }
+  deleteEngagementAuditItem(id: string): Observable<FrequencyResponse<string>> {
+    return this.http.delete<FrequencyResponse<string>>(
+      `${this.baseUrl}/AuditEngagements/${id}`
     );
   }
 }
