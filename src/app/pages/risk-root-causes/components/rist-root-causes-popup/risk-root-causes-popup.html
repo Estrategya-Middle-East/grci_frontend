@@ -1,0 +1,67 @@
+<form [formGroup]="formGroup" class="p-fluid p-formgrid p-grid p-m-3">
+  @if (formGroup.get('id')?.value) {
+  <!-- ID (Edit Only, Disabled) -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="id">ID</label>
+    <input id="id" type="text" pInputText formControlName="id" class="w-100" />
+  </div>
+  }
+
+  <!-- Root Cause -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="rootCause">Root Cause*</label>
+    <input
+      id="rootCause"
+      type="text"
+      pInputText
+      formControlName="rootCause"
+      placeholder="Enter Root Cause"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Parent Category -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="parent">Main Category</label>
+    <p-select
+      id="parent"
+      formControlName="parent"
+      [options]="mainCategories"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select Main Category"
+      class="w-100"
+      appendTo="body"
+    ></p-select>
+  </div>
+
+  <!-- Sub Category -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="subCategory">Sub Category</label>
+    <p-select
+      id="subCategory"
+      formControlName="subCategory"
+      [options]="subCategories"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select Sub Category"
+      class="w-100"
+      appendTo="body"
+    ></p-select>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-center gap-3 m-4">
+    <button
+      [disabled]="!formGroup.valid"
+      type="button"
+      (click)="onSave()"
+      class="btn btn-primary"
+    >
+      <i class="pi pi-send"></i> Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

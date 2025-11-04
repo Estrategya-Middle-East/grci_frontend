@@ -16,6 +16,7 @@ export enum AppRoute {
   "RISK-HEATMAP" = "risk-heatmap",
   "RISK-MANAGEMENT" = "risk-management",
   "RISK-ASSESSMENTS" = "risk-assessments",
+  "RISK-ROOT-CAUSES" = "risk-root-causes",
   "Audit" = "audit",
 }
 
@@ -37,6 +38,7 @@ export const appRoutes = {
   "CONTROL-MANAGEMENT": `${AppRoute["CONTROL-MANAGEMENT"]}`,
   "RISK-MANAGEMENT": `${AppRoute["RISK-MANAGEMENT"]}`,
   "RISK-ASSESSMENTS": `${AppRoute["RISK-ASSESSMENTS"]}`,
+  "RISK-ROOT-CAUSES": `${AppRoute["RISK-ROOT-CAUSES"]}`,
   Audit: `${AppRoute.Audit}`,
 };
 
