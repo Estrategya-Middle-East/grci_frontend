@@ -5,6 +5,7 @@ import { environment } from "../../../../environments/environment";
 import { ApiResponse, PagedResult } from "../../../shared/models/api.mode";
 import {
   RiskAssessmentPayloadInterface,
+  RiskFeedbackInterface,
   RiskManagementInterface,
 } from "../models/risk-management";
 import { lookup } from "../../../shared/models/lookup.mdoel";
@@ -191,6 +192,13 @@ export class RiskManagementService {
       .pipe(map((res) => res.data));
   }
 
+  archiveRiskAssessment(riskAssessmentId: number): Observable<any> {
+    return this.http.put<any>(
+      `${environment.baseUrl}api/RiskAssessments/${riskAssessmentId}/archive`,
+      {}
+    );
+  }
+
   updateRisk(
     id: number,
     risk: Partial<RiskManagementInterface>
@@ -206,5 +214,70 @@ export class RiskManagementService {
 
   archiveRisk(id: number): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${id}/archive`, {});
+  }
+
+  // ----------- Risk Feedback APIs -----------
+  getRiskFeedbackList(riskId: number, filter: any = {}) {
+    let params = new HttpParams().set("riskId", riskId);
+
+    if (filter.pageNumber !== undefined) {
+      params = params.set("PageNumber", filter.pageNumber);
+    }
+    if (filter.pageSize !== undefined) {
+      params = params.set("PageSize", filter.pageSize);
+    }
+
+    if (filter.filterField && filter.filterValue) {
+      filter.filterField.forEach((field: string, i: number) => {
+        const value = filter.filterValue[i];
+        if (value !== undefined && field) {
+          params = params.set(field, value);
+        }
+      });
+    }
+
+    return this.http
+      .get<any>(`${environment.baseUrl}api/RiskFeedbacks/GetList`, { params })
+      .pipe(map((res) => res.data));
+  }
+
+  getRiskFeedback(feedbackId: number) {
+    return this.http
+      .get<any>(`${environment.baseUrl}api/RiskFeedbacks/${feedbackId}`)
+      .pipe(map((res) => res.data));
+  }
+
+  addRiskFeedback(riskId: number, payload: any) {
+    return this.http
+      .post<any>(`${environment.baseUrl}api/RiskFeedbacks`, {
+        ...payload,
+        riskId,
+      })
+      .pipe(map((res) => res.data));
+  }
+
+  updateRiskFeedback(
+    feedbackId: number,
+    payload: Partial<RiskFeedbackInterface>
+  ) {
+    return this.http
+      .put<any>(
+        `${environment.baseUrl}api/RiskFeedbacks/${feedbackId}`,
+        payload
+      )
+      .pipe(map((res) => res.data));
+  }
+
+  deleteRiskFeedback(feedbackId: number) {
+    return this.http
+      .delete<any>(`${environment.baseUrl}api/RiskFeedbacks/${feedbackId}`)
+      .pipe(map((res) => res.data));
+  }
+
+  archiveRiskFeedback(feedbackId: number): Observable<any> {
+    return this.http.put<any>(
+      `${environment.baseUrl}api/RiskFeedbacks/${feedbackId}/archive`,
+      {}
+    );
   }
 }

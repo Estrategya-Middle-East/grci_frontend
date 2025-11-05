@@ -1,4 +1,4 @@
-import { Component, inject, input, ViewChild } from "@angular/core";
+import { Component, ViewChild, inject, input } from "@angular/core";
 import { DialogService } from "primeng/dynamicdialog";
 import { MessageService } from "primeng/api";
 import { map, tap } from "rxjs";
@@ -8,28 +8,30 @@ import {
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
-import { RiskAssessmentInterface } from "../../models/risk-management";
-import { RiskAssessmentPopup } from "../risk-assessment-popup/risk-assessment-popup";
 import { RiskManagementService } from "../../services/risk-management-service";
 import { ActivatedRoute } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
+import {
+  RiskFeedbackInterface,
+  RiskFeedbackStatusEnum,
+} from "../../models/risk-management";
+import { RiskFeedbackPopup } from "../risk-feedback-popup/risk-feedback-popup";
 
 @Component({
-  selector: "app-risk-assessments",
+  selector: "app-risk-feedback-list",
   imports: [HeaderComponent, GeneralList],
   providers: [DialogService],
-  templateUrl: "./risk-assessments-list.html",
-  styleUrl: "./risk-assessments-list.scss",
+  templateUrl: "./risk-feedback-list.html",
+  styleUrl: "./risk-feedback-list.scss",
 })
-export class RiskAssessmentsList {
+export class RiskFeedbackList {
   activeTab = input.required<number>();
   private service = inject(RiskManagementService);
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private route = inject(ActivatedRoute);
 
-  @ViewChild("riskAssessmentsList")
-  riskAssessmentsList!: GeneralList<RiskAssessmentInterface>;
+  @ViewChild("feedbackList") feedbackList!: GeneralList<RiskFeedbackInterface>;
 
   // -------- Route param as signal --------
   id$ = this.route.paramMap.pipe(map((params) => Number(params.get("id"))));
@@ -39,26 +41,27 @@ export class RiskAssessmentsList {
   filteration: ShowFilteration = {
     tabeOne: { show: false, label: "" },
     tabeTwo: { show: false, label: "" },
-    search: { show: true, label: "Search Risk Assessments" },
+    search: { show: true, label: "Search Risk Feedback" },
     import: false,
   };
 
   // -------- Actions configs --------
   actions: ShowActions = {
-    add: { show: true, label: "New Assessment", isLink: false },
+    add: { show: true, label: "New Feedback", isLink: false },
     import: { show: false, label: "" },
   };
 
   // -------- Columns --------
   columns: {
-    field: keyof RiskAssessmentInterface | "actions";
+    field: keyof RiskFeedbackInterface | "actions";
     header: string;
   }[] = [
-    { field: "impactTitle", header: "Risk Impact" },
-    { field: "likelihoodTitle", header: "Risk Likelihood" },
-    // { field: "assessmentDate", header: "Validity" },
-    { field: "score", header: "Risk Score" },
-    { field: "ratingTitle", header: "Risk Rating" },
+    { field: "id", header: "ID" },
+    { field: "riskId", header: "Risk Id" },
+    { field: "status", header: "Status" },
+    { field: "feedback", header: "Feedback" },
+    { field: "reviewedByName", header: "Reviewed By" },
+    { field: "reviewedAt", header: "Reviewed At" },
     { field: "actions", header: "Actions" },
   ];
 
@@ -66,71 +69,70 @@ export class RiskAssessmentsList {
   filters: Record<string, any> = {};
 
   // -------- Fetch function --------
-  fetchData = ({
-    pageNumber = 1,
-    pageSize = 10,
-    ...filters
-  }: {
-    pageNumber?: number;
-    pageSize?: number;
-  } = {}) =>
-    this.service.getRiskAssesmentList(this.riskId(), {
-      pageNumber,
-      pageSize,
-      ...filters,
-    });
+  fetchData = ({ pageNumber = 1, pageSize = 10, ...filters } = {}) =>
+    this.service
+      .getRiskFeedbackList(this.riskId(), { pageNumber, pageSize, ...filters })
+      .pipe(
+        map((response) => {
+          return {
+            ...response,
+            items: response.items.map((item: RiskFeedbackInterface) => ({
+              ...item,
+              status:
+                item.status === RiskFeedbackStatusEnum.Approved
+                  ? "Approved"
+                  : item.status === RiskFeedbackStatusEnum.Rejected
+                  ? "Rejected"
+                  : "-",
+            })),
+          };
+        })
+      );
 
   // -------- Handle filter changes --------
   onFiltersChange(filters: Record<string, any>) {
     this.filters = { ...filters };
-    this.riskAssessmentsList.loadData(
-      this.riskAssessmentsList.pagination,
-      this.filters
-    );
+    this.feedbackList.loadData(this.feedbackList.pagination, this.filters);
   }
 
   // -------- Add --------
   onAdd() {
-    const ref = this.dialogService.open(RiskAssessmentPopup, {
-      header: "Add Risk Assessment",
+    const ref = this.dialogService.open(RiskFeedbackPopup, {
+      header: "Add Risk Feedback",
       width: "700px",
       modal: true,
       data: { riskId: this.riskId() },
     });
 
     ref.onClose.subscribe((result) => {
-      if (result) {
-        this.reloadList();
-      }
+      if (result) this.reloadList();
     });
   }
 
   // -------- Edit --------
-  onEdit(row: RiskAssessmentInterface) {
-    const ref = this.dialogService.open(RiskAssessmentPopup, {
-      header: "Edit Risk Assessment",
+  onEdit(row: RiskFeedbackInterface) {
+    const ref = this.dialogService.open(RiskFeedbackPopup, {
+      header: "Edit Risk Feedback",
       width: "700px",
       modal: true,
-      data: { riskId: this.riskId(), assessmentId: row.id },
+      data: { riskId: this.riskId(), feedbackId: row.id },
     });
 
     ref.onClose.subscribe((result) => {
-      if (result) {
-        this.reloadList();
-      }
+      if (result) this.reloadList();
     });
   }
 
   // -------- Delete --------
   onDelete(id: number) {
     this.service
-      .deleteRiskAssessment(id)
+      .deleteRiskFeedback(id)
       .pipe(tap(() => this.reloadList()))
       .subscribe(() =>
         this.messageService.add({
           severity: "success",
           summary: "Deleted",
-          detail: "Risk assessment deleted successfully 🗑️",
+          detail: "Risk feedback deleted successfully 🗑️",
         })
       );
   }
@@ -138,7 +140,7 @@ export class RiskAssessmentsList {
   // -------- Archive --------
   onArchive(id: number) {
     this.service
-      .archiveRiskAssessment(id)
+      .archiveRiskFeedback(id)
       .pipe(tap(() => this.reloadList()))
       .subscribe(() =>
         this.messageService.add({
@@ -150,9 +152,6 @@ export class RiskAssessmentsList {
   }
 
   private reloadList() {
-    this.riskAssessmentsList.loadData(
-      this.riskAssessmentsList.pagination,
-      this.filters
-    );
+    this.feedbackList.loadData(this.feedbackList.pagination, this.filters);
   }
 }

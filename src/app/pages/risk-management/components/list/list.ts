@@ -217,4 +217,9 @@ export class List implements OnChanges {
       relativeTo: this.route,
     });
   }
+  openRiskFeedback(row: RiskManagementInterface) {
+    this.router.navigate([row.id, appRoutes["RISK-FEEDBACK"]], {
+      relativeTo: this.route,
+    });
+  }
 }

@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { AppRoute, appRoutes } from "../app.routes.enum";
+import { appRoutes } from "../app.routes.enum";
 
 export const layoutRoutes: Routes = [
   {
@@ -39,7 +39,7 @@ export const layoutRoutes: Routes = [
           ).then((m) => m.AddEditComponent),
       },
       {
-        path: `:id/${AppRoute.STRATEGIES}`,
+        path: `:id/${appRoutes.STRATEGIES}`,
         children: [
           {
             path: "",
@@ -134,7 +134,7 @@ export const layoutRoutes: Routes = [
           ),
       },
       {
-        path: `:entityId/${AppRoute["KEY-PROCESS"]}`,
+        path: `:entityId/${appRoutes["KEY-PROCESS"]}`,
         children: [
           {
             path: "",
@@ -310,11 +310,18 @@ export const layoutRoutes: Routes = [
           ),
       },
       {
-        path: `:id/${AppRoute["RISK-ASSESSMENTS"]}`,
+        path: `:id/${appRoutes["RISK-ASSESSMENTS"]}`,
         loadComponent: () =>
           import(
             "../pages/risk-management/components/risk-assessments-list/risk-assessments-list"
           ).then((m) => m.RiskAssessmentsList),
+      },
+      {
+        path: `:id/${appRoutes["RISK-FEEDBACK"]}`,
+        loadComponent: () =>
+          import(
+            "../pages/risk-management/components/risk-feedback-list/risk-feedback-list"
+          ).then((m) => m.RiskFeedbackList),
       },
     ],
   },

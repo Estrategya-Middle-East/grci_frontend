@@ -89,6 +89,23 @@ export enum RiskMitigationStatusEnum {
   Unmitigated = 2,
 }
 
+export interface RiskFeedbackInterface {
+  id: number;
+  riskId: number;
+  riskEvent: string;
+  riskCode: string;
+  status: number;
+  feedback: string;
+  reviewedById: number;
+  reviewedByName: string;
+  reviewedAt: string;
+}
+
+export enum RiskFeedbackStatusEnum {
+  Approved = 1,
+  Rejected = 2,
+}
+
 // export enum RiskStateEnum {
 //   Active = 0,
 //   Archived = 1,
