@@ -373,6 +373,13 @@ export const layoutRoutes: Routes = [
       ),
   },
   {
+    path: appRoutes["RESOURCES-FUNCTIONS"],
+    loadComponent: () =>
+      import("../pages/resources-functions/resources-functions").then(
+        (m) => m.ResourcesFunctions
+      ),
+  },
+  {
     path: appRoutes["RISK-ROOT-CAUSES"],
     loadComponent: () =>
       import("../pages/risk-root-causes/risk-root-causes").then(
