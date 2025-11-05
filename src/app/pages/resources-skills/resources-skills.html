@@ -1,0 +1,19 @@
+<app-header
+  [showFilteration]="skillsFilteration"
+  [showActions]="skillsActions"
+  [title]="'Resource Skills'"
+  (addClick)="onAddSkill()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <app-general-list
+    #skillsList
+    [columns]="skillsColumns"
+    [fetchData]="fetchSkills"
+    [active]="true"
+    (edit)="onEditSkill($event)"
+    (delete)="onDeleteSkill($event)"
+    (archive)="onArchiveSkill($event)"
+  ></app-general-list>
+</div>
