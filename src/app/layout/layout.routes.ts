@@ -488,6 +488,13 @@ export const layoutRoutes: Routes = [
             "../pages/control-design-rating/components/add-edit/add-edit"
           ).then((m) => m.AddEdit),
       },
+      {
+        path: ":id",
+        loadComponent: () =>
+          import(
+            "../pages/control-design-rating/components/control-design-details/control-design-details"
+          ).then((m) => m.ControlDesignDetails),
+      },
     ],
   },
 ];

@@ -1,0 +1,28 @@
+@use "../../../../../styles/variables" as *;
+
+.title {
+  font-size: 18px;
+  color: $primary-color-text;
+  font-weight: 600;
+}
+
+p {
+  overflow-wrap: anywhere;
+}
+
+.button-group {
+  margin-top: 1rem;
+}
+
+.icon {
+  margin-bottom: 1rem;
+}
+
+.pargDeleteItem {
+  text-align: center;
+  color: #555;
+}
+
+.bold {
+  font-weight: 600;
+}

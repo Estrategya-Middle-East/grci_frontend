@@ -1,1 +1,213 @@
-<p>control-design-details works!</p>
+<app-header [title]="'View Control Design'"></app-header>
+
+@if (!loaderService.loading()) { @if (control()) {
+<div class="p-4 d-flex flex-column">
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <!-- Title -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h2 class="title">{{ control()?.controlName }}</h2>
+    </div>
+
+    <!-- Info Section -->
+    <div class="col-sm-12 col-md-8 col-lg-8">
+      <!-- Row 1 -->
+      <div class="row">
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Sensitivity:</span>
+            {{ control()?.sensitivity }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Sensitivity Weight:</span>
+            {{ control()?.sensitivityWeight }}
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Reliability:</span>
+            {{ control()?.reliability }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Reliability Weight:</span>
+            {{ control()?.reliabilityWeight }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Verifiability:</span>
+            {{ control()?.verifiability }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Verifiability Weight:</span>
+            {{ control()?.verifiabilityWeight }}
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Override:</span>
+            {{ control()?.override }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Override Weight:</span>
+            {{ control()?.overrideWeight }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Correction:</span>
+            {{ control()?.correction }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Correction Weight:</span>
+            {{ control()?.correctionWeight }}
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Competence:</span>
+            {{ control()?.competence }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Competence Weight:</span>
+            {{ control()?.competenceWeight }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Total Weight:</span>
+            {{ control()?.totalWeight }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Rating:</span>
+            {{ control()?.rating }}
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Remarks:</span>
+            {{ control()?.remarks }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Rating Date:</span>
+            {{ formatDate(control()?.ratingDate) }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Row 5 (Metadata) -->
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title text-wrap">Created By:</span>
+            {{ control()?.createdBy }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Created Date:</span>
+            {{ formatDate(control()?.createdDate) }}
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title text-wrap">Updated By:</span>
+            {{ control()?.updatedBy }}
+          </p>
+          <p class="mb-2">
+            <span class="title">Updated Date:</span>
+            {{ formatDate(control()?.updatedDate) }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Row 6 -->
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <p class="mb-2">
+            <span class="title">Is Archived:</span>
+            {{ control()?.isArchived ? "Yes" : "No" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchive()"
+    ></button>
+  </div>
+
+  <hr class="text-black-50" />
+</div>
+} @else {
+<p>Control Design not found.</p>
+} }
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- ICON -->
+    @if (viewData.title.includes('Delete')) {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-trash text-danger" style="font-size: 2.5rem"></i>
+    </span>
+    } @else {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info" style="font-size: 2.5rem"></i>
+    </span>
+    }
+
+    <!-- PARAGRAPH -->
+    @if (viewData.title.includes('Delete')) {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<p-toast position="bottom-center" class="custom-toast-error" key="bc" />
