@@ -456,10 +456,36 @@ export const layoutRoutes: Routes = [
           ).then((m) => m.AddEdit),
       },
       {
-        path: "edit/:performanceId",
+        path: "edit/:id",
         loadComponent: () =>
           import(
             "../pages/resources-performance-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+    ],
+  },
+  {
+    path: `${appRoutes["CONTROL-DESIGN-RATING"]}`,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/control-design-rating/control-design-rating").then(
+            (m) => m.ControlDesignRating
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/control-design-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import(
+            "../pages/control-design-rating/components/add-edit/add-edit"
           ).then((m) => m.AddEdit),
       },
     ],
