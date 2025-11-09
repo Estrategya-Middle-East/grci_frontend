@@ -12,8 +12,11 @@ export class OrganizationStrategy {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl + "api/OrganizationStrategy";
 
-  getStrategies(filter: any = {}): Observable<PagedResult<Strategy>> {
-    let params = new HttpParams();
+  getStrategies(
+    orgId: string,
+    filter: any = {}
+  ): Observable<PagedResult<Strategy>> {
+    let params = new HttpParams().set("organizationId", orgId);
 
     if (filter.pageNumber !== undefined)
       params = params.set("PageNumber", filter.pageNumber);

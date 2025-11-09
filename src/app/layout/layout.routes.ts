@@ -438,4 +438,30 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: `${appRoutes["RESOURCES-PERFORMANCE-RATING"]}`,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import(
+            "../pages/resources-performance-rating/resources-performance-rating"
+          ).then((m) => m.ResourcesPerformanceRating),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/resources-performance-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: "edit/:performanceId",
+        loadComponent: () =>
+          import(
+            "../pages/resources-performance-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+    ],
+  },
 ];

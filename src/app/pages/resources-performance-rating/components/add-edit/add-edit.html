@@ -1,0 +1,165 @@
+<app-header
+  [title]="
+    performanceId ? 'Edit Resource Performance' : 'Add Resource Performance'
+  "
+></app-header>
+
+<div class="p-4">
+  <form [formGroup]="formGroup">
+    <div class="row">
+      @if (performanceId) {
+      <!-- ID (disabled in edit mode) -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>ID</label>
+          <input
+            type="text"
+            formControlName="id"
+            pInputText
+            readonly
+            class="w-100"
+          />
+        </div>
+      </div>
+      }
+
+      <!-- Resource Name -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Resource Name*</label>
+          <p-select
+            [options]="resourcesOptions"
+            appendTo="body"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="resourceId"
+            placeholder="Select Resource Name"
+            class="w-100"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Working Paper -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Working Paper*</label>
+          <input
+            type="text"
+            formControlName="workingPaper"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Comment -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Comment*</label>
+          <input
+            type="text"
+            formControlName="comments"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Competencies -->
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-between mb-3">
+          <label class="h5">Competencies</label>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="addCompetency()"
+          >
+            <i class="pi pi-plus"></i> Add Competency
+          </button>
+        </div>
+
+        <div formArrayName="ratings">
+          <p-table [value]="competenciesFormArray.controls">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Competency</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th style="width: 50px"></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-comp let-i="rowIndex">
+              <tr [formGroupName]="i">
+                <td>
+                  <p-select
+                    [options]="competencyOptions"
+                    appendTo="body"
+                    optionLabel="name"
+                    optionValue="id"
+                    formControlName="competencyFrameworkId"
+                    placeholder="Select Competency"
+                    class="w-100"
+                  ></p-select>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    formControlName="ratingValue"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="comments"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td class="text-center">
+                  @if (competenciesFormArray.length > 1) {
+                  <button
+                    type="button"
+                    class="list-dropdown"
+                    (click)="removeCompetency(i)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                  }
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+      <!-- Final Evaluation -->
+      <!-- <div class="col mt-3">
+        <div class="c-formControl mb-3">
+          <label>Final Evaluation*</label>
+          <input
+            type="text"
+            formControlName="finalEvaluation"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div> -->
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 m-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !performanceId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

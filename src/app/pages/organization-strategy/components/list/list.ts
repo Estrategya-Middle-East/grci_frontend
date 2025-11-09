@@ -84,7 +84,7 @@ export class List implements OnChanges {
       filterValue: Object.values(this.filters),
     };
     this.strategyService
-      .getStrategies({ ...filterPayload, organizationId: this.orgId() })
+      .getStrategies(this.orgId() as string, { ...filterPayload })
       .subscribe({
         next: (response) => {
           this.strategiesList = response.items;
