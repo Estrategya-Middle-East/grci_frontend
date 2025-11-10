@@ -72,7 +72,7 @@ export class ControlNature {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.natureList.loadData(this.natureList.pagination, this.filters);
         this.messageService.add({
@@ -92,7 +92,7 @@ export class ControlNature {
       data: item,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.natureList.loadData(this.natureList.pagination, this.filters);
         this.messageService.add({

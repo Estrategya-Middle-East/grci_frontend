@@ -1,0 +1,121 @@
+.audit-cycles-container {
+      background: white;
+      padding: 0;
+    }
+
+    .header {
+      background: white;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-content {
+      padding: 2rem;
+      max-width: 1200px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-field label {
+      font-weight: 500;
+      color: #495057;
+      font-size: 0.95rem;
+    }
+
+    .required {
+      color: #e74c3c;
+      margin-left: 2px;
+    }
+
+    .years-range {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .to-label {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    .year-info {
+      color: #6c757d;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .year-info i {
+      font-size: 0.85rem;
+    }
+
+    .form-actions {
+      padding: 1rem 2rem;
+      background: white;
+      border-top: 1px solid #dee2e6;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      
+    }
+
+    ::ng-deep .p-inputtext,
+    ::ng-deep .p-inputtextarea {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    ::ng-deep .p-dropdown {
+      font-size: 0.9rem;
+    }
+
+    ::ng-deep .p-button {
+      font-size: 0.9rem;
+      padding: 0.625rem 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .years-range {
+        flex-wrap: wrap;
+      }
+    }
+    .btn-blue .p-button {
+    background-color: #007bff !important; /* Bootstrap blue */
+    border-color: #007bff !important;
+    color: white !important;
+    }
+    .btn-blue .p-button:hover {
+    background-color: #0069d9 !important;
+    }
+    .list-dropdown {
+    background-color: transparent;
+    border: 0;
+    font-size: 12px;
+    font-weight: 700;
+}
+.list-dropdown::after {
+    display: none;
+}

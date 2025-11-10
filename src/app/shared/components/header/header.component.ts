@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit {
 
   searchControl = new FormControl<string>("");
   yearControl = new FormControl<Date | null>(null);
+  dateRangeControl = new FormControl<Date | null>(null);
 
   private filtersSubject = new BehaviorSubject<Record<string, any>>({});
   filters$ = this.filtersSubject.asObservable();
@@ -66,6 +67,12 @@ export class HeaderComponent implements OnInit {
       .subscribe((value) => {
         const year = value ? value.getFullYear() : null;
         this.updateFilter("year", year);
+      });
+    this.dateRangeControl.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        const dateRangeControl = value ? value : null;
+        this.updateFilter("dateRangeControl", dateRangeControl);
       });
 
     // Dropdown changes debounce

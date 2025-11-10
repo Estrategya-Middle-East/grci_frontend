@@ -1,0 +1,149 @@
+<div class="audit-cycles-container">
+      <!-- Header -->
+      <div class="header">
+        <h2>Add Audit Cycles</h2>
+      </div>
+
+      <!-- Form Content -->
+      <div class="form-content">
+        <div class="form-row">
+          <!-- Code Field -->
+           @if (router.url.includes('edit')) {
+
+               <div class="form-field">
+                   <label for="code">Code<span class="required">*</span></label>
+                   <input 
+                   disabled
+                   pInputText 
+                   id="code" 
+                   [value]="code()"
+                   (input)="onCodeChange($event)"
+                   placeholder="AC-001"
+                   class="w-full"
+                   />
+                </div>
+            }
+
+          <!-- Title Field -->
+          <div class="form-field">
+            <label for="title">Title</label>
+            <input 
+              pInputText 
+              id="title"
+              [value]="title()"
+              (input)="onTitleChange($event)"
+              placeholder="Enter audit cycle title"
+              class="w-full"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Years Range -->
+          <div class="form-field">
+            <label>Years Range</label>
+            <div class="years-range">               
+              <p-datepicker
+                [ngModel]="fromYear()"
+                (ngModelChange)="onFromYearChange($event)"
+                selectionMode="single"
+                dateFormat="dd/mm/yy"
+                 view="date"
+                placeholder="Select Date Range"
+                [showIcon]="true"
+                showButtonBar="true"
+                ></p-datepicker>
+              <span class="to-label">To</span>
+              <p-datepicker
+                [ngModel]="toYear()"
+                (ngModelChange)="onToYearChange($event)"
+                selectionMode="single"
+                 view="date"
+                dateFormat="dd/mm/yy"
+                placeholder="Select Date Range"
+                [showIcon]="true"
+                showButtonBar="true"
+                ></p-datepicker>
+            </div>
+            <div class="year-info" *ngIf="yearRangeValid()">
+              <i class="pi pi-calendar"></i>
+              {{yearRangeText()}}
+            </div>
+          </div>
+
+          <!-- Objectives Field -->
+          <div class="form-field">
+            <label for="objectives">Objectives</label>
+            <textarea 
+              pInputTextarea 
+              id="objectives"
+              [value]="objectives()"
+              (input)="onObjectivesChange($event)"
+              placeholder="enter Objectives"
+              rows="3"
+              class="w-full"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Scope Field -->
+          <div class="form-field">
+            <label for="scope">Scope</label>
+            <textarea 
+              pInputTextarea 
+              id="scope"
+              [value]="scope()"
+              (input)="onScopeChange($event)"
+              placeholder="enter Scope"
+              rows="3"
+              class="w-full"
+            ></textarea>
+          </div>
+
+          <!-- Strategic Framework Field -->
+          <div class="form-field">
+            <label for="framework">Strategic Framework</label>
+            <textarea 
+              pInputTextarea 
+              id="framework"
+              [value]="strategicFramework()"
+              (input)="onFrameworkChange($event)"
+              placeholder="enter Strategic Framework"
+              rows="3"
+              class="w-full"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        @if (router.url.includes('add')) {
+
+          <p-button 
+          label="Save" 
+          class="btn-blue"
+          icon="pi pi-send"
+          (onClick)="onSave()"
+          [disabled]="!isFormValid()"
+          />
+          
+        }@else {
+          <p-button 
+          label="Edit" 
+          class="btn-blue"
+          icon="pi pi-send"
+          (onClick)="onEdit()"
+          [disabled]="!isFormValid()"
+          />
+
+        }
+        <p-button 
+          label="Cancel" 
+          icon="pi pi-times"
+          severity="secondary"
+          (onClick)="onCancel()"
+        />
+      </div>
+    </div>

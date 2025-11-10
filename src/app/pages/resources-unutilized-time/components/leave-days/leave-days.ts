@@ -88,7 +88,7 @@ export class LeaveDays {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.leaveDaysList.loadData(
           this.leaveDaysList.pagination,
@@ -113,7 +113,7 @@ export class LeaveDays {
       data: row,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.leaveDaysList.loadData(
           this.leaveDaysList.pagination,

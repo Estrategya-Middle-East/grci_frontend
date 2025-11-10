@@ -101,7 +101,7 @@ export class RiskAssessmentsList {
       data: { riskId: this.riskId() },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.reloadList();
       }
@@ -117,7 +117,7 @@ export class RiskAssessmentsList {
       data: { riskId: this.riskId(), assessmentId: row.id },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.reloadList();
       }

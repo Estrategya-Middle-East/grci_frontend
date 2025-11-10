@@ -422,6 +422,27 @@ export const layoutRoutes: Routes = [
             (m) => m.AuditEngagement
           ),
       },
+      {
+        path: "cycle",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-cycle/audit-cycle").then(
+            (m) => m.AuditCycle
+          ),
+      },
+      {
+        path: "cycle/add",
+        loadComponent: () =>
+          import("../pages/audit/pages/crud-audit-cycle/crud-audit-cycle").then(
+            (m) => m.CrudAuditCycle
+          ),
+      },
+      {
+        path: "cycle/edit",
+        loadComponent: () =>
+          import("../pages/audit/pages/crud-audit-cycle/crud-audit-cycle").then(
+            (m) => m.CrudAuditCycle
+          ),
+      },
     ],
   },
 ];

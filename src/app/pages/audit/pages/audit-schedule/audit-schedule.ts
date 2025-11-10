@@ -144,7 +144,7 @@ export class AuditSchedule implements OnInit {
       },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.auditService.deleteScheduleAuditItem(id).subscribe({
           next: (res) => {

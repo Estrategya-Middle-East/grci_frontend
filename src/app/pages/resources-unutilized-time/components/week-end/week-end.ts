@@ -80,7 +80,7 @@ export class WeekEnd {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.weekEndList.loadData(
           this.weekEndList.pagination,
@@ -105,7 +105,7 @@ export class WeekEnd {
       data: weekend,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.weekEndList.loadData(
           this.weekEndList.pagination,

@@ -48,7 +48,7 @@ export class AuditEngagementToolbar {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.auditService.addAuditEngagement(result).subscribe({
           next: (res) => {

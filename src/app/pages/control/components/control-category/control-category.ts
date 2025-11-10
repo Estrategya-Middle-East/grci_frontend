@@ -76,7 +76,7 @@ export class ControlCategory {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.categoryList.loadData(this.categoryList.pagination, this.filters);
         this.messageService.add({
@@ -96,7 +96,7 @@ export class ControlCategory {
       data: category,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.categoryList.loadData(this.categoryList.pagination, this.filters);
         this.messageService.add({

@@ -81,7 +81,7 @@ export class Automation {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.automationList.loadData(
           this.automationList.pagination,
@@ -105,7 +105,7 @@ export class Automation {
       data: automation,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.automationList.loadData(
           this.automationList.pagination,

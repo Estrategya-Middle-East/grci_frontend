@@ -55,7 +55,7 @@ export class AuditEngagement {
       },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.auditService.deleteEngagementAuditItem(id).subscribe({
           next: (res) => {
@@ -91,7 +91,7 @@ export class AuditEngagement {
       },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.auditService
           .EditAuditEngagement({ ...result, id: id }, id)

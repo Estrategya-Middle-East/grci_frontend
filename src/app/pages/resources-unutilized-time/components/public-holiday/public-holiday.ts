@@ -82,7 +82,7 @@ export class PublicHoliday {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.holidayList.loadData(
           this.holidayList.pagination,
@@ -107,7 +107,7 @@ export class PublicHoliday {
       data: row,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.holidayList.loadData(
           this.holidayList.pagination,

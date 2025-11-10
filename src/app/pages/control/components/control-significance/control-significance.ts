@@ -75,7 +75,7 @@ export class ControlSignificance {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.significanceList.loadData(
           this.significanceList.pagination,
@@ -98,7 +98,7 @@ export class ControlSignificance {
       data: item,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.significanceList.loadData(
           this.significanceList.pagination,

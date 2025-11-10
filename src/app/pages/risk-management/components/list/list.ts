@@ -200,7 +200,7 @@ export class List implements OnChanges {
       },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result?.riskOwnerId && result.riskOwnerId !== row.riskOwnerId) {
         this.messageService.add({
           severity: "success",

@@ -77,7 +77,7 @@ export class Type {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.typeList.loadData(this.typeList.pagination, this.typeFilters);
         this.messageService.add({
@@ -98,7 +98,7 @@ export class Type {
       data: type,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.typeList.loadData(this.typeList.pagination, this.typeFilters);
         this.messageService.add({

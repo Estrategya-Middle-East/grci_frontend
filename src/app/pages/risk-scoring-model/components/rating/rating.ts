@@ -80,7 +80,7 @@ export class Rating {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.ratingList.loadData(
           this.ratingList.pagination,
@@ -104,7 +104,7 @@ export class Rating {
       data: rating,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.ratingList.loadData(
           this.ratingList.pagination,

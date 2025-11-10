@@ -80,7 +80,7 @@ export class Category {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.categoryList.loadData(
           this.categoryList.pagination,
@@ -104,7 +104,7 @@ export class Category {
       data: category,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.categoryList.loadData(
           this.categoryList.pagination,
