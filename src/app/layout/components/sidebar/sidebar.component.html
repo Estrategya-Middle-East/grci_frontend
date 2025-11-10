@@ -128,11 +128,55 @@
             <div class="link">
               <div
                 class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/resources-performance-rating']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">
+                  Resources Performance Rating
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
                 [routerLink]="['/resources-unutilized']"
                 [routerLinkActive]="'active'"
                 [routerLinkActiveOptions]="{ exact: false }"
               >
                 <div class="title text-black-50">Resources unutilized time</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/resources-skills']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Resources Skills</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/resources-functions']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Resources Functions</div>
               </div>
             </div>
           </div>
@@ -297,6 +341,20 @@
                 [routerLinkActiveOptions]="{ exact: false }"
               >
                 <div class="title text-black-50">Risk Root Causes</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/control-design-rating']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Control Design Rating</div>
               </div>
             </div>
           </div>

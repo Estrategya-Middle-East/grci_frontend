@@ -8,10 +8,7 @@ import {
   ShowActions,
   ShowFilteration,
 } from "../../../../shared/components/header/models/header.interface";
-import {
-  RiskAssessmentInterface,
-  RiskAssessmentPayloadInterface,
-} from "../../models/risk-management";
+import { RiskAssessmentInterface } from "../../models/risk-management";
 import { RiskAssessmentPopup } from "../risk-assessment-popup/risk-assessment-popup";
 import { RiskManagementService } from "../../services/risk-management-service";
 import { ActivatedRoute } from "@angular/router";
@@ -134,6 +131,20 @@ export class RiskAssessmentsList {
           severity: "success",
           summary: "Deleted",
           detail: "Risk assessment deleted successfully 🗑️",
+        })
+      );
+  }
+
+  // -------- Archive --------
+  onArchive(id: number) {
+    this.service
+      .archiveRiskAssessment(id)
+      .pipe(tap(() => this.reloadList()))
+      .subscribe(() =>
+        this.messageService.add({
+          severity: "info",
+          summary: "Archived",
+          detail: "Risk feedback archived successfully",
         })
       );
   }

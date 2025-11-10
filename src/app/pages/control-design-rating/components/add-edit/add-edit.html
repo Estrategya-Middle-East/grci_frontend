@@ -1,0 +1,260 @@
+<app-header
+  [title]="controlRatingId ? 'Edit Control Rating' : 'Add Control Rating'"
+></app-header>
+
+<div class="p-4 mb-3 container-CE">
+  <form [formGroup]="formGroup" class="entity-form">
+    <div class="row inputs-wrapper">
+      <!-- Control Name -->
+      <!-- <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Control Name*</label>
+          <input
+            type="text"
+            formControlName="controlName"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div> -->
+
+      <!-- Risk Event -->
+      <div class="col-md-12 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Risk*</label>
+          <p-select
+            [options]="controlsOptions"
+            appendTo="body"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="controlRiskId"
+            placeholder="Select Risk"
+            class="w-100"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Sensitivity & Weight -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Sensitivity*</label>
+          <input
+            type="number"
+            formControlName="sensitivity"
+            class="w-100"
+            pInputText
+            [min]="1"
+            [max]="10"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Sensitivity Weight*</label>
+          <input
+            type="number"
+            formControlName="sensitivityWeight"
+            pInputText
+            class="w-100"
+            [min]="0"
+            [max]="1"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Reliability & Weight -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Reliability*</label>
+          <input
+            type="number"
+            formControlName="reliability"
+            class="w-100"
+            pInputText
+            [min]="1"
+            [max]="10"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Reliability Weight*</label>
+          <input
+            type="number"
+            formControlName="reliabilityWeight"
+            pInputText
+            class="w-100"
+            [min]="0"
+            [max]="1"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Verifiability & Weight -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Verifiability*</label>
+          <input
+            type="number"
+            formControlName="verifiability"
+            class="w-100"
+            pInputText
+            [min]="1"
+            [max]="10"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Verifiability Weight*</label>
+          <input
+            type="number"
+            formControlName="verifiabilityWeight"
+            pInputText
+            class="w-100"
+            [min]="0"
+            [max]="1"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Override & Weight -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Override*</label>
+          <input
+            type="number"
+            formControlName="override"
+            class="w-100"
+            pInputText
+            [min]="1"
+            [max]="10"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Override Weight*</label>
+          <input
+            type="number"
+            formControlName="overrideWeight"
+            pInputText
+            class="w-100"
+            [min]="0"
+            [max]="1"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Correction & Weight -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Correction*</label>
+          <input
+            type="number"
+            formControlName="correction"
+            class="w-100"
+            pInputText
+            [min]="1"
+            [max]="10"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Correction Weight*</label>
+          <input
+            type="number"
+            formControlName="correctionWeight"
+            pInputText
+            class="w-100"
+            [min]="0"
+            [max]="1"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Competence & Weight -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Competence*</label>
+          <input
+            type="number"
+            formControlName="competence"
+            class="w-100"
+            pInputText
+            [min]="1"
+            [max]="10"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Competence Weight*</label>
+          <input
+            [min]="0"
+            type="number"
+            formControlName="competenceWeight"
+            pInputText
+            class="w-100"
+            [min]="0"
+            [max]="1"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Remarks (full width) -->
+      <div class="col-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Remarks</label>
+          <input
+            formControlName="remarks"
+            class="w-100"
+            type="text"
+            pInputText
+          />
+        </div>
+      </div>
+
+      <!-- Rating Date -->
+      <div class="col-md-6 mb-3">
+        <div class="c-formControl">
+          <label class="title-control d-block">Rating Date*</label>
+          <p-datepicker
+            formControlName="ratingDate"
+            showIcon="true"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-end fw-bold mt-2">
+      Total Weight: {{ totalWeight | number : "1.2-2" }}
+      <span
+        [ngClass]="{
+          'text-danger': totalWeight !== 1,
+          'text-success': totalWeight === 1
+        }"
+      >
+        {{ totalWeight === 1 ? "✓" : "✗ Must equal 1" }}
+      </span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 pt-3">
+      <button type="button" class="btn btn-primary" (click)="onSave()">
+        <i class="pi pi-send"></i> Save
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

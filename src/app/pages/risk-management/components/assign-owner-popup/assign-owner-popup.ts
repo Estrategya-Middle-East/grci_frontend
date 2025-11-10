@@ -47,8 +47,6 @@ export class AssignOwnerPopup implements OnInit {
   loadOwners(): void {
     this.service.getUsersLookUp().subscribe((res) => {
       this.owners.set(res);
-      console.log(this.owners());
-
       this.loading = false;
       if (!this.currentOwnerId) {
         this.formGroup.patchValue({ riskOwnerId: null });

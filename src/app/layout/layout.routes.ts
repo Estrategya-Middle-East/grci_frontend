@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { AppRoute, appRoutes } from "../app.routes.enum";
+import { appRoutes } from "../app.routes.enum";
 
 export const layoutRoutes: Routes = [
   {
@@ -39,7 +39,7 @@ export const layoutRoutes: Routes = [
           ).then((m) => m.AddEditComponent),
       },
       {
-        path: `:id/${AppRoute.STRATEGIES}`,
+        path: `:id/${appRoutes.STRATEGIES}`,
         children: [
           {
             path: "",
@@ -134,7 +134,7 @@ export const layoutRoutes: Routes = [
           ),
       },
       {
-        path: `:entityId/${AppRoute["KEY-PROCESS"]}`,
+        path: `:entityId/${appRoutes["KEY-PROCESS"]}`,
         children: [
           {
             path: "",
@@ -310,11 +310,18 @@ export const layoutRoutes: Routes = [
           ),
       },
       {
-        path: `:id/${AppRoute["RISK-ASSESSMENTS"]}`,
+        path: `:id/${appRoutes["RISK-ASSESSMENTS"]}`,
         loadComponent: () =>
           import(
             "../pages/risk-management/components/risk-assessments-list/risk-assessments-list"
           ).then((m) => m.RiskAssessmentsList),
+      },
+      {
+        path: `:id/${appRoutes["RISK-FEEDBACK"]}`,
+        loadComponent: () =>
+          import(
+            "../pages/risk-management/components/risk-feedback-list/risk-feedback-list"
+          ).then((m) => m.RiskFeedbackList),
       },
     ],
   },
@@ -356,6 +363,20 @@ export const layoutRoutes: Routes = [
     loadComponent: () =>
       import("../pages/basic-heatmap/basic-heatmap").then(
         (m) => m.BasicHeatmap
+      ),
+  },
+  {
+    path: appRoutes["RESOURCES-SKILLS"],
+    loadComponent: () =>
+      import("../pages/resources-skills/resources-skills").then(
+        (m) => m.ResourcesSkills
+      ),
+  },
+  {
+    path: appRoutes["RESOURCES-FUNCTIONS"],
+    loadComponent: () =>
+      import("../pages/resources-functions/resources-functions").then(
+        (m) => m.ResourcesFunctions
       ),
   },
   {
@@ -442,6 +463,65 @@ export const layoutRoutes: Routes = [
           import("../pages/audit/pages/crud-audit-cycle/crud-audit-cycle").then(
             (m) => m.CrudAuditCycle
           ),
+      },
+    ],
+  },
+  {
+    path: `${appRoutes["RESOURCES-PERFORMANCE-RATING"]}`,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import(
+            "../pages/resources-performance-rating/resources-performance-rating"
+          ).then((m) => m.ResourcesPerformanceRating),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/resources-performance-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import(
+            "../pages/resources-performance-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+    ],
+  },
+  {
+    path: `${appRoutes["CONTROL-DESIGN-RATING"]}`,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/control-design-rating/control-design-rating").then(
+            (m) => m.ControlDesignRating
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/control-design-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import(
+            "../pages/control-design-rating/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+      {
+        path: ":id",
+        loadComponent: () =>
+          import(
+            "../pages/control-design-rating/components/control-design-details/control-design-details"
+          ).then((m) => m.ControlDesignDetails),
       },
     ],
   },

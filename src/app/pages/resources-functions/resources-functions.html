@@ -1,0 +1,19 @@
+<app-header
+  [showFilteration]="functionsFilteration"
+  [showActions]="functionsActions"
+  [title]="'Resource Functions'"
+  (addClick)="onAddFunction()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <app-general-list
+    #functionsList
+    [columns]="functionsColumns"
+    [fetchData]="fetchFunctions"
+    [active]="true"
+    (edit)="onEditFunction($event)"
+    (delete)="onDeleteFunction($event)"
+    (archive)="onArchiveFunction($event)"
+  ></app-general-list>
+</div>

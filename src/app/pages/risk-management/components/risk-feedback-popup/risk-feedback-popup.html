@@ -1,0 +1,90 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()" class="p-fluid">
+  @if (isEditMode) {
+  <!-- ID -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">ID</label>
+    <input
+      type="text"
+      pInputText
+      formControlName="id"
+      class="w-100"
+      [disabled]="true"
+    />
+  </div>
+
+  <!-- Risk ID -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Risk ID</label>
+    <input
+      type="text"
+      pInputText
+      formControlName="riskId"
+      class="w-100"
+      [disabled]="true"
+    />
+  </div>
+  }
+
+  <!-- Feedback -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Feedback*</label>
+    <input
+      type="text"
+      pInputText
+      formControlName="feedback"
+      placeholder="Enter feedback"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Status -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Status*</label>
+    <p-select
+      formControlName="status"
+      [options]="statuses()"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select Status"
+      appendTo="body"
+      class="w-100"
+    ></p-select>
+  </div>
+
+  <!-- Reviewed By -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Reviewed By*</label>
+    <p-select
+      formControlName="reviewedById"
+      [options]="reviewers()"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select Reviewer"
+      appendTo="body"
+      class="w-100"
+      [loading]="loading"
+    ></p-select>
+  </div>
+
+  <!-- Reviewed At -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Reviewed At*</label>
+    <p-datepicker
+      formControlName="reviewedAt"
+      showIcon="true"
+      placeholder="Select date"
+      class="w-100"
+      [maxDate]="today"
+    ></p-datepicker>
+  </div>
+
+  <!-- Buttons -->
+  <div class="p-col-12 d-flex justify-content-center gap-3 m-4">
+    <button [disabled]="!formGroup.valid" type="submit" class="btn btn-primary">
+      <i class="pi pi-send"></i> {{ isEditMode ? "Update" : "Save" }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

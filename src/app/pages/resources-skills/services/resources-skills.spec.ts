@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RiskRootCauses } from './risk-root-causes';
+import { ResourcesSkills } from './resources-skills';
 
-describe('RiskRootCauses', () => {
-  let service: RiskRootCauses;
+describe('ResourcesSkills', () => {
+  let service: ResourcesSkills;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RiskRootCauses);
+    service = TestBed.inject(ResourcesSkills);
   });
 
   it('should be created', () => {
