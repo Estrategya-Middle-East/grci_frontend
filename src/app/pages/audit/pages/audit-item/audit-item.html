@@ -38,18 +38,18 @@
                     <img class="mx-1" src="../../../../../assets/images/Copy.svg" alt="">
                       Assign Audit Category
                     </button>
+                    <button ngbDropdownItem [routerLink]="['/audit','engagement']">
+                      <img class="mx-1" src="../../../../../assets/images/FileMagnifyingGlass.svg" alt="">
+                      Audit Item Engagement
+                    </button>
+                    <button ngbDropdownItem [routerLink]="['/audit','frequancy']" [queryParams]="{ id: row.id }">
+                      <img class="mx-1" src="../../../../../assets/images/Folders.svg" alt="">
+                      Set Audit Frequency
+                    </button>                       
                     <button ngbDropdownItem >
                     <img class="mx-1" src="../../../../../assets/images/ListMagnifyingGlass.svg" alt="">
                       Audit Item Feedback               
                     </button>
-                    <button ngbDropdownItem [routerLink]="['/audit','engagement']">
-                    <img class="mx-1" src="../../../../../assets/images/FileMagnifyingGlass.svg" alt="">
-                      Audit Item Engagement
-                    </button>
-                    <button ngbDropdownItem [routerLink]="['/audit','frequancy']" [queryParams]="{ id: row.id }">
-                    <img class="mx-1" src="../../../../../assets/images/Folders.svg" alt="">
-                     Set Audit Frequency
-                    </button>                       
                 </div>
                 </div>
             </ng-template>

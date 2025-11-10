@@ -17,8 +17,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuditCycleService } from "../../services/auditCycle/audit-cycle";
 import { HttpErrorResponse } from "@angular/common/http";
 import { MessageService } from "primeng/api";
-import { DialogService } from "primeng/dynamicdialog";
 import { AuditItemService } from "./../../services/auditItem/audit-item-service";
+import { finalize } from "rxjs";
 
 interface YearOption {
   label: string;
@@ -34,7 +34,6 @@ interface YearOption {
     ButtonModule,
     TextareaModule,
   ],
-  providers: [DialogService],
   templateUrl: "./crud-audit-cycle.html",
   styleUrl: "./crud-audit-cycle.scss",
 })
@@ -57,15 +56,29 @@ export class CrudAuditCycle implements OnInit {
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.queryParamMap.get("id") || "";
     this.code.set(this.activatedRoute.snapshot.queryParamMap.get("code") || "");
+    this.getAuditCycleById(this.id);
   }
-  yearOptions = signal<YearOption[]>(this.generateYearOptions());
 
   // Computed signals
-  yearRangeValid = computed(() => {
-    const from = this.fromYear();
-    const to = this.toYear();
-    return from !== null && to !== null && from <= to;
-  });
+  onFromYearChange(date: Date) {
+    const year = date.getFullYear();
+    this.fromYear.set(year);
+  }
+
+  get fromYearAsDate(): Date | null {
+    const year = this.fromYear();
+    return year !== null ? new Date(year, 0, 1) : null;
+  }
+
+  onToYearChange(date: Date) {
+    const year = date.getFullYear();
+    this.toYear.set(year);
+  }
+
+  get toYearAsDate(): Date | null {
+    const year = this.toYear();
+    return year !== null ? new Date(year, 0, 1) : null;
+  }
   yearRangeText = computed(() => {
     const from = this.fromYear();
     const to = this.toYear();
@@ -86,14 +99,37 @@ export class CrudAuditCycle implements OnInit {
   isFormValid = computed(() => {
     return (
       !!this.title()?.trim() &&
-      this.fromYearProp !== null &&
-      this.toYearProp !== null &&
+      this.fromYear() !== null &&
+      this.toYear() !== null &&
       !!this.objectives()?.trim() &&
       !!this.scope()?.trim() &&
       !!this.strategicFramework()?.trim()
     );
   });
-
+  loading = signal(false);
+  fromYearProp!: Date;
+  toYearProp!: Date;
+  getAuditCycleById(id: string) {
+    this.loading.set(true);
+    this.auditCycleService.getAuditCycleById(id).subscribe({
+      next: (res) => {
+        this.code.set(res.data.code);
+        this.title.set(res.data.title);
+        this.fromYearProp = new Date(res.data.fromYear, 0, 1); // ✅ make sure it’s a number
+        this.toYearProp = new Date(res.data.toYear, 0, 1);
+        this.strategicFramework.set(res.data.strategicFramework);
+        this.scope.set(res.data.auditScope);
+        this.objectives.set(res.data.auditObjectives);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: err.error.error[0],
+        });
+      },
+    });
+  }
   // Event handlers
   onCodeChange(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
@@ -103,16 +139,6 @@ export class CrudAuditCycle implements OnInit {
   onTitleChange(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.title.set(value);
-  }
-  fromYearProp: number = 0;
-  onFromYearChange(value: Date): void {
-    const year = value.getFullYear();
-    this.fromYearProp = year;
-  }
-  toYearProp: number = 10;
-  onToYearChange(value: Date): void {
-    const year = value.getFullYear();
-    this.toYearProp = year;
   }
 
   onObjectivesChange(event: Event): void {
@@ -165,7 +191,7 @@ export class CrudAuditCycle implements OnInit {
             { header: "Action", field: "action" },
           ]);
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           this.messageService.add({
             severity: "error",
             summary: "Error",
@@ -178,8 +204,8 @@ export class CrudAuditCycle implements OnInit {
     if (this.isFormValid()) {
       const formData = {
         title: this.title(),
-        fromYear: this.fromYearProp,
-        toYear: this.toYearProp,
+        fromYear: this.fromYear(),
+        toYear: this.toYear(),
         auditObjectives: this.objectives(),
         auditScope: this.scope(),
         strategicFramework: this.strategicFramework(),
@@ -196,15 +222,27 @@ export class CrudAuditCycle implements OnInit {
       const formData = {
         code: this.code(),
         title: this.title(),
-        fromYear: this.fromYearProp,
-        toYear: this.toYearProp,
+        fromYear: this.fromYear(),
+        toYear: this.toYear(),
         auditObjectives: this.objectives(),
         auditScope: this.scope(),
         strategicFramework: this.strategicFramework(),
       };
       this.auditCycleService.updateAuditCycle(this.id, formData).subscribe({
-        next: (res) => {},
-        error: (err: HttpErrorResponse) => {},
+        next: (res: any) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: res.message,
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: err.error.error[0],
+          });
+        },
       });
       // Handle save logic here
     }
@@ -214,16 +252,5 @@ export class CrudAuditCycle implements OnInit {
     console.log("Cancelled");
     this.router.navigate(["/audit/cycle"]);
     // Handle cancel logic here
-  }
-
-  private generateYearOptions(): YearOption[] {
-    const currentYear = new Date().getFullYear();
-    const years: YearOption[] = [];
-
-    for (let i = currentYear - 10; i <= currentYear + 10; i++) {
-      years.push({ label: i.toString(), value: i });
-    }
-
-    return years;
   }
 }

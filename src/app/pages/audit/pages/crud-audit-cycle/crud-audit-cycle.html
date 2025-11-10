@@ -44,31 +44,28 @@
             <label>Years Range</label>
             <div class="years-range">               
               <p-datepicker
-                [ngModel]="fromYear()"
+                [ngModel]="fromYearProp"
                 (ngModelChange)="onFromYearChange($event)"
                 selectionMode="single"
-                dateFormat="dd/mm/yy"
-                 view="date"
+                dateFormat="yy"
+                 view="year"
                 placeholder="Select Date Range"
                 [showIcon]="true"
                 showButtonBar="true"
                 ></p-datepicker>
               <span class="to-label">To</span>
               <p-datepicker
-                [ngModel]="toYear()"
+                [ngModel]="toYearProp"
                 (ngModelChange)="onToYearChange($event)"
                 selectionMode="single"
-                 view="date"
-                dateFormat="dd/mm/yy"
+                 view="year"
+                dateFormat="yy"
                 placeholder="Select Date Range"
                 [showIcon]="true"
                 showButtonBar="true"
                 ></p-datepicker>
             </div>
-            <div class="year-info" *ngIf="yearRangeValid()">
-              <i class="pi pi-calendar"></i>
-              {{yearRangeText()}}
-            </div>
+
           </div>
 
           <!-- Objectives Field -->

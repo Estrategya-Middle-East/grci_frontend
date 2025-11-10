@@ -76,7 +76,7 @@ export class ResourcesSkills {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.reloadList();
         this.messageService.add({
@@ -97,7 +97,7 @@ export class ResourcesSkills {
       data: row,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.reloadList();
         this.messageService.add({

@@ -44,8 +44,8 @@ export class AuditCycleService {
     );
   }
 
-  getAuditCycleById(id: number): Observable<AuditCycle> {
-    return this.http.get<AuditCycle>(`${this.baseUrl}/AuditCycles/${id}`);
+  getAuditCycleById(id: string) {
+    return this.http.get<any>(`${this.baseUrl}/AuditCycles/${id}`);
   }
 
   createAuditCycle(auditCycle: Partial<AuditCycle>): Observable<AuditCycle> {
