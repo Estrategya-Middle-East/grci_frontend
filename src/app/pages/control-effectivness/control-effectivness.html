@@ -1,0 +1,19 @@
+<app-header
+  [showFilteration]="controlsFilteration"
+  [showActions]="controlsActions"
+  [title]="'Control Effectiveness'"
+  (addClick)="onAddControl()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <app-general-list
+    #controlsList
+    [columns]="controlsColumns"
+    [fetchData]="fetchControls"
+    [active]="true"
+    (edit)="onEditControl($event)"
+    (delete)="onDeleteControl($event)"
+    (archive)="onArchiveControl($event)"
+  ></app-general-list>
+</div>

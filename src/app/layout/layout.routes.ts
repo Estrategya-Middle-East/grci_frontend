@@ -521,4 +521,18 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: appRoutes["CONTROL-EFFECTIVENESS"],
+    loadComponent: () =>
+      import("../pages/control-effectivness/control-effectivness").then(
+        (m) => m.ControlEffectivness
+      ),
+  },
+  {
+    path: appRoutes["CONTROL-EFFECTIVENESS-ASSESSMENT"],
+    loadComponent: () =>
+      import(
+        "../pages/control-effectivness-assessment/control-effectivness-assessment"
+      ).then((m) => m.ControlEffectivnessAssessment),
+  },
 ];

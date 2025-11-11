@@ -1,0 +1,18 @@
+<app-header
+  [showFilteration]="assessmentFilteration"
+  [showActions]="assessmentActions"
+  [title]="'Control Effectiveness Assessment'"
+  (addClick)="onAddAssessment()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <app-general-list
+    #assessmentList
+    [columns]="assessmentColumns"
+    [fetchData]="fetchAssessments"
+    [active]="true"
+    (edit)="onEditAssessment($event)"
+    (delete)="onDeleteAssessment($event)"
+  ></app-general-list>
+</div>

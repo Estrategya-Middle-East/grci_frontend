@@ -1,0 +1,84 @@
+<form [formGroup]="formGroup" class="p-fluid p-formgrid p-grid p-m-3">
+  <!-- Name -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="name">Name*</label>
+    <input
+      id="name"
+      type="text"
+      pInputText
+      formControlName="name"
+      placeholder="Enter Name"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Min -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="min">Min (0–1)*</label>
+    <input
+      id="min"
+      type="number"
+      pInputText
+      formControlName="min"
+      placeholder="Enter Min Value"
+      class="w-100"
+      step="0.01"
+      min="0"
+      max="1"
+    />
+  </div>
+
+  <!-- Max -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="max">Max (0–1)*</label>
+    <input
+      id="max"
+      type="number"
+      pInputText
+      formControlName="max"
+      placeholder="Enter Max Value"
+      class="w-100"
+      step="0.01"
+      min="0"
+      max="1"
+    />
+  </div>
+
+  @if (formGroup.errors?.['invalidRange'] && (formGroup.get('min')?.touched ||
+  formGroup.get('max')?.touched)) {
+  <small class="text-danger d-block mb-2">
+    Invalid range: Min must be less than or equal to Max.
+  </small>
+  }
+
+  <!-- Effectiveness Percentage -->
+  <div class="p-field p-col-12 mb-3">
+    <label for="effectivenessPercentage">Effectiveness Percentage*</label>
+    <input
+      id="effectivenessPercentage"
+      type="number"
+      pInputText
+      formControlName="effectivenessPercentage"
+      placeholder="Enter Effectiveness %"
+      class="w-100"
+      min="0"
+      max="100"
+      step="1"
+    />
+  </div>
+
+  <!-- Buttons -->
+  <div class="d-flex justify-content-center gap-3 m-4">
+    <button
+      [disabled]="formGroup.invalid"
+      type="button"
+      (click)="onSave()"
+      class="btn btn-primary"
+    >
+      <i class="pi pi-send"></i> Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>
