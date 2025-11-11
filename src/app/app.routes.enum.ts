@@ -23,6 +23,7 @@ export enum AppRoute {
   "RESOURCES-FUNCTIONS" = "resources-functions",
   "RESOURCES-PERFORMANCE-RATING" = "resources-performance-rating",
   "CONTROL-DESIGN-RATING" = "control-design-rating",
+  "AUDIT-PLAN" = "audit-plan",
 }
 
 export const appRoutes = {
@@ -50,6 +51,7 @@ export const appRoutes = {
   "RESOURCES-FUNCTIONS": `${AppRoute["RESOURCES-FUNCTIONS"]}`,
   "RESOURCES-PERFORMANCE-RATING": `${AppRoute["RESOURCES-PERFORMANCE-RATING"]}`,
   "CONTROL-DESIGN-RATING": `${AppRoute["CONTROL-DESIGN-RATING"]}`,
+  "AUDIT-PLAN": `${AppRoute["AUDIT-PLAN"]}`,
 };
 
 Object.freeze(appRoutes);

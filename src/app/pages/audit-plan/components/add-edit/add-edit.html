@@ -1,0 +1,321 @@
+<app-header
+  [title]="auditPlanId ? 'Edit Audit Plan' : 'Add Audit Plan'"
+></app-header>
+
+<div class="p-4">
+  <form [formGroup]="formGroup">
+    <div class="row">
+      @if (auditPlanId) {
+      <!-- ID (disabled in edit mode) -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>ID</label>
+          <input
+            type="text"
+            formControlName="id"
+            pInputText
+            readonly
+            class="w-100"
+          />
+        </div>
+      </div>
+      }
+
+      <!-- Audit Cycle -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Audit Cycle*</label>
+          <p-select
+            [options]="auditCycleOptions"
+            appendTo="body"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="auditCycleId"
+            placeholder="Select Audit Cycle"
+            class="w-100"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Engagement -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Engagement*</label>
+          <p-select
+            [options]="engagementOptions"
+            appendTo="body"
+            optionLabel="description"
+            optionValue="id"
+            formControlName="engagementId"
+            placeholder="Select Engagement"
+            class="w-100"
+          ></p-select>
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Dimension -->
+      <!-- <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Dimension*</label>
+          <p-select
+            [options]="dimensionOptions"
+            appendTo="body"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="dimensionId"
+            placeholder="Select Dimension"
+            class="w-100"
+          ></p-select>
+        </div>
+      </div> -->
+
+      <!-- Entity -->
+      <!-- <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Entity*</label>
+          <p-select
+            [options]="entityOptions"
+            appendTo="body"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="entityId"
+            placeholder="Select Entity"
+            class="w-100"
+          ></p-select>
+        </div>
+      </div> -->
+
+      <!-- Title -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Title*</label>
+          <input type="text" formControlName="title" pInputText class="w-100" />
+        </div>
+      </div>
+
+      <!-- Remark -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Remarks</label>
+          <input
+            type="text"
+            formControlName="remarks"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Audit Scope -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Audit Scope*</label>
+          <input
+            type="text"
+            formControlName="auditScope"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Audit Objectives -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Audit Objectives*</label>
+          <input
+            type="text"
+            formControlName="auditObjectives"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <!-- Strategic Framework -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Strategic Framework*</label>
+          <input
+            type="text"
+            formControlName="strategicFramework"
+            pInputText
+            class="w-100"
+          />
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Year -->
+      <div class="col-md-6">
+        <div class="c-formControl mb-3">
+          <label>Year*</label>
+          <p-datepicker
+            formControlName="year"
+            view="year"
+            dateFormat="yy"
+            placeholder="Select Year"
+            [showIcon]="true"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="col-md-6 col-12">
+        <div class="c-formControl mb-3">
+          <label class="title-control d-block">Status*</label>
+          <div class="d-flex gap-4 flex-wrap inputs-wrapper">
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="status"
+                [value]="0"
+                formControlName="status"
+                label="Scheduled"
+              ></p-radioButton>
+              <small class="text-muted">Scheduled</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="status"
+                [value]="1"
+                formControlName="status"
+                label="Approved"
+              ></p-radioButton>
+              <small class="text-muted">Approved</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="status"
+                [value]="2"
+                formControlName="status"
+                label="In Progress"
+              ></p-radioButton>
+              <small class="text-muted">In Progress</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <p-radioButton
+                name="status"
+                [value]="3"
+                formControlName="status"
+                label="Pending"
+              ></p-radioButton>
+              <small class="text-muted">Pending</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="text-black-50" />
+
+      <!-- Audit Items -->
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-between mb-3">
+          <label class="h5">Audit Items</label>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="addAuditItem()"
+          >
+            <i class="pi pi-plus"></i> Add Item
+          </button>
+        </div>
+
+        <div formArrayName="auditPlanItems">
+          <p-table [value]="auditItemsFormArray.controls">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Estimated Effort</th>
+                <th>Audit Category</th>
+                <th>Audit Frequency</th>
+                <th>Status</th>
+                <th style="width: 50px"></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+              <tr [formGroupName]="i">
+                <td>
+                  <input
+                    type="text"
+                    formControlName="auditItemTitle"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="priority"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="estimatedEffort"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="auditCategoryName"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="auditFrequency"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="status"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td class="text-center">
+                  @if (auditItemsFormArray.length > 1) {
+                  <button
+                    type="button"
+                    class="list-dropdown"
+                    (click)="removeAuditItem(i)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                  }
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 m-3">
+      <button type="button" (click)="onSave()" class="btn btn-primary">
+        <i class="pi pi-send"></i> {{ !auditPlanId ? "Add" : "Edit" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="pi pi-times"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>

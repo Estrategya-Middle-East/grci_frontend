@@ -3,19 +3,17 @@ import { inject, Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { map, Observable } from "rxjs";
 import { ApiResponse, PagedResult } from "../../../shared/models/api.mode";
+import { AuditPlanInterface } from "../models/audit-plan";
 import { lookup } from "../../../shared/models/lookup.mdoel";
-import { ResourcePerformanceInterface } from "../models/resources-performance-rating";
 
 @Injectable({
   providedIn: "root",
 })
-export class ResourcesPerformanceService {
+export class AuditPlanService {
   private http = inject(HttpClient);
-  private baseUrl = environment.baseUrl + "api/ResourcePerformanceRatings";
+  private baseUrl = environment.baseUrl + "api/AuditPlans";
 
-  getList(
-    filter: any = {}
-  ): Observable<PagedResult<ResourcePerformanceInterface>> {
+  getList(filter: any = {}): Observable<PagedResult<AuditPlanInterface>> {
     let params = new HttpParams();
 
     if (filter.pageNumber !== undefined)
@@ -34,36 +32,32 @@ export class ResourcesPerformanceService {
     }
 
     return this.http
-      .get<ApiResponse<PagedResult<ResourcePerformanceInterface>>>(
-        `${this.baseUrl}/GetList`,
-        { params }
-      )
+      .get<ApiResponse<PagedResult<AuditPlanInterface>>>(`${this.baseUrl}`, {
+        params,
+      })
       .pipe(map((res) => res.data));
   }
 
-  getById(id: number): Observable<ResourcePerformanceInterface> {
+  getById(id: number): Observable<AuditPlanInterface> {
     return this.http
-      .get<ApiResponse<ResourcePerformanceInterface>>(`${this.baseUrl}/${id}`)
+      .get<ApiResponse<AuditPlanInterface>>(`${this.baseUrl}/${id}`)
       .pipe(map((res) => res.data));
   }
 
   create(
-    resourcePerformance: Omit<ResourcePerformanceInterface, "id">
-  ): Observable<ResourcePerformanceInterface> {
+    resourcePerformance: Omit<AuditPlanInterface, "id">
+  ): Observable<AuditPlanInterface> {
     return this.http
-      .post<ApiResponse<ResourcePerformanceInterface>>(
-        this.baseUrl,
-        resourcePerformance
-      )
+      .post<ApiResponse<AuditPlanInterface>>(this.baseUrl, resourcePerformance)
       .pipe(map((res) => res.data));
   }
 
   update(
     id: number,
-    resourcePerformance: Partial<ResourcePerformanceInterface>
-  ): Observable<ResourcePerformanceInterface> {
+    resourcePerformance: Partial<AuditPlanInterface>
+  ): Observable<AuditPlanInterface> {
     return this.http
-      .put<ApiResponse<ResourcePerformanceInterface>>(
+      .put<ApiResponse<AuditPlanInterface>>(
         `${this.baseUrl}/${id}`,
         resourcePerformance
       )
@@ -74,23 +68,23 @@ export class ResourcesPerformanceService {
     return this.http.delete<ApiResponse<any>>(`${this.baseUrl}/${id}`);
   }
 
-  getResourcesLookup(): Observable<lookup[]> {
+  getDimensionsLookUp(): Observable<lookup[]> {
     return this.http
-      .get(`${environment.baseUrl}api/ResourceManagements/lookup`)
-      .pipe(map((res: any) => res.data));
+      .get<any>(`${environment.baseUrl}api/Dimensions/lookup`)
+      .pipe(map((res) => res.data));
   }
 
-  getCompetancyLookup(): Observable<lookup[]> {
+  getEntitiesLookUp(): Observable<lookup[]> {
     return this.http
-      .get(`${environment.baseUrl}api/CompetencyFrameworks/lookup`)
-      .pipe(map((res: any) => res.data));
+      .get<any>(`${environment.baseUrl}api/Entities/lookup`)
+      .pipe(map((res) => res.data));
   }
 
-  getWorkingPapersLookup(): Observable<lookup[]> {
+  getAuditEngagementsLookUp(): Observable<
+    { id: number; description: string }[]
+  > {
     return this.http
-      .get(
-        `${environment.baseUrl}api/AuditWorkingPaper/GetAuditWorkPapersLookup`
-      )
-      .pipe(map((res: any) => res.data));
+      .get<any>(`${environment.baseUrl}api/AuditEngagements/lookup`)
+      .pipe(map((res) => res.data.items));
   }
 }

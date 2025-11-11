@@ -45,6 +45,7 @@ export class AddEdit implements OnInit {
 
   competencyOptions!: lookup[];
   resourcesOptions!: lookup[];
+  workingPaperOptions!: lookup[];
 
   ngOnInit(): void {
     this.loadDropdowns();
@@ -60,9 +61,13 @@ export class AddEdit implements OnInit {
       competencies: this.service
         .getCompetancyLookup()
         .pipe(catchError(() => of([]))),
+      workingPapers: this.service
+        .getWorkingPapersLookup()
+        .pipe(catchError(() => of([]))),
     }).subscribe((res) => {
       this.resourcesOptions = res.resources;
       this.competencyOptions = res.competencies;
+      this.workingPaperOptions = res.workingPapers;
     });
   }
 
@@ -70,7 +75,7 @@ export class AddEdit implements OnInit {
     this.formGroup = this.fb.group({
       id: [{ value: null, disabled: true }],
       resourceId: ["", Validators.required],
-      workingPaper: ["", Validators.required],
+      workingPaperId: ["", Validators.required],
       comments: ["", Validators.required],
       ratings: this.fb.array([]),
       // finalEvaluation: ["", Validators.required],
@@ -112,7 +117,7 @@ export class AddEdit implements OnInit {
         this.formGroup.patchValue({
           id: res.id,
           resourceId: res.resourceId,
-          workingPaper: res.workingPaperTitle,
+          workingPaperId: res.workingPaperId,
           comments: res.comments,
           // finalEvaluation: res.finalEvaluation,
         });
