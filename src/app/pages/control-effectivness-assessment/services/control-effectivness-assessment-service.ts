@@ -67,7 +67,7 @@ export class ControlEffectivnessAssessmentService extends BaseService {
 
   getRisksLookup(): Observable<lookup[]> {
     return this.http
-      .get(`${environment.baseUrl}api/Risks/Lookup`)
-      .pipe(map((res: any) => res.data.items));
+      .get(`${environment.baseUrl}api/Controls/control-risks/lookup`)
+      .pipe(map((res: any) => res.data));
   }
 }
