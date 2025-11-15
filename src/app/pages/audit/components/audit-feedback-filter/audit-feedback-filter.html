@@ -10,7 +10,7 @@
                         optionValue="id"                     
                         placeholder="Audit Items"
                         formControlName="auditItemId"
-                        [ngModel]="auditFeedbackService.editFeedback.value?.auditItemId"
+                        [ngModel]="auditFeedbackService.editFeedback.value.auditItemId"
                         styleClass="w-100"></p-select>
           </div>
           <div class="col-4">
@@ -19,7 +19,7 @@
                         optionLabel="label"
                         optionValue="value"    
                          formControlName="status"
-                        [ngModel]="auditFeedbackService.editFeedback.value?.status?.toString()"
+                        [ngModel]="auditFeedbackService.editFeedback.value.status?.toString()"
                       placeholder="Status"
                       styleClass="w-100"></p-select>
           </div>
@@ -30,7 +30,7 @@
             class="w-100"
             rows="4"
             formControlName="feedback"
-            [ngModel]="auditFeedbackService.editFeedback.value?.feedback"
+            [ngModel]="auditFeedbackService.editFeedback.value.feedback"
             placeholder="Enter feedback">
         </textarea>
         <small class="text-danger" *ngIf="feedbackForm.get('feedback')?.invalid && feedbackForm.get('feedback')?.touched">

@@ -1,0 +1,79 @@
+.filter-card {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 4px 10px #0000001A;
+    }
+
+    .filter-body {
+      padding: 0.75rem;
+    }
+
+    .filter-title {
+      margin-bottom: 0.75rem;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .search-wrapper {
+      margin-bottom: 0.75rem;
+    }
+
+    .filter-search-input {
+      font-size: 13px;
+    }
+
+    .filter-row-top {
+      margin-bottom: 0.75rem;
+    }
+
+    .filter-row-bottom {
+      margin-bottom: 0.75rem;
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    :host ::ng-deep {
+      .p-select {
+        border: 1px solid #e2e8f0;
+        font-size: 13px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        -ms-border-radius: 6px;
+        -o-border-radius: 6px;
+        border-radius: 6px;
+    }
+    }
+    .btnApply{
+        background-color: #169EFA;
+        color: white;
+    }
+    .sendEmailImg{
+        width: 20px;
+        height: 23px;
+    }
+    .cancelImg{
+        width: 20px;
+        background-color: #169EFA;
+    }
+    .btnoutlineBlue{
+        border: 1px solid #1E87F0;
+        color: #1E87F0;
+    }
+    .buttonFix{
+        width: 150px;
+        height: 30px;
+        text-align: center;
+    }

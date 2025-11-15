@@ -471,6 +471,13 @@ export const layoutRoutes: Routes = [
             (m) => m.AuditFeedback
           ),
       },
+      {
+        path: "team",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-team/audit-team").then(
+            (m) => m.AuditTeam
+          ),
+      },
     ],
   },
   {
