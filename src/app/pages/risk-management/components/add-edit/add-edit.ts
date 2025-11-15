@@ -259,7 +259,7 @@ export class AddEdit {
 
     this.formGroup.patchValue({ processId: null });
 
-    if (!entityId || !processType) {
+    if (!entityId || (!processType && processType !== 0)) {
       this.processGroups = [];
       return;
     }

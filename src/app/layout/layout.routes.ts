@@ -532,4 +532,42 @@ export const layoutRoutes: Routes = [
       },
     ],
   },
+  {
+    path: `${appRoutes["AUDIT-PLAN"]}`,
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/audit-plan/audit-plan").then((m) => m.AuditPlan),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import("../pages/audit-plan/components/add-edit/add-edit").then(
+            (m) => m.AddEdit
+          ),
+      },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import("../pages/audit-plan/components/add-edit/add-edit").then(
+            (m) => m.AddEdit
+          ),
+      },
+    ],
+  },
+  {
+    path: appRoutes["CONTROL-EFFECTIVENESS"],
+    loadComponent: () =>
+      import("../pages/control-effectivness/control-effectivness").then(
+        (m) => m.ControlEffectivness
+      ),
+  },
+  {
+    path: appRoutes["CONTROL-EFFECTIVENESS-ASSESSMENT"],
+    loadComponent: () =>
+      import(
+        "../pages/control-effectivness-assessment/control-effectivness-assessment"
+      ).then((m) => m.ControlEffectivnessAssessment),
+  },
 ];
