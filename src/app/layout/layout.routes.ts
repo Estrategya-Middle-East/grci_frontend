@@ -464,6 +464,13 @@ export const layoutRoutes: Routes = [
             (m) => m.CrudAuditCycle
           ),
       },
+      {
+        path: "feedback",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-feedback/audit-feedback").then(
+            (m) => m.AuditFeedback
+          ),
+      },
     ],
   },
   {

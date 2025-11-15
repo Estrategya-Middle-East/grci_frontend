@@ -1,0 +1,69 @@
+<div class="container filter-card">
+      <div class="filter-body">
+        <h6 class="filter-title">Filter Audit Feedback</h6>
+    <form action="" [formGroup]="feedbackForm">
+        <div class="row g-3 filter-row-top">
+          <div class="col-4">
+            <p-select #filterSelect  
+                        [options]="auditService.auditItemsLookup()"                        
+                        optionLabel="name"
+                        optionValue="id"                     
+                        placeholder="Audit Items"
+                        formControlName="auditItemId"
+                        [ngModel]="auditFeedbackService.editFeedback.value?.auditItemId"
+                        styleClass="w-100"></p-select>
+          </div>
+          <div class="col-4">
+            <p-select #filterSelect 
+                       [options]="statusOptions"
+                        optionLabel="label"
+                        optionValue="value"    
+                         formControlName="status"
+                        [ngModel]="auditFeedbackService.editFeedback.value?.status?.toString()"
+                      placeholder="Status"
+                      styleClass="w-100"></p-select>
+          </div>
+          <div class="col-4">
+            <textarea
+            id="feedback"
+            pInputTextarea
+            class="w-100"
+            rows="4"
+            formControlName="feedback"
+            [ngModel]="auditFeedbackService.editFeedback.value?.feedback"
+            placeholder="Enter feedback">
+        </textarea>
+        <small class="text-danger" *ngIf="feedbackForm.get('feedback')?.invalid && feedbackForm.get('feedback')?.touched">
+          feedback is required
+        </small>
+          </div>
+    
+                   
+
+          <div class="filter-actions d-flex justify-content-center">         
+            @if (auditFeedbackService.editFeedback.show == false) {
+          <button class="btn btnApply btn-sm filter-btn buttonFix justify-content-center" (click)="onApply()">
+             <img src="../../../../../../assets/images/SendEmail.svg" alt="" class="sendEmailImg">
+            Save
+          </button>
+
+          }@else{
+
+              <button class="btn btnApply btn-sm filter-btn buttonFix justify-content-center" (click)="onEdit()">
+                  <img src="../../../../../../assets/images/SendEmail.svg" alt="" class="sendEmailImg">
+                  Edit
+                </button>
+                
+                <button class="btn btnoutlineBlue btn-sm filter-btn buttonFix justify-content-center" (click)="onCancel()">
+                    <span class="cancelImg">
+                        <svg width="14" height="14" fill="white">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </span>
+                    Cancel
+                </button>
+            }
+        </div>
+      </div>
+        </form>
+    </div>
