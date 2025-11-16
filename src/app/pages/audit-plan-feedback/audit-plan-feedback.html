@@ -1,0 +1,19 @@
+<app-header
+  [showFilteration]="filteration"
+  [showActions]="actions"
+  [title]="'Audit Plan Feedback'"
+  (addClick)="onAdd()"
+  (filtersChange)="onFiltersChange($event)"
+></app-header>
+
+<div class="container-list">
+  <app-general-list
+    #auditPlanFeedbackList
+    [columns]="columns"
+    [fetchData]="fetchData"
+    [active]="true"
+    [isArchiveAction]="false"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+  ></app-general-list>
+</div>

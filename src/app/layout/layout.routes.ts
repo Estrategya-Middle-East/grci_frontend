@@ -519,6 +519,30 @@ export const layoutRoutes: Routes = [
             (m) => m.AddEdit
           ),
       },
+      {
+        path: `:id/${appRoutes["AUDIT-PLAN-FEEDBACK"]}`,
+        children: [
+          {
+            path: "",
+            loadComponent: () =>
+              import("../pages/audit-plan-feedback/audit-plan-feedback").then(
+                (m) => m.AuditPlanFeedback
+              ),
+          },
+        ],
+      },
+      {
+        path: `:id/${appRoutes["AUDIT-PLAN-SCHEDULE"]}`,
+        children: [
+          {
+            path: "",
+            loadComponent: () =>
+              import("../pages/audit-plan-schedule/audit-plan-schedule").then(
+                (m) => m.AuditPlanSchedule
+              ),
+          },
+        ],
+      },
     ],
   },
   {

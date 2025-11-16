@@ -41,6 +41,7 @@ export class GeneralList<T = any> implements OnChanges {
 
   @Input() columns: { field: keyof T | "actions"; header: string }[] = [];
   @Input() isViewAction = false;
+  @Input() isArchiveAction = true;
   @Input() fetchData!: (filterPayload: {
     pageNumber: number;
     pageSize: number;

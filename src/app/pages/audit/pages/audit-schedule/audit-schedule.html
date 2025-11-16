@@ -6,12 +6,10 @@
 
     <div class="card-body mb-4">
       <form [formGroup]="auditForm">
-        <!-- will be added in the edit screen -->
-        <!-- Row 1: Title -->
-        <div class="row mb-3">         
+        <div class="row mb-3">
           <div class="col-md-6">
             <label for="title" class="form-label">
-                Title<span class="text-danger">*</span>
+              Title<span class="text-danger">*</span>
             </label>
             <input
               id="title"
@@ -22,19 +20,19 @@
             />
             <small
               class="text-danger"
-              *ngIf="auditForm.get('title')?.invalid && auditForm.get('title')?.touched"
+              *ngIf="
+                auditForm.get('title')?.invalid &&
+                auditForm.get('title')?.touched
+              "
             >
               Audit item title is required
             </small>
           </div>
         </div>
 
-        <!-- Row 2: Description -->
         <div class="row mb-3">
-              <div class="col-md-6">
-            <label for="title" class="form-label">
-                Activity Name
-            </label>
+          <div class="col-md-6">
+            <label for="title" class="form-label"> Activity Name </label>
             <input
               id="title"
               type="text"
@@ -42,12 +40,6 @@
               placeholder="Enter Activity Name"
               formControlName="activityName"
             />
-            <small
-              class="text-danger"
-              *ngIf="auditForm.get('activityName')?.invalid && auditForm.get('activityName')?.touched"
-            >
-              Audit item title is required
-            </small>
           </div>
           <div class="col-md-6">
             <label for="description" class="form-label">Description</label>
@@ -57,13 +49,12 @@
               class="w-100"
               rows="4"
               formControlName="description"
-              placeholder="Enter description">
+              placeholder="Enter description"
+            >
             </textarea>
           </div>
-          
         </div>
 
-        <!-- Row 3: Dimension and Entity -->
         <div class="row mb-3">
           <div class="col-md-6 mb-3 mb-md-0">
             <label for="dimensionId" class="form-label">
@@ -77,125 +68,141 @@
               formControlName="auditItemId"
               placeholder="Choose Audit Item"
               styleClass="w-100"
-              [showClear]="true">
+              [showClear]="true"
+            >
             </p-select>
             <small
               class="text-danger"
-              *ngIf="auditForm.get('auditItemId')?.invalid && auditForm.get('auditItemId')?.touched"
+              *ngIf="
+                auditForm.get('auditItemId')?.invalid &&
+                auditForm.get('auditItemId')?.touched
+              "
             >
-             Audit Items is required
+              Audit Items is required
             </small>
-          </div>  
+          </div>
           <div class="col-md-6 mb-3 mb-md-0">
-            <label for="resources" class="form-label">Recources<span class="text-danger">*</span></label>
+            <label for="resources" class="form-label"
+              >Recources<span class="text-danger">*</span></label
+            >
             <p-multiSelect
               class="w-100"
               formControlName="resources"
               [options]="auditService.auditItemsRecourcesLookup()"
               optionLabel="name"
               optionValue="id"
-              placeholder="Select Resources">
-            </p-multiSelect>
-            <small
-              class="text-danger"
-              *ngIf="auditForm.get('resources')?.invalid && auditForm.get('resources')?.touched"
+              placeholder="Select Resources"
             >
-             Resources is required
-            </small>
-          </div>       
+            </p-multiSelect>
+          </div>
         </div>
 
-        <!-- Row 4: Risks and Priority -->
         <div class="row mb-3">
-          
-            <div class="col-6 mt-3">
-          <div class="c-formControl">
-            <label class="title-control d-block">Start Date<span class="text-danger">*</span></label>
-            <p-datepicker
-              formControlName="startDate"
-              showIcon="true"
-              placeholder="From"
-              class="w-100"
-            ></p-datepicker>
-          </div>
-        </div>
           <div class="col-6 mt-3">
-          <div class="c-formControl">
-            <label class="title-control d-block">End Date<span class="text-danger">*</span></label>
-            <p-datepicker
-              formControlName="endDate"
-              showIcon="true"
-              placeholder="To"
-              class="w-100"
-            ></p-datepicker>
+            <div class="c-formControl">
+              <label class="title-control d-block"
+                >Start Date<span class="text-danger">*</span></label
+              >
+              <p-datepicker
+                formControlName="startDate"
+                showIcon="true"
+                placeholder="From"
+                class="w-100"
+              ></p-datepicker>
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <div class="c-formControl">
+              <label class="title-control d-block"
+                >End Date<span class="text-danger">*</span></label
+              >
+              <p-datepicker
+                formControlName="endDate"
+                showIcon="true"
+                placeholder="To"
+                class="w-100"
+              ></p-datepicker>
+            </div>
           </div>
         </div>
-          
-        </div>       
 
         <!-- Buttons -->
         <div class="row my-4">
-            @if (!showEdit) {
+          @if (!showEdit) {
 
-                <div class="col-12 d-flex justify-content-center gap-2">
-                    <button
-                    type="button"
-                    pButton
-                    label="Save"
-                    icon="pi pi-send"
-                    class="btn btn-primary"
-                    [disabled]="auditForm.invalid"
-                    (click)="onSave()">
-                </button>           
-            </div>
-        }@else {
+          <div class="col-12 d-flex justify-content-center gap-2">
+            <button
+              type="button"
+              pButton
+              label="Save"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="auditForm.invalid"
+              (click)="onSave()"
+            ></button>
+          </div>
+          }@else {
 
-            <div class="col-12 d-flex justify-content-center gap-2">
-                <button
-                type="button"
-                pButton
-                label="Edit"
-                icon="pi pi-send"
-                class="btn btn-primary"
-                [disabled]="auditForm.invalid"
-                (click)="onEdit()">
-            </button>  
-             <button
+          <div class="col-12 d-flex justify-content-center gap-2">
+            <button
+              type="button"
+              pButton
+              label="Edit"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="auditForm.invalid"
+              (click)="onEdit()"
+            ></button>
+            <button
               type="button"
               pButton
               label="Cancel"
               icon="pi pi-times"
               class="p-button-secondary"
-              (click)="onCancel()">
-            </button>         
+              (click)="onCancel()"
+            ></button>
+          </div>
+          }
         </div>
-    }
-    </div>
-      </form>      
+      </form>
       <app-audit-table>
-          <ng-template #actionTemplate let-row>
-                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
-                    <button
-                        type="button"
-                        class="list-dropdown"
-                        id="dropdownBasic1"
-                        ngbDropdownToggle
-                    >
-                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    
-                    <button ngbDropdownItem (click)="deleteAuditItemSchadule(row.id,row.auditItemTitle)">
-                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
-                     Delete audit Frequency item
-                    </button>
-                    <button ngbDropdownItem  (click)="EditAuditItemSchadule(row)">
-                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
-                         Edit audit item 
-                    </button>                     
-                </div>
-                </div>
-            </ng-template>
+        <ng-template #actionTemplate let-row>
+          <div ngbDropdown container="body" class="d-inline-block" dropdown>
+            <button
+              type="button"
+              class="list-dropdown"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              <img
+                class="mx-1"
+                src="../../../../../assets/images/linesGroup.svg"
+                alt=""
+              />
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button
+                ngbDropdownItem
+                (click)="deleteAuditItemSchadule(row.id, row.auditItemTitle)"
+              >
+                <img
+                  class="mx-1"
+                  src="../../../../../assets/images/trash.svg"
+                  alt=""
+                />
+                Delete audit Frequency item
+              </button>
+              <button ngbDropdownItem (click)="EditAuditItemSchadule(row)">
+                <img
+                  class="mx-1"
+                  src="../../../../../assets/images/pincel.svg"
+                  alt=""
+                />
+                Edit audit item
+              </button>
+            </div>
+          </div>
+        </ng-template>
       </app-audit-table>
     </div>
   </div>

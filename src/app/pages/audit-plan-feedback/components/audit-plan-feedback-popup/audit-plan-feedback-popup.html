@@ -1,0 +1,52 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()" class="p-fluid">
+  <!-- Audit Plan -->
+  <!-- <div class="field mb-3">
+    <label class="font-medium mb-2">Audit Plan*</label>
+    <p-select
+      formControlName="auditPlanId"
+      [options]="auditPlans()"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select Audit Plan"
+      class="w-100"
+      appendTo="body"
+    ></p-select>
+  </div> -->
+
+  <!-- Status -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Status*</label>
+    <p-select
+      formControlName="status"
+      [options]="statusOptions"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select Status"
+      class="w-100"
+      appendTo="body"
+    ></p-select>
+  </div>
+
+  <!-- Feedback -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Feedback*</label>
+    <input
+      type="text"
+      pInputText
+      placeholder="Write feedback"
+      class="w-100"
+      formControlName="feedback"
+    />
+  </div>
+
+  <!-- Buttons -->
+  <div class="p-col-12 d-flex justify-content-center gap-3 m-4">
+    <button [disabled]="!formGroup.valid" type="submit" class="btn btn-primary">
+      <i class="pi pi-send"></i> {{ isEditMode ? "Update" : "Save" }}
+    </button>
+
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>
