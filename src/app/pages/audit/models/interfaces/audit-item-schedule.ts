@@ -1,14 +1,14 @@
-export interface AuditScheduleResponse {
+export interface AuditItemScheduleResponse {
   statusCode: number;
   meta: string;
   succeeded: boolean;
   message: string;
   errors: string[];
-  data: AuditScheduleData;
+  data: AuditItemScheduleData;
 }
 
-export interface AuditScheduleData {
-  items: AuditScheduleItem[];
+export interface AuditItemScheduleData {
+  items: AuditItemScheduleItem[];
   totalItems: number;
   totalPages: number;
   pageNumber: number;
@@ -17,7 +17,7 @@ export interface AuditScheduleData {
   hasNextPage: boolean;
 }
 
-export interface AuditScheduleItem {
+export interface AuditItemScheduleItem {
   id: number;
   title: string;
   auditItemId: number;
@@ -30,7 +30,7 @@ export interface AuditScheduleItem {
   resourceDetails: ResourceDetail[];
   action?: boolean;
 }
-export interface AuditScheduleTableRow {
+export interface AuditItemScheduleTableRow {
   auditItemId: number;
   title: string;
   auditItemTitle: string;

@@ -42,10 +42,10 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     NgbDropdownModule,
   ],
   providers: [DialogService],
-  templateUrl: "./audit-schedule.html",
-  styleUrl: "./audit-schedule.scss",
+  templateUrl: "./audit-item-schedule.html",
+  styleUrl: "./audit-item-schedule.scss",
 })
-export class AuditSchedule implements OnInit {
+export class AuditItemSchedule implements OnInit {
   auditForm!: FormGroup;
 
   constructor(

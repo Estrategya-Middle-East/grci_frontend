@@ -432,9 +432,9 @@ export const layoutRoutes: Routes = [
       {
         path: "schedule",
         loadComponent: () =>
-          import("../pages/audit/pages/audit-schedule/audit-schedule").then(
-            (m) => m.AuditSchedule
-          ),
+          import(
+            "../pages/audit/pages/audit-item-schedule/audit-item-schedule"
+          ).then((m) => m.AuditSchedule),
       },
       {
         path: "engagement",

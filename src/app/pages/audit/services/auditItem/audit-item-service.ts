@@ -46,10 +46,10 @@ import {
   StorageLocationResponse,
 } from "../../models/interfaces/location-storage";
 import {
-  AuditScheduleItem,
-  AuditScheduleResponse,
-  AuditScheduleTableRow,
-} from "../../models/interfaces/audit-schedule";
+  AuditItemScheduleItem,
+  AuditItemScheduleResponse,
+  AuditItemScheduleTableRow,
+} from "../../models/interfaces/audit-item-schedule";
 import {
   EngagementItem,
   EngagementResponse,
@@ -269,16 +269,21 @@ export class AuditItemService {
         })
       );
   }
-  getauditItemsScheduleList(filters: Object): Observable<AuditScheduleItem[]> {
+  getauditItemsScheduleList(
+    filters: Object
+  ): Observable<AuditItemScheduleItem[]> {
     let params = new HttpParams();
     // Loop through each filter key and append valid ones
     Object.entries(filters).forEach(([key, value]) => {
       params = params.set(key, value.toString());
     });
     return this.http
-      .get<AuditScheduleResponse>(`${this.baseUrl}/AuditSchedules/GetList`, {
-        params,
-      })
+      .get<AuditItemScheduleResponse>(
+        `${this.baseUrl}/AuditSchedules/GetList`,
+        {
+          params,
+        }
+      )
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
@@ -524,8 +529,8 @@ export class AuditItemService {
       data
     );
   }
-  addAuditSchedule(data: object): Observable<AuditScheduleResponse> {
-    return this.http.post<AuditScheduleResponse>(
+  addAuditSchedule(data: object): Observable<AuditItemScheduleResponse> {
+    return this.http.post<AuditItemScheduleResponse>(
       `${this.baseUrl}/AuditSchedules`,
       data
     );
@@ -539,8 +544,8 @@ export class AuditItemService {
   EditAuditSchedule(
     data: object,
     id: string
-  ): Observable<AuditScheduleResponse> {
-    return this.http.put<AuditScheduleResponse>(
+  ): Observable<AuditItemScheduleResponse> {
+    return this.http.put<AuditItemScheduleResponse>(
       `${this.baseUrl}/AuditSchedules/${id}`,
       data
     );
