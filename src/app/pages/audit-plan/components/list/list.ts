@@ -12,6 +12,7 @@ import { deleteItemInterface } from "../../../../shared/components/delete-item-s
 
 import { AuditPlanInterface } from "../../models/audit-plan";
 import { AuditPlanService } from "../../services/audit-plan-service";
+import { appRoutes } from "../../../../app.routes.enum";
 
 @Component({
   selector: "app-list",
@@ -117,5 +118,17 @@ export class List implements OnChanges {
 
   navigateToView(id: number) {
     this.router.navigate([id], { relativeTo: this.route });
+  }
+
+  navigateToFeedback(id: number) {
+    this.router.navigate([id, appRoutes["AUDIT-PLAN-FEEDBACK"]], {
+      relativeTo: this.route,
+    });
+  }
+
+  navigateToSchedule(id: number) {
+    this.router.navigate([id, appRoutes["AUDIT-PLAN-SCHEDULE"]], {
+      relativeTo: this.route,
+    });
   }
 }

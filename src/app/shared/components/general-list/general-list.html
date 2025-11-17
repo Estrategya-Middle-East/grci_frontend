@@ -28,9 +28,11 @@
             <button ngbDropdownItem (click)="onDelete(row.id)">
               <i class="pi pi-trash me-2"></i> Delete
             </button>
+            @if (isArchiveAction) {
             <button ngbDropdownItem (click)="onArchive(row)">
               <i class="pi pi-folder me-2"></i> Archive
             </button>
+            }
           </div>
         </div>
         } @else { @if (col.field === 'color') {

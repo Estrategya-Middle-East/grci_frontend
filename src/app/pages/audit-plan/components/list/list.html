@@ -20,6 +20,12 @@
             <button ngbDropdownItem (click)="navigateToEdit(row.id)">
               <i class="pi pi-pencil me-2"></i> Edit
             </button>
+            <button ngbDropdownItem (click)="navigateToFeedback(row.id)">
+              <i class="pi pi-comment me-2"></i> Audit Feedback
+            </button>
+            <button ngbDropdownItem (click)="navigateToSchedule(row.id)">
+              <i class="pi pi-calendar me-2"></i> Audit Schedule
+            </button>
             <button ngbDropdownItem (click)="openDelete(row.id)">
               <i class="pi pi-trash me-2"></i> Delete
             </button>

@@ -1,0 +1,124 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()" class="p-fluid">
+  <!-- Schedule Title -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Title*</label>
+    <input
+      type="text"
+      pInputText
+      formControlName="title"
+      placeholder="Enter schedule title"
+      class="w-100"
+    />
+  </div>
+
+  <!-- Start Date -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Start Date*</label>
+    <p-datepicker
+      formControlName="startDate"
+      showIcon="true"
+      placeholder="From"
+      appendTo="body"
+      class="w-100"
+    ></p-datepicker>
+  </div>
+
+  <!-- End Date -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">End Date*</label>
+    <p-datepicker
+      formControlName="endDate"
+      showIcon="true"
+      placeholder="From"
+      appendTo="body"
+      class="w-100"
+    ></p-datepicker>
+  </div>
+
+  <!-- Resources -->
+  <div class="field mb-3">
+    <label class="font-medium mb-2">Resources*</label>
+    <p-multiSelect
+      class="w-100"
+      formControlName="resources"
+      [options]="resourcesOptions()"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select resource(s)"
+    ></p-multiSelect>
+  </div>
+
+  <div class="col-12 mt-3">
+    <div class="d-flex justify-content-between mb-3">
+      <label class="title-control d-block h5">Key Activities</label>
+      <button
+        type="button"
+        class="btn btn-primary mt-2"
+        (click)="addKeyActivity()"
+      >
+        <i class="pi pi-plus"></i> Add Key Activity
+      </button>
+    </div>
+
+    <div formArrayName="keyActivities">
+      <p-table [value]="keyActivitiesFormArray.controls">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Activity Name</th>
+            <th>Description</th>
+            <th style="width: 50px"></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-activity let-i="rowIndex">
+          <tr [formGroupName]="i">
+            <td>
+              <input
+                type="text"
+                formControlName="activityName"
+                pInputText
+                class="w-100"
+                placeholder="Activity Name"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                formControlName="description"
+                pInputText
+                class="w-100"
+                placeholder="Description"
+              />
+            </td>
+            <td class="text-center">
+              <button
+                type="button"
+                class="list-dropdown"
+                (click)="removeKeyActivity(i)"
+              >
+                <i class="pi pi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="text-center">No Key Activities</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="p-col-12 d-flex justify-content-center gap-3 m-4">
+    <button [disabled]="!formGroup.valid" type="submit" class="btn btn-primary">
+      <i class="pi pi-send"></i> {{ isEditMode ? "Update" : "Save" }}
+    </button>
+
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      <i class="pi pi-times"></i> Cancel
+    </button>
+  </div>
+</form>

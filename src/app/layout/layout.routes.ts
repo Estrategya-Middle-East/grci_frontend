@@ -434,7 +434,7 @@ export const layoutRoutes: Routes = [
         loadComponent: () =>
           import(
             "../pages/audit/pages/audit-item-schedule/audit-item-schedule"
-          ).then((m) => m.AuditSchedule),
+          ).then((m) => m.AuditItemSchedule),
       },
       {
         path: "engagement",
@@ -560,6 +560,30 @@ export const layoutRoutes: Routes = [
           import("../pages/audit-plan/components/add-edit/add-edit").then(
             (m) => m.AddEdit
           ),
+      },
+      {
+        path: `:id/${appRoutes["AUDIT-PLAN-FEEDBACK"]}`,
+        children: [
+          {
+            path: "",
+            loadComponent: () =>
+              import("../pages/audit-plan-feedback/audit-plan-feedback").then(
+                (m) => m.AuditPlanFeedback
+              ),
+          },
+        ],
+      },
+      {
+        path: `:id/${appRoutes["AUDIT-PLAN-SCHEDULE"]}`,
+        children: [
+          {
+            path: "",
+            loadComponent: () =>
+              import("../pages/audit-plan-schedule/audit-plan-schedule").then(
+                (m) => m.AuditPlanSchedule
+              ),
+          },
+        ],
       },
     ],
   },
