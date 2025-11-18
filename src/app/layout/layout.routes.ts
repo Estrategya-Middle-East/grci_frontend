@@ -396,6 +396,11 @@ export const layoutRoutes: Routes = [
     children: [
       {
         path: "",
+        redirectTo: "item",
+        pathMatch: "full",
+      },
+      {
+        path: "item",
         loadComponent: () =>
           import("../pages/audit/pages/audit-item/audit-item").then(
             (m) => m.AuditItem
