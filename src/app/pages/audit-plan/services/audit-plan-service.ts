@@ -3,7 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { map, Observable } from "rxjs";
 import { ApiResponse, PagedResult } from "../../../shared/models/api.mode";
-import { AuditPlanInterface } from "../models/audit-plan";
+import { AuditItem, AuditPlanInterface } from "../models/audit-plan";
 import { lookup } from "../../../shared/models/lookup.mdoel";
 
 @Injectable({
@@ -91,6 +91,37 @@ export class AuditPlanService {
   getAuditItemsLookup(): Observable<lookup[]> {
     return this.http
       .get<any>(`${environment.baseUrl}api/AuditItems/lookup`)
+      .pipe(map((res) => res.data));
+  }
+
+  getAuditItemsList(
+    auditPlanId: number,
+    filter: any = {}
+  ): Observable<PagedResult<AuditItem>> {
+    let params = new HttpParams();
+
+    if (filter.pageNumber !== undefined)
+      params = params.set("PageNumber", filter.pageNumber);
+    if (filter.pageSize !== undefined)
+      params = params.set("PageSize", filter.pageSize);
+
+    // Handle dynamic filters
+    if (filter.filterField && filter.filterValue) {
+      filter.filterField.forEach((field: string, i: number) => {
+        const value = filter.filterValue[i];
+        if (value !== undefined && field) {
+          params = params.set(field, value);
+        }
+      });
+    }
+
+    return this.http
+      .get<ApiResponse<PagedResult<AuditItem>>>(
+        `${environment.baseUrl}api/AuditItems/summary`,
+        {
+          params,
+        }
+      )
       .pipe(map((res) => res.data));
   }
 }

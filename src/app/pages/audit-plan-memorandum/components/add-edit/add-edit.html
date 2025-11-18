@@ -1,0 +1,97 @@
+<p-steps
+  [model]="steps"
+  [activeIndex]="activeIndex"
+  [readonly]="true"
+></p-steps>
+
+<div class="step-content mt-3">
+  @if(activeIndex === 0) {
+  <h4>Select Audit Plan</h4>
+  <p-table [value]="auditPlans">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Plan Code</th>
+        <th>Engagement Name</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-plan>
+      <tr>
+        <td>{{ plan.auditPlanCode }}</td>
+        <td>{{ plan.engagementName }}</td>
+        <td>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="selectPlan(plan)"
+          >
+            Select
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  } @if(activeIndex === 1) {
+  <h4>Select Audit Item for Plan: {{ selectedPlan?.auditPlanCode }}</h4>
+  <p-table [value]="auditItems">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Audit Item Name</th>
+        <th>Scope</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>{{ item.auditItemName }}</td>
+        <td>{{ item.auditScope }}</td>
+        <td>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="selectItem(item)"
+          >
+            Select
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <button
+    class="btn btn-primary"
+    type="button"
+    type="button"
+    class="btn d-flex align-items-center button-color-blue button-with-icon"
+    (click)="prevStep()"
+  ></button>
+  } @if(activeIndex === 2) {
+  <h4>Create Audit Plan Memorandum</h4>
+  <div class="form-group mb-2">
+    <label>Background</label>
+    <textarea
+      [(ngModel)]="memorandumPayload.background"
+      class="form-control"
+    ></textarea>
+  </div>
+  <div class="form-group mb-2">
+    <label>Objectives</label>
+    <textarea
+      [(ngModel)]="memorandumPayload.auditObjectives"
+      class="form-control"
+    ></textarea>
+  </div>
+  <div class="form-group mb-2">
+    <label>Scope</label>
+    <textarea
+      [(ngModel)]="memorandumPayload.auditScope"
+      class="form-control"
+    ></textarea>
+  </div>
+  <button class="btn btn-primary" type="button" (click)="prevStep()">
+    Back
+  </button>
+  <button class="btn btn-primary" type="button" (click)="submitMemorandum()">
+    Submit
+  </button>
+  }
+</div>

@@ -601,4 +601,23 @@ export const layoutRoutes: Routes = [
         "../pages/control-effectivness-assessment/control-effectivness-assessment"
       ).then((m) => m.ControlEffectivnessAssessment),
   },
+  {
+    path: appRoutes["AUDIT-PLAN-MEMORANDUM"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("../pages/audit-plan-memorandum/audit-plan-memorandum").then(
+            (m) => m.AuditPlanMemorandum
+          ),
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import(
+            "../pages/audit-plan-memorandum/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
+    ],
+  },
 ];
