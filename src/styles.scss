@@ -171,3 +171,8 @@ body {
 .p-tablist-active-bar {
   background: $primary-color-text !important;
 }
+
+.p-steps-item-active .p-steps-item-number,
+.p-steps-item-active .p-steps-item-label {
+  color: $primary-color-text !important;
+}

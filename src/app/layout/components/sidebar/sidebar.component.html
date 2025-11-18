@@ -391,38 +391,34 @@
         </p-accordion-content>
       </p-accordion-panel>
 
-      <!-- <p-accordion-panel value="2">
+      <p-accordion-panel value="2">
         <p-accordion-header>
           <div class="content d-flex align-items-center justify-content-start">
             <div class="icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
-                height="25"
-                viewBox="0 0 24 25"
+                height="24"
+                viewBox="0 0 24 24"
                 fill="none"
               >
-                <g clip-path="url(#clip0_2473_143377)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M17.3326 15.0963L19.865 19.4825L20.7298 18.6177L19.9114 16.775C20.6014 15.7473 21.0967 14.578 21.3438 13.3196L23.2241 12.5958V10.3525L21.3443 9.62894C21.097 8.3703 20.6019 7.20058 19.9117 6.1728L20.7298 4.33066L19.1435 2.74441L17.3008 3.5628C16.2731 2.87289 15.1039 2.37761 13.8455 2.13044L13.1216 0.25H10.8783L10.1545 2.13034C8.89608 2.37752 7.72683 2.8728 6.69914 3.5627L4.85649 2.74431L3.27019 4.33061L4.08849 6.17317C3.39844 7.20081 2.90321 8.37025 2.65608 9.62875L0.775879 10.3525V12.5958L2.6558 13.3194C2.90307 14.578 3.39816 15.7478 4.08835 16.7755L3.27019 18.6177L4.13504 19.4825L6.66741 15.0963C5.96475 14.0639 5.55394 12.817 5.55394 11.4741C5.55394 7.91411 8.43999 5.02806 12 5.02806C15.56 5.02806 18.4461 7.91411 18.4461 11.4741C18.4461 12.817 18.0353 14.0639 17.3326 15.0963ZM13.4433 10.8004L19.7651 21.7501C20.0669 22.2728 20.0669 22.894 19.7651 23.4167C19.4633 23.9394 18.9254 24.25 18.3218 24.25H5.67821C5.07464 24.25 4.53671 23.9394 4.23493 23.4167C3.93314 22.894 3.93314 22.2728 4.23493 21.7501L10.5567 10.8004C10.8585 10.2778 11.3964 9.96719 12 9.96719C12.6035 9.96719 13.1415 10.2778 13.4433 10.8004ZM12 20.9739C11.541 20.9739 11.1688 21.346 11.1688 21.8051C11.1688 22.2642 11.5409 22.6363 12 22.6363C12.4591 22.6363 12.8312 22.2642 12.8312 21.8051C12.8312 21.346 12.4591 20.9739 12 20.9739ZM12.0001 19.4901C11.6509 19.4901 11.3642 19.2136 11.3516 18.8647L11.1876 14.3228C11.181 14.1401 11.2421 13.9805 11.369 13.849C11.4959 13.7174 11.6532 13.6506 11.8359 13.6506H12.164C12.3468 13.6506 12.5041 13.7174 12.631 13.849C12.7579 13.9805 12.819 14.1401 12.8124 14.3228L12.6484 18.8647C12.6358 19.2136 12.3492 19.4901 12.0001 19.4901Z"
-                    fill="black"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_2473_143377">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(0 0.25)"
-                    />
-                  </clipPath>
-                </defs>
+                <path
+                  d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
+                  fill="black"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4.77588 21H20.7759"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
-            <div class="title">Annual risk assessment</div>
+            <div class="title">Audit Universe</div>
           </div>
         </p-accordion-header>
         <p-accordion-content>
@@ -430,380 +426,123 @@
             <div class="link">
               <div
                 class="content d-flex align-items-center justify-content-start"
-                [routerLink]="['/configuration']"
-                [queryParams]="{ child: '1' }"
+                [routerLink]="['/audit-plan']"
                 [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
               >
-                <div class="icon">
-                  <svg
-                    width="24px"
-                    height="24px"
-                    viewBox="0 0 24 24"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                  >
-                    <title>Stockholm-icons / Home / Flower2</title>
-                    <desc>Created with Sketch.</desc>
-                    <defs></defs>
-                    <g
-                      id="Stockholm-icons-/-Home-/-Flower2"
-                      stroke="none"
-                      stroke-width="1"
-                      fill="none"
-                      fill-rule="evenodd"
-                    >
-                      <polygon
-                        id="bound"
-                        points="0 0 24 0 24 24 0 24"
-                      ></polygon>
-                      <circle
-                        id="Oval-32"
-                        fill="#000000"
-                        opacity="0.3"
-                        cx="15"
-                        cy="17"
-                        r="5"
-                      ></circle>
-                      <circle
-                        id="Oval-32-Copy"
-                        fill="#000000"
-                        opacity="0.3"
-                        cx="9"
-                        cy="17"
-                        r="5"
-                      ></circle>
-                      <circle
-                        id="Oval-32-Copy-2"
-                        fill="#000000"
-                        opacity="0.3"
-                        cx="7"
-                        cy="11"
-                        r="5"
-                      ></circle>
-                      <circle
-                        id="Oval-32-Copy-3"
-                        fill="#000000"
-                        opacity="0.3"
-                        cx="17"
-                        cy="11"
-                        r="5"
-                      ></circle>
-                      <circle
-                        id="Oval-32-Copy-4"
-                        fill="#000000"
-                        opacity="0.3"
-                        cx="12"
-                        cy="7"
-                        r="5"
-                      ></circle>
-                    </g>
-                  </svg>
-                </div>
-                <div class="title">child 1</div>
+                <div class="title text-black-50">Audit Plan</div>
               </div>
             </div>
           </div>
         </p-accordion-content>
-      </p-accordion-panel> -->
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/cycle']"
+              >
+                <div class="title text-black-50">Audit Cycle</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/frequancy']"
+              >
+                <div class="title text-black-50">Audit Frequency</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/category']"
+              >
+                <div class="title text-black-50">Audit Category</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/schedule']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Audit Schedule</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/engagement']"
+              >
+                <div class="title text-black-50">Audit Engagement</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/feedback']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Audit Feedback</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit/team']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Audit Team</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+
+        <p-accordion-content>
+          <div class="children">
+            <div class="link">
+              <div
+                class="content d-flex align-items-center justify-content-start"
+                [routerLink]="['/audit-plan-memorandum']"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: false }"
+              >
+                <div class="title text-black-50">Audit Plan Memorandum</div>
+              </div>
+            </div>
+          </div>
+        </p-accordion-content>
+      </p-accordion-panel>
     </p-accordion>
 
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-        <div
-          [routerLink]="['/audit-plan']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Universe
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','cycle']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Cycle
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','frequancy']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Frequency
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','category']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Category
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','schedule']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Schedule
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','engagement']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Engagement
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','feedback']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Feedback
-        </div>
-       
-      </div>
-    </div>
-    <div class="link">
-      <div class="content d-flex align-items-center justify-content-start">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M4.77588 18L4.77838 14.0215C4.77838 13.8889 4.83106 13.7617 4.92483 13.6679C5.01859 13.5742 5.14577 13.5215 5.27838 13.5215H10.2794C10.7404 13.5215 10.7379 13.1125 10.7379 12.1395C10.7379 11.1665 8.28688 10.347 8.28688 6.9265C8.28688 3.506 10.8259 2.5 12.9359 2.5C15.0459 2.5 17.3444 3.506 17.3444 6.9265C17.3444 10.347 14.9064 10.891 14.9064 12.1395C14.9064 13.388 14.9064 13.5215 15.2964 13.5215H20.2764C20.409 13.5215 20.5362 13.5742 20.6299 13.6679C20.7237 13.7617 20.7764 13.8889 20.7764 14.0215V18H4.77588Z"
-              fill="black"
-              stroke="black"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.77588 21H20.7759"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-         <div
-          [routerLink]="['/audit','team']"
-          [routerLinkActive]="'active'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="title"
-        >
-          Audit Team
-        </div>
-       
-      </div>
-    </div>
     <div
       class="sectionRight searchHeader col d-flex align-items-center justify-content-betweem"
     >

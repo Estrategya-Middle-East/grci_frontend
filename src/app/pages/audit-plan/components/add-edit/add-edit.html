@@ -230,12 +230,13 @@
           <p-table [value]="auditItemsFormArray.controls">
             <ng-template pTemplate="header">
               <tr>
-                <th>Title</th>
-                <th>Priority</th>
-                <th>Estimated Effort</th>
-                <th>Audit Category</th>
-                <th>Audit Frequency</th>
-                <th>Status</th>
+                <th>Audit Item</th>
+                <th>Scope</th>
+                <th>Objective</th>
+                <th>Audit Approach</th>
+                <th>Key Focus Areas</th>
+                <th>Allocated Resources</th>
+                <th>Management Focus Points</th>
                 <th style="width: 50px"></th>
               </tr>
             </ng-template>
@@ -243,9 +244,20 @@
             <ng-template pTemplate="body" let-item let-i="rowIndex">
               <tr [formGroupName]="i">
                 <td>
+                  <p-select
+                    [options]="auditItemsOptions"
+                    appendTo="body"
+                    optionLabel="name"
+                    optionValue="id"
+                    formControlName="auditItemId"
+                    placeholder="Select Audit Item"
+                    class="w-100"
+                  ></p-select>
+                </td>
+                <td>
                   <input
                     type="text"
-                    formControlName="auditItemTitle"
+                    formControlName="scope"
                     pInputText
                     class="w-100"
                   />
@@ -253,7 +265,7 @@
                 <td>
                   <input
                     type="text"
-                    formControlName="priority"
+                    formControlName="objective"
                     pInputText
                     class="w-100"
                   />
@@ -261,7 +273,33 @@
                 <td>
                   <input
                     type="text"
-                    formControlName="estimatedEffort"
+                    formControlName="auditApproach"
+                    pInputText
+                    class="w-100"
+                  />
+                </td>
+                <td>
+                  <p-autoComplete
+                    class="w-100"
+                    formControlName="keyFocusAreas"
+                    [multiple]="true"
+                    placeholder="Type key focus area and press Enter"
+                    [typeahead]="false"
+                    [dropdown]="false"
+                    [virtualScroll]="false"
+                  ></p-autoComplete>
+                  <small
+                    class="text-muted text-nowrap d-flex align-items-center gap-1"
+                  >
+                    <i class="pi pi-info-circle"></i>
+                    Press <strong>Enter</strong> to add multiple focus areas.
+                  </small>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    formControlName="allocatedResources"
+                    min="0"
                     pInputText
                     class="w-100"
                   />
@@ -269,23 +307,7 @@
                 <td>
                   <input
                     type="text"
-                    formControlName="auditCategoryName"
-                    pInputText
-                    class="w-100"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    formControlName="auditFrequency"
-                    pInputText
-                    class="w-100"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    formControlName="status"
+                    formControlName="managementFocusPoints"
                     pInputText
                     class="w-100"
                   />

@@ -1,0 +1,304 @@
+<app-header
+  [title]="!editMode ? 'Add Generated Memorandum' : 'Edit Generated Memorandum'"
+></app-header>
+
+@if (!editMode) {
+<div class="my-3">
+  <p-steps
+    [model]="steps"
+    [activeIndex]="activeIndex"
+    [readonly]="true"
+  ></p-steps>
+</div>
+}
+
+<div class="step-content container-list mt-3">
+  @if (!editMode) {
+  <!-- STEP 1: Select Audit Plan -->
+  @if(activeIndex === 0) {
+  <p-table [value]="auditPlans">
+    <ng-template pTemplate="header">
+      <tr>
+        @for(col of planColumns; track $index) {
+        <th>{{ col.header }}</th>
+        }
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-plan>
+      <tr>
+        @for(col of planColumns; track $index) {
+        <td>{{ plan[col.field] }}</td>
+        }
+        <td>
+          <button class="btn btn-primary" (click)="selectPlan(plan)">
+            Select
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <td colspan="10">No Data</td>
+    </ng-template>
+  </p-table>
+  <app-custom-paginator
+    #planPaginator
+    [pagination]="planPagination"
+    (pageNumber)="onPlanPageChange($event)"
+  ></app-custom-paginator>
+  }
+
+  <!-- STEP 2: Select Audit Item -->
+  @if(activeIndex === 1) {
+  <p class="text-primary">
+    Select Audit Item for Plan ID : {{ memorandumPayload.auditPlanId }}
+  </p>
+
+  <p-table [value]="auditItems">
+    <ng-template pTemplate="header">
+      <tr>
+        @for(col of itemColumns; track $index) {
+        <th>{{ col.header }}</th>
+        }
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        @for(col of itemColumns; track $index) {
+        <td>
+          @if(col.field === 'keyFocusAreas') {
+          {{ item[col.field].join(", ") }}
+          } @else if (col.field === 'keyFocusAreas') {
+          {{ item[col.field].join(", ") }}
+          } @else {
+          {{ item[col.field] }}
+          }
+        </td>
+        }
+        <td>
+          <button class="btn btn-primary" (click)="selectItem(item)">
+            Select
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <td colspan="10">No Data</td>
+    </ng-template>
+  </p-table>
+  <app-custom-paginator
+    #itemPaginator
+    [pagination]="itemPagination"
+    (pageNumber)="onItemPageChange($event)"
+  ></app-custom-paginator>
+  <div class="d-flex justify-content-end mt-2">
+    <button class="btn btn-secondary" type="button" (click)="prevStep()">
+      Back
+    </button>
+  </div>
+  } }
+
+  <!-- STEP 3: Fill Memorandum -->
+  @if(activeIndex === 2 || editMode) { @if ( selectedItem && selectedPlan ) {
+  <p class="text-primary">
+    {{ !editMode ? "Create" : "Edit" }} Memorandum for Audit Plan ID :
+    {{ selectedPlan?.id }} and Audit Item ID :
+    {{ selectedItem?.id }}
+  </p>
+  }
+
+  <form [formGroup]="formGroup" class="my-3">
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <label>Background*</label>
+        <textarea
+          formControlName="background"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="col-md-12 mb-3">
+        <label>Audit Objective*</label>
+        <textarea
+          formControlName="auditObjectives"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="col-md-12 mb-3">
+        <label>Audit Scope*</label>
+        <textarea
+          formControlName="auditScope"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="col-md-12 mb-3">
+        <label>Excluded from Scope*</label>
+        <textarea
+          formControlName="excludedFromScope"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+      <!-- <div class="col-md-12 mb-3">
+        <label>Audit Categories*</label>
+        <textarea
+          formControlName="auditCategories"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div> -->
+
+      <!-- Audit Items Details FormArray -->
+      <div class="col-12 my-4">
+        <div class="d-flex justify-content-between mb-3">
+          <label class="title-control h5"
+            >Risk Analysis Of Audit Category</label
+          >
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="addRiskAnalysesDetail()"
+          >
+            <i class="pi pi-plus"></i> New Risk Analysis Of Audit Category
+          </button>
+        </div>
+
+        <div formArrayName="riskAnalyses">
+          <p-table [value]="riskAnalysesFormArray.controls">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Audit Category</th>
+                <th>No. of Hours</th>
+                <th>Justification</th>
+                <th style="width: 50px"></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+              <tr [formGroupName]="i">
+                <td>
+                  <p-select
+                    [options]="auditCategoriesOptions"
+                    optionLabel="name"
+                    optionValue="id"
+                    formControlName="auditCategoryId"
+                    placeholder="Select Audit Category"
+                    class="w-100"
+                    appendTo="body"
+                  ></p-select>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    formControlName="noOfHours"
+                    pInputText
+                    class="w-100"
+                    min="0"
+                    placeholder="No. of Hours"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    formControlName="justification"
+                    pInputText
+                    class="w-100"
+                    placeholder="Justification"
+                  />
+                </td>
+                <td class="text-center">
+                  @if (riskAnalysesFormArray.length > 1) {
+                  <button
+                    type="button"
+                    class="list-dropdown"
+                    (click)="removeRiskAnalysesDetail(i)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                  }
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="5" class="text-center">
+                  No Risks Analysis items added.
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="title-control my-4 h5">Expected Key Milestones</label>
+
+        <!-- Milestones -->
+        <div class="col-md-6 mb-3">
+          <label>Announcement Letter Sent*</label>
+          <p-datepicker
+            formControlName="announcementLetterSentMilestone"
+            showIcon="true"
+            placeholder="Select date"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label>Completion Of Planning*</label>
+          <p-datepicker
+            formControlName="completionOfPlanningMilestone"
+            showIcon="true"
+            placeholder="Select date"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label>Fieldwork*</label>
+          <p-datepicker
+            formControlName="fieldworkMilestone"
+            showIcon="true"
+            placeholder="Select date"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label>Report*</label>
+          <p-datepicker
+            formControlName="reportMilestone"
+            showIcon="true"
+            placeholder="Select date"
+            class="w-100"
+          ></p-datepicker>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <label>Reporting*</label>
+        <textarea
+          formControlName="reporting"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button type="button" class="btn btn-secondary" (click)="prevStep()">
+        Back
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="submitMemorandum()"
+      >
+        {{ !editMode ? "Add" : "Edit" }}
+      </button>
+    </div>
+  </form>
+
+  }
+</div>
