@@ -618,6 +618,13 @@ export const layoutRoutes: Routes = [
             "../pages/audit-plan-memorandum/components/add-edit/add-edit"
           ).then((m) => m.AddEdit),
       },
+      {
+        path: "edit/:id",
+        loadComponent: () =>
+          import(
+            "../pages/audit-plan-memorandum/components/add-edit/add-edit"
+          ).then((m) => m.AddEdit),
+      },
     ],
   },
 ];

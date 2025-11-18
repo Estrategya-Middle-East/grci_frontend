@@ -85,9 +85,9 @@ export class AuditPlanMemorandumServie {
       .pipe(map((res) => res.data));
   }
 
-  getAuditItemsLookup(): Observable<lookup[]> {
+  getAuditCategoriesLookup(): Observable<lookup[]> {
     return this.http
-      .get<any>(`${environment.baseUrl}api/AuditItems/lookup`)
-      .pipe(map((res) => res.data));
+      .get<any>(`${environment.baseUrl}api/AuditCategories/lookup`)
+      .pipe(map((res) => res.data.items));
   }
 }

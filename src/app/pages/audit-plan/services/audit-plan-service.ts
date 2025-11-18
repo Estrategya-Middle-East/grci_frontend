@@ -94,10 +94,7 @@ export class AuditPlanService {
       .pipe(map((res) => res.data));
   }
 
-  getAuditItemsList(
-    auditPlanId: number,
-    filter: any = {}
-  ): Observable<PagedResult<AuditItem>> {
+  getAuditItemsList(filter: any = {}): Observable<PagedResult<AuditItem>> {
     let params = new HttpParams();
 
     if (filter.pageNumber !== undefined)
