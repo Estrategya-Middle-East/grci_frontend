@@ -1,6 +1,6 @@
 <div class="container filter-card">
       <div class="filter-body">
-        <h6 class="filter-title">Filter Audit Team</h6>
+        <h6 class="filter-title">Audit Team</h6>
     <form [formGroup]="teamForm">
         <div class="row g-3 filter-row-top">
          
@@ -11,6 +11,7 @@
                         optionValue="id"    
                          formControlName="plan"
                       placeholder="Plan"
+                      (onChange)="getauditItems()"
                       styleClass="w-100"></p-select>
           </div>
            <div class="col-4">
@@ -20,7 +21,7 @@
                         optionValue="id"                     
                         placeholder="Audit Items"
                         formControlName="auditItemId"
-                        [disabled]="teamForm.get('plan')?.value === '' || teamForm.get('plan')?.value === undefined "
+                        [disabled]="!(teamForm.get('plan')?.value)"
                         styleClass="w-100"></p-select>
                         <small class="text-danger" *ngIf="teamForm.get('auditItemId')?.invalid && teamForm.get('auditItemId')?.touched">
           Audit Item is required
@@ -31,7 +32,7 @@
           <div class="input-group">
             <input type="text" class="form-control filter-search-input" 
                     style="height:45px"
-                   placeholder="Search Contribution Percent"  
+                   placeholder="Contribution Percent"  
                    formControlName="contribution"                  
                    #searchValue
                   />                   

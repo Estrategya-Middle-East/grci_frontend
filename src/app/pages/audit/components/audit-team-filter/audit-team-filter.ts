@@ -64,16 +64,20 @@ export class AuditTeamFilter implements OnInit {
     this.auditTeamService.getLookups().subscribe();
   }
   getAudititemsLookups(id: string) {
-    this.auditTeamService.getAuditItemsbyAuditPlanLookups(id).subscribe({
-      next: (res) => {
-        this.auditService.auditItemsLookupSignal.set(res);
-        if (this.auditTeamService.editFeedback.value.auditItemId) {
-          this.teamForm
-            .get("auditItemId")
-            ?.setValue(this.auditTeamService.editFeedback.value.auditItemId);
-        }
-      },
-    });
+    if (id) {
+      this.auditTeamService.getAuditItemsbyAuditPlanLookups(id).subscribe({
+        next: (res) => {
+          this.auditService.auditItemsLookupSignal.set(res);
+          if (this.auditTeamService.editFeedback.value.auditItemId) {
+            this.teamForm
+              .get("auditItemId")
+              ?.setValue(this.auditTeamService.editFeedback.value.auditItemId);
+          }
+        },
+      });
+    } else {
+      this.teamForm.get("plan")?.setValue("");
+    }
   }
   onEdit() {
     let editfeedbackDataId =
