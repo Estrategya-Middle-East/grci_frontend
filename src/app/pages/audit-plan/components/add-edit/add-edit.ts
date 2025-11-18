@@ -20,6 +20,7 @@ import { AppRoute } from "../../../../app.routes.enum";
 import { AuditPlanService } from "../../services/audit-plan-service";
 import { DatePickerModule } from "primeng/datepicker";
 import { RadioButtonModule } from "primeng/radiobutton";
+import { AutoCompleteModule } from "primeng/autocomplete";
 
 @Component({
   selector: "app-add-edit",
@@ -33,6 +34,7 @@ import { RadioButtonModule } from "primeng/radiobutton";
     SelectModule,
     DatePickerModule,
     RadioButtonModule,
+    AutoCompleteModule,
   ],
   templateUrl: "./add-edit.html",
   styleUrl: "./add-edit.scss",
@@ -49,6 +51,7 @@ export class AddEdit implements OnInit {
 
   auditCycleOptions!: lookup[];
   engagementOptions!: { id: number; description: string }[];
+  auditItemsOptions!: lookup[];
   // dimensionOptions!: lookup[];
   // entityOptions!: lookup[];
 
@@ -64,6 +67,9 @@ export class AddEdit implements OnInit {
       engagements: this.service
         .getAuditEngagementsLookUp()
         .pipe(catchError(() => of([]))),
+      auditItems: this.service
+        .getAuditItemsLookup()
+        .pipe(catchError(() => of([]))),
       // dimensions: this.service
       //   .getDimensionsLookUp()
       //   .pipe(catchError(() => of([]))),
@@ -73,6 +79,7 @@ export class AddEdit implements OnInit {
 
       this.auditCycleOptions = res.auditCycles;
       this.engagementOptions = res.engagements;
+      this.auditItemsOptions = res.auditItems;
       // this.dimensionOptions = res.dimensions;
       // this.entityOptions = res.entities;
     });
@@ -105,12 +112,13 @@ export class AddEdit implements OnInit {
   addAuditItem(): void {
     this.auditItemsFormArray.push(
       this.fb.group({
-        auditItemTitle: ["", Validators.required],
-        priority: ["", Validators.required],
-        estimatedEffort: ["", Validators.required],
-        auditCategoryName: ["", Validators.required],
-        auditFrequency: ["", Validators.required],
-        status: ["", Validators.required],
+        auditItemId: ["", Validators.required],
+        scope: ["", Validators.required],
+        objective: ["", Validators.required],
+        auditApproach: ["", Validators.required],
+        keyFocusAreas: [[], Validators.required],
+        allocatedResources: ["", Validators.required],
+        managementFocusPoints: ["", Validators.required],
       })
     );
   }
@@ -151,12 +159,19 @@ export class AddEdit implements OnInit {
         res.auditItems.forEach((item) => {
           this.auditItemsFormArray.push(
             this.fb.group({
-              auditItemTitle: [item.auditItemTitle, Validators.required],
-              priority: [item.priority, Validators.required],
-              estimatedEffort: [item.estimatedEffort, Validators.required],
-              auditCategoryName: [item.auditCategoryName, Validators.required],
-              auditFrequency: [item.auditFrequency, Validators.required],
-              status: [item.status, Validators.required],
+              auditItemId: [item.auditItemId, Validators.required],
+              scope: [item.scope, Validators.required],
+              objective: [item.objective, Validators.required],
+              auditApproach: [item.auditApproach, Validators.required],
+              keyFocusAreas: [item.keyFocusAreas, Validators.required],
+              allocatedResources: [
+                item.allocatedResources,
+                Validators.required,
+              ],
+              managementFocusPoints: [
+                item.managementFocusPoints,
+                Validators.required,
+              ],
             })
           );
         });

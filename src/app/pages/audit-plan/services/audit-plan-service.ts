@@ -87,4 +87,10 @@ export class AuditPlanService {
       .get<any>(`${environment.baseUrl}api/AuditEngagements/lookup`)
       .pipe(map((res) => res.data.items));
   }
+
+  getAuditItemsLookup(): Observable<lookup[]> {
+    return this.http
+      .get<any>(`${environment.baseUrl}api/AuditItems/lookup`)
+      .pipe(map((res) => res.data));
+  }
 }
