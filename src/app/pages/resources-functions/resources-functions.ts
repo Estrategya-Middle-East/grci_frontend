@@ -79,7 +79,7 @@ export class ResourcesFunctions {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.reloadList();
         this.messageService.add({
@@ -100,7 +100,7 @@ export class ResourcesFunctions {
       data: row,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.reloadList();
         this.messageService.add({

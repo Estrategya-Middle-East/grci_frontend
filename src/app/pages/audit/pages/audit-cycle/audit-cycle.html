@@ -1,0 +1,43 @@
+<app-header
+  [isSwitchView]="switchView"
+  [title]="'Audti Cycle Management'"
+  [dropdownList]="dropdownList"
+  [showFilteration]="showFilteration"
+  [showActions]="showActions"
+  (filtersChange)="onFiltersChange($event)"
+  (switchView)="switchview($event)"
+></app-header>
+<div class="mt-4 p-4">
+    <app-audit-cycle-toolbar></app-audit-cycle-toolbar>
+</div>
+<div class="auditCycle p-4">
+    @if (switchView) { @defer (when switchView) {
+    <app-auditcycle-board></app-auditcycle-board>
+    } } @else { @defer (when !switchView) {
+    <app-audit-table>
+         <ng-template #actionTemplate let-row>
+                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
+                    <button
+                        type="button"
+                        class="list-dropdown"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                    >
+                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    
+                     <button ngbDropdownItem (click)="deleteAuditItem(row.id,row.title)">
+                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                        Delete audit Cycle item
+                    </button>
+                    <button ngbDropdownItem  [routerLink]="['/audit','cycle','edit']" [queryParams]="{id:row.id,code:row.code}">
+                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                         Edit audit Cycle item 
+                    </button>                 
+                </div>
+                </div>
+            </ng-template>
+    </app-audit-table>
+    } }
+</div>

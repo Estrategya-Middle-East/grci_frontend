@@ -1,0 +1,97 @@
+<div class="container filter-card">
+      <div class="filter-body">
+        <h6 class="filter-title">Filter Audit Team</h6>
+    <form [formGroup]="teamForm">
+        <div class="row g-3 filter-row-top">
+         
+          <div class="col-4">
+            <p-select #filterSelect 
+                       [options]="auditTeamService.auditPlansLookupSignal()"
+                        optionLabel="name"
+                        optionValue="id"    
+                         formControlName="plan"
+                      placeholder="Plan"
+                      styleClass="w-100"></p-select>
+          </div>
+           <div class="col-4">
+            <p-select #filterSelect  
+                        [options]="auditService.auditItemsLookup()"                        
+                        optionLabel="name"
+                        optionValue="id"                     
+                        placeholder="Audit Items"
+                        formControlName="auditItemId"
+                        [disabled]="teamForm.get('plan')?.value === '' || teamForm.get('plan')?.value === undefined "
+                        styleClass="w-100"></p-select>
+                        <small class="text-danger" *ngIf="teamForm.get('auditItemId')?.invalid && teamForm.get('auditItemId')?.touched">
+          Audit Item is required
+        </small>
+          </div>
+          <div class="col-4">
+            <div class="search-wrapper">
+          <div class="input-group">
+            <input type="text" class="form-control filter-search-input" 
+                    style="height:45px"
+                   placeholder="Search Contribution Percent"  
+                   formControlName="contribution"                  
+                   #searchValue
+                  />                   
+          </div>
+        </div>
+        <small class="text-danger" *ngIf="teamForm.get('contribution')?.invalid && teamForm.get('contribution')?.touched">
+          Contribution Percent is required
+        </small>
+          </div>
+          <div class="col-4">             
+            <p-multiSelect #filterSelect 
+            [options]=" auditTeamService.auditItemsSkillsLookupsSignal()"
+            optionLabel="name"
+            optionValue="id"    
+            formControlName="skills"
+            placeholder="skills"
+            styleClass="w-100"></p-multiSelect>
+        </div>
+          <div class="col-4">
+           <p-select 
+                #filterSelect
+                [options]="roleOptions"
+                optionLabel="label"
+                optionValue="value"
+                formControlName="role"
+                
+                placeholder="Role"
+                styleClass="w-100">
+                </p-select>
+                      <small class="text-danger" *ngIf="teamForm.get('role')?.invalid && teamForm.get('role')?.touched">
+          Role is required
+        </small>
+          </div>
+         
+                   
+
+          <div class="filter-actions d-flex justify-content-center">         
+            @if (show == false) {
+          <button class="btn btnApply btn-sm filter-btn buttonFix justify-content-center" (click)="onApply()">
+             <img src="../../../../../../assets/images/SendEmail.svg" alt="" class="sendEmailImg">
+            Save
+          </button>
+
+          }@else{
+
+              <button class="btn btnApply btn-sm filter-btn buttonFix justify-content-center" (click)="onEdit()">
+                  <img src="../../../../../../assets/images/SendEmail.svg" alt="" class="sendEmailImg">
+                  Edit
+                </button>
+                
+                <button class="btn btnoutlineBlue btn-sm filter-btn buttonFix justify-content-center" (click)="onCancel()">
+                    <span class="cancelImg">
+                        <svg width="14" height="14" fill="white">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </span>
+                    Cancel
+                </button>
+            }
+        </div>
+      </div>
+        </form>
+    </div>

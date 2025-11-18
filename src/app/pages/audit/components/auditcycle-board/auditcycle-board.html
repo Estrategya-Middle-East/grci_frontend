@@ -1,0 +1,87 @@
+
+
+    <div class="card-grid">
+      @for (item of auditCycleService.auditCycles(); track item.id) {
+        <p-card styleClass="audit-card">
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <h3>Code: {{ item.code }}</h3>
+            </div>
+          </ng-template>
+          
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="cycle-label">
+                <span class="x-icon">✕</span> {{ item.name }}
+              </span>
+              <span class="date-range">
+                <i class="pi pi-calendar"></i>
+
+                {{item.fromYear + " - " + item.toYear }}
+              </span>
+            </div>
+            
+            <div class="card-details">
+              <p><strong>Objectives</strong> {{ item.auditObjectives || 'No objectives specified' }}</p>
+              <p><strong>Scope:</strong> {{ item.auditScope || 'No scope specified' }}</p>
+              <p><strong>Strategic Framework</strong> {{ item.strategicFramework || 'No framework specified' }}</p>
+            </div>
+          </div>
+          
+          <ng-template pTemplate="footer">
+            <div class="card-actions">
+              <p-button 
+                label="view" 
+                [text]="true" 
+                styleClass="view-btn"
+                (onClick)="onView(item.id)">
+              </p-button>
+              <div class="action-buttons">
+                <p-button 
+                  icon="pi pi-eye" 
+                  [text]="true" 
+                  [rounded]="true"
+                  (onClick)="onEye(item.id)">
+                </p-button>
+                <p-button 
+                  label="more" 
+                  [text]="true"
+                  (onClick)="onMore(item.id)">
+                </p-button>
+               <div ngbDropdown container="body" class="d-inline-block">
+          <button
+            type="button"
+            class="list-dropdown"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+          >
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="deleteAuditItem(item.id,item.title)">
+            <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                Delete audit Cycle item
+            </button>
+            <button ngbDropdownItem  [routerLink]="['/audit','cycle','edit']" [queryParams]="{id:item.id,code:item.code}">
+            <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                  Edit audit Cycle item 
+            </button>    
+            
+          </div>
+        </div>           
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+      }
+    </div>
+    
+      <p-paginator
+        [first]="first()"
+        [rows]="rows()"
+        [totalRecords]="auditCycleService.totalRecords()"
+        [rowsPerPageOptions]="[10, 20, 50, 100]"
+        (onPageChange)="onPageChange($event)"
+        styleClass="custom-paginator">
+      </p-paginator>
+  

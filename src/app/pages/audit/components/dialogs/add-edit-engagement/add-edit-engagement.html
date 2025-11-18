@@ -1,0 +1,41 @@
+ <form [formGroup]="frequancyForm" (ngSubmit)="onSave()">
+  
+    <div class="field">
+        <div class="col-12">
+            <label for="comments" class="form-label">Describtion</label>
+            <textarea
+            id="Describtion"
+            pInputTextarea
+            class="w-100"
+            rows="4"
+            formControlName="description"
+            placeholder="Enter Describtion">
+        </textarea>
+        <small class="text-danger" *ngIf="frequancyForm.get('description')?.invalid && frequancyForm.get('description')?.touched">
+          Describtion is required
+        </small>
+          </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center gap-2 mt-3">
+            <button
+              type="button"
+              pButton
+              label="Save"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="frequancyForm.invalid"
+              (click)="onSave()">
+              
+            </button>
+            <button
+              type="button"
+              pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()">
+              
+            </button>
+          </div>
+  </form>

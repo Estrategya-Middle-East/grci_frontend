@@ -3,6 +3,7 @@ export interface ShowFilteration {
   tabeTwo: Search;
   search: Search;
   year?: Search;
+  dateFromTo?: Search;
   import: boolean;
 }
 

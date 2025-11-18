@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuditSchedule } from './audit-schedule';
+import { CrudAuditCycle } from './crud-audit-cycle';
 
-describe('AuditSchedule', () => {
-  let component: AuditSchedule;
-  let fixture: ComponentFixture<AuditSchedule>;
+describe('CrudAuditCycle', () => {
+  let component: CrudAuditCycle;
+  let fixture: ComponentFixture<CrudAuditCycle>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuditSchedule]
+      imports: [CrudAuditCycle]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AuditSchedule);
+    fixture = TestBed.createComponent(CrudAuditCycle);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

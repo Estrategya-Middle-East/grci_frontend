@@ -432,8 +432,50 @@ export const layoutRoutes: Routes = [
       {
         path: "schedule",
         loadComponent: () =>
-          import("../pages/audit/pages//audit-schedule/audit-schedule").then(
-            (m) => m.AuditSchedule
+          import(
+            "../pages/audit/pages/audit-item-schedule/audit-item-schedule"
+          ).then((m) => m.AuditItemSchedule),
+      },
+      {
+        path: "engagement",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-engagement/audit-engagement").then(
+            (m) => m.AuditEngagement
+          ),
+      },
+      {
+        path: "cycle",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-cycle/audit-cycle").then(
+            (m) => m.AuditCycle
+          ),
+      },
+      {
+        path: "cycle/add",
+        loadComponent: () =>
+          import("../pages/audit/pages/crud-audit-cycle/crud-audit-cycle").then(
+            (m) => m.CrudAuditCycle
+          ),
+      },
+      {
+        path: "cycle/edit",
+        loadComponent: () =>
+          import("../pages/audit/pages/crud-audit-cycle/crud-audit-cycle").then(
+            (m) => m.CrudAuditCycle
+          ),
+      },
+      {
+        path: "feedback",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-feedback/audit-feedback").then(
+            (m) => m.AuditFeedback
+          ),
+      },
+      {
+        path: "team",
+        loadComponent: () =>
+          import("../pages/audit/pages/audit-team/audit-team").then(
+            (m) => m.AuditTeam
           ),
       },
     ],

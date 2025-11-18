@@ -30,31 +30,57 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <!-- Row 2: Description -->
+         <div class="d-flex justify-content-between w-100">
+         <label for="resources" class="form-label">Key Activities<span class="text-danger">*</span></label>
+          
+         </div>
+        <div formArrayName="keyActivities">
+        <div *ngFor="let activity of keyActivities.controls; let i = index" [formGroupName]="i"
+            class="row my-3 border border-1 border-dark rounded p-3">
+          
           <div class="col-md-6">
-            <label for="title" class="form-label"> Activity Name </label>
+            <label for="activityName-{{ i }}" class="form-label">Activity Name</label>
             <input
-              id="title"
+              id="activityName-{{ i }}"
               type="text"
-              class="form-control filter-search-input"
+              class="form-control"
               placeholder="Enter Activity Name"
               formControlName="activityName"
             />
+            <small class="text-danger"
+                  *ngIf="activity.get('activityName')?.invalid && activity.get('activityName')?.touched">
+              Activity name is required
+            </small>
           </div>
+
           <div class="col-md-6">
-            <label for="description" class="form-label">Description</label>
-            <textarea
-              id="description"
-              pInputTextarea
-              class="w-100"
-              rows="4"
-              formControlName="description"
+            <label for="description-{{ i }}" class="form-label">Description</label>
+            <input
+              id="description-{{ i }}"
+              type="text"
+              class="form-control"
               placeholder="Enter description"
-            >
-            </textarea>
+              formControlName="description"
+            />
+          </div>
+
+          <div class="col-12 mt-2 text-end">
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeKeyActivity(i)" *ngIf="keyActivities.length > 1">
+              Remove
+            </button>
           </div>
         </div>
 
+          <div class="text-end">
+            <button type="button" class="btn btn-primary btn-sm" (click)="addKeyActivity()">
+              + Add Activity
+            </button>
+          </div>
+        </div>
+
+
+        <!-- Row 3: Dimension and Entity -->
         <div class="row mb-3">
           <div class="col-md-6 mb-3 mb-md-0">
             <label for="dimensionId" class="form-label">
@@ -166,43 +192,29 @@
         </div>
       </form>
       <app-audit-table>
-        <ng-template #actionTemplate let-row>
-          <div ngbDropdown container="body" class="d-inline-block" dropdown>
-            <button
-              type="button"
-              class="list-dropdown"
-              id="dropdownBasic1"
-              ngbDropdownToggle
-            >
-              <img
-                class="mx-1"
-                src="../../../../../assets/images/linesGroup.svg"
-                alt=""
-              />
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button
-                ngbDropdownItem
-                (click)="deleteAuditItemSchadule(row.id, row.auditItemTitle)"
-              >
-                <img
-                  class="mx-1"
-                  src="../../../../../assets/images/trash.svg"
-                  alt=""
-                />
-                Delete audit Frequency item
-              </button>
-              <button ngbDropdownItem (click)="EditAuditItemSchadule(row)">
-                <img
-                  class="mx-1"
-                  src="../../../../../assets/images/pincel.svg"
-                  alt=""
-                />
-                Edit audit item
-              </button>
-            </div>
-          </div>
-        </ng-template>
+          <ng-template #actionTemplate let-row>
+                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
+                    <button
+                        type="button"
+                        class="list-dropdown"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                    >
+                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    
+                    <button ngbDropdownItem (click)="deleteAuditItemSchadule(row.id,row.auditItemTitle)">
+                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                     Delete audit Frequency item
+                    </button>
+                    <button ngbDropdownItem  (click)="setFormData(row)">
+                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                         Edit audit item 
+                    </button>                     
+                </div>
+                </div>
+            </ng-template>
       </app-audit-table>
     </div>
   </div>

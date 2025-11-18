@@ -78,7 +78,7 @@ export class Impact {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.impactList.loadData(
           this.impactList.pagination,
@@ -102,7 +102,7 @@ export class Impact {
       data: impact,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.impactList.loadData(
           this.impactList.pagination,

@@ -101,7 +101,7 @@ export class AuditPlanFeedback {
       data: { auditPlanId: this.auditPlanId() },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) this.reloadList();
     });
   }
@@ -115,7 +115,7 @@ export class AuditPlanFeedback {
       data: { feedbackId: row.id, auditPlanId: this.auditPlanId() },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) this.reloadList();
     });
   }

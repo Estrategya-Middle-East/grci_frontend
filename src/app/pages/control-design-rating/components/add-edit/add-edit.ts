@@ -18,9 +18,9 @@ import { ControlDesignRatingService } from "../../services/control-design-rating
 import { ControlRiskRating } from "../../models/control-design-rating";
 import { catchError, forkJoin, of } from "rxjs";
 // ✅ FIX: use a reliable relative path + correct filename
-import { lookup } from "../../../../shared/models/lookup.mdoel";
 import { SelectModule } from "primeng/select";
 import { appRoutes } from "../../../../app.routes.enum";
+import { lookup } from "../../../../shared/models/lookup.mdoel";
 
 @Component({
   selector: "add-edit",

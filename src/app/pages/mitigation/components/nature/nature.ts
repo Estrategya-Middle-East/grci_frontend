@@ -77,7 +77,7 @@ export class Nature {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.natureList.loadData(
           this.natureList.pagination,
@@ -101,7 +101,7 @@ export class Nature {
       data: nature,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.natureList.loadData(
           this.natureList.pagination,

@@ -112,6 +112,19 @@
       ></p-datepicker>
     </div>
     }
+    @if(showFilteration.dateFromTo?.show){
+      <div class="year-filter left-border">
+         <p-datepicker
+         [formControl]="dateRangeControl"
+         selectionMode="range"
+         dateFormat="dd/mm/yy"
+         placeholder="Select Date Range"
+         [showIcon]="true"
+         showButtonBar="true"
+         ></p-datepicker>
+      </div>
+
+    }
   </div>
   }
 </div>

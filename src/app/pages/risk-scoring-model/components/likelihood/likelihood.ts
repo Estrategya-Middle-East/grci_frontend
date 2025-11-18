@@ -82,7 +82,7 @@ export class Likelihood {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.likelihoodList.loadData(
           this.likelihoodList.pagination,
@@ -106,7 +106,7 @@ export class Likelihood {
       data: likelihood,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.likelihoodList.loadData(
           this.likelihoodList.pagination,

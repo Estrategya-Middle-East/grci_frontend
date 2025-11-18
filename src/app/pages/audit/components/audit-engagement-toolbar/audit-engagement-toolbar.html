@@ -1,0 +1,43 @@
+<div class="toolbar-container">
+      <div class="toolbar-left">
+        <span class="risks-badge">
+          Audit Engagements <span class="risks-count">{{ auditService.auditItems().length }}</span>
+        </span>
+        
+        <div class="search-group">
+          <span class="search-icon-wrapper">
+            <svg width="16" height="16" fill="currentColor" class="search-icon">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </span>
+          <input type="text" class="form-control search-input" 
+                 placeholder="Search Audit Categories" 
+                 (input)="getAuditEngagementList($event.target.value)"
+                 >
+        </div>
+        
+       
+      </div>
+      
+      <div class="toolbar-right">
+          <button class="btn btn-outline-secondary btn-sm action-button">
+             <img src="../../../../../../assets/images/exportBtn.svg" alt="">   
+             Export
+            </button>
+            <button class="btn btn-outline-secondary btn-sm icon-button">
+            <img src="../../../../../../assets/images/linesMiddle.svg" alt="">   
+            
+        </button>
+        <button class="btn btn-outline-secondary btn-sm icon-button">
+            <img src="../../../../../../assets/images/linesLeft.svg" alt="">       
+        </button>
+        <button class="btn btn-sm action-button btnApply"
+        (click)="addNewAuditEngagement()"
+         >
+          <svg width="16" height="16" fill="white">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+          New Audit Engagement
+        </button>
+      </div>
+    </div>

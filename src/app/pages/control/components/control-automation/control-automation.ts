@@ -74,7 +74,7 @@ export class ControlAutomation {
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.automationList.loadData(
           this.automationList.pagination,
@@ -97,7 +97,7 @@ export class ControlAutomation {
       data: item,
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.automationList.loadData(
           this.automationList.pagination,

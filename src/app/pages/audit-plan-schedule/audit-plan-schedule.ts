@@ -116,7 +116,7 @@ export class AuditPlanSchedule {
       data: { auditPlanId: this.auditPlanId() },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) this.reloadList();
     });
   }
@@ -130,7 +130,7 @@ export class AuditPlanSchedule {
       data: { scheduleId: row.id, auditPlanId: this.auditPlanId() },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) this.reloadList();
     });
   }

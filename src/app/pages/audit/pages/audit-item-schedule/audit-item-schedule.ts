@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
   FormBuilder,
+  FormArray,
 } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { DatePickerModule } from "primeng/datepicker";
@@ -41,10 +42,10 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     NgbDropdownModule,
   ],
   providers: [DialogService],
-  templateUrl: "./audit-schedule.html",
-  styleUrl: "./audit-schedule.scss",
+  templateUrl: "./audit-item-schedule.html",
+  styleUrl: "./audit-item-schedule.scss",
 })
-export class AuditSchedule implements OnInit {
+export class AuditItemSchedule implements OnInit {
   auditForm!: FormGroup;
 
   constructor(
@@ -66,28 +67,44 @@ export class AuditSchedule implements OnInit {
       auditItemId: ["", Validators.required],
       startDate: ["", Validators.required],
       endDate: ["", Validators.required],
-      activityName: [],
-      description: [""],
       resources: [[], Validators.required],
+      keyActivities: this.fb.array([this.createKeyActivity()]),
     });
   }
+  createKeyActivity() {
+    return this.fb.group({
+      activityName: ["", Validators.required],
+      description: [""],
+    });
+  }
+  get keyActivities(): FormArray {
+    return this.auditForm.get("keyActivities") as FormArray;
+  }
 
+  addKeyActivity() {
+    this.keyActivities.push(this.createKeyActivity());
+  }
+
+  removeKeyActivity(index: number) {
+    this.keyActivities.removeAt(index);
+  }
   onSave() {
     if (this.auditForm.valid) {
       const formData = this.auditForm.value;
-      let data = {
-        title: formData.title,
-        auditItemId: formData.auditItemId,
-        keyActivities: [
-          {
-            activityName: formData.activityName,
-            description: formData.description,
-          },
-        ],
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        resources: formData.resources,
+      const data = {
+        title: formData.title ?? "",
+        auditItemId: formData.auditItemId ?? 0,
+        startDate: formData.startDate ?? new Date().toISOString(),
+        endDate: formData.endDate ?? new Date().toISOString(),
+        keyActivities: (formData.keyActivities || []).map((activity: any) => ({
+          activityName: activity.activityName ?? "",
+          description: activity.description ?? "",
+        })),
+        resources: (formData.resources || []).map((res: any) =>
+          typeof res === "number" ? res : parseInt(res, 10)
+        ),
       };
+
       this.auditService.addAuditSchedule(data).subscribe({
         next: (res) => {
           this.messageService.add({
@@ -127,7 +144,7 @@ export class AuditSchedule implements OnInit {
       },
     });
 
-    ref.onClose.subscribe((result) => {
+    ref?.onClose.subscribe((result) => {
       if (result) {
         this.auditService.deleteScheduleAuditItem(id).subscribe({
           next: (res) => {
@@ -151,29 +168,49 @@ export class AuditSchedule implements OnInit {
     });
   }
   showEdit: boolean = false;
-  EditAuditItemSchadule(row: any) {
-    this.auditForm.patchValue({
-      ...row,
-      startDate: new Date(row.startDate),
-      endDate: new Date(row.endDate),
-    });
+  setFormData(data: any) {
     this.showEdit = true;
+    // Patch normal fields
+    this.auditForm.patchValue({
+      id: data.id,
+      title: data.title,
+      auditItemId: data.auditItemId,
+      startDate: new Date(data.startDate),
+      endDate: new Date(data.endDate),
+      resources: data.resources,
+    });
+
+    // Clear old form array
+    const keyActivitiesArray = this.auditForm.get("keyActivities") as FormArray;
+    keyActivitiesArray.clear();
+    // Rebuild the form array from data
+    data.keyActivities.forEach((activity: any) => {
+      keyActivitiesArray.push(
+        this.fb.group({
+          activityName: [activity.activityName, Validators.required],
+          description: [activity.description],
+        })
+      );
+    });
   }
+
   onEdit() {
     const formData = this.auditForm.value;
-    let data = {
+    const data = {
       id: formData.id,
-      title: formData.title,
-      auditItemId: formData.auditItemId,
-      keyActivities: [
-        {
-          activityName: formData.activityName,
-          description: formData.description,
-        },
-      ],
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      resources: formData.resources,
+      title: formData.title ?? "",
+      auditItemId: formData.auditItemId ?? 0,
+      startDate: formData.startDate ?? new Date().toISOString(),
+      endDate: formData.endDate ?? new Date().toISOString(),
+      keyActivities: (formData.keyActivities || []).map(
+        (activity: any, index: number) => ({
+          activityName: activity.activityName ?? "",
+          description: activity.description ?? "",
+        })
+      ),
+      resources: (formData.resources || []).map((res: any) =>
+        typeof res === "number" ? res : parseInt(res, 10)
+      ),
     };
 
     this.auditService.EditAuditSchedule(data, data.id).subscribe({
@@ -195,11 +232,16 @@ export class AuditSchedule implements OnInit {
     });
   }
   onCancel() {
-    this.showEdit = false;
     this.auditForm.reset(
       Object.fromEntries(
         Object.keys(this.auditForm.controls).map((key) => [key, ""])
       )
     );
+
+    (this.auditForm.get("keyActivities") as FormArray).clear();
+    (this.auditForm.get("keyActivities") as FormArray).push(
+      this.createKeyActivity()
+    );
+    this.showEdit = false;
   }
 }

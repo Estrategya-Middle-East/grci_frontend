@@ -1,0 +1,41 @@
+<div class="container-fluid p-4" style="background-color: #f8f9fa;">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom py-3">
+          <h5 class="mb-0" style="color: #1e293b; font-size: 18px; font-weight: 600;">Audit Feedback</h5>
+        </div>
+        
+        <div class="card-body p-4">
+                <app-audit-team-toolbar />
+            
+                <app-audit-team-filter />
+          
+            
+            <app-audit-table>
+                <ng-template  ng-template #actionTemplate let-row>
+                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
+                    <button
+                        type="button"
+                        class="list-dropdown"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                    >
+                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem  (click)="editAuditItemteam(row)">
+                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                      Edit audit item Team 
+                    </button>
+                    <button ngbDropdownItem (click)="deleteAuditItemteam(row.id,row.auditItemName)" >
+                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                      Delete audit item Team
+                    </button>                    
+                </div>
+                </div>
+            </ng-template>
+        </app-audit-table>
+
+          
+        </div>
+      </div>
+    </div>
