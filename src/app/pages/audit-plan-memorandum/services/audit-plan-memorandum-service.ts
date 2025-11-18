@@ -90,4 +90,10 @@ export class AuditPlanMemorandumServie {
       .get<any>(`${environment.baseUrl}api/AuditCategories/lookup`)
       .pipe(map((res) => res.data.items));
   }
+
+  updateMemorandumStatus(id: number, status: 0 | 1) {
+    return this.http
+      .patch<ApiResponse<any>>(`${this.baseUrl}/${id}/status`, status)
+      .pipe(map((res) => res.data));
+  }
 }

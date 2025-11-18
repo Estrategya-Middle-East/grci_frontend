@@ -9,7 +9,6 @@ import {
   FormArray,
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
@@ -128,7 +127,7 @@ export class AddEdit implements OnInit {
         this.loadAuditPlans(this.planPagination);
       }
     });
-    this.loadAuditPlans(this.planPagination);
+    // this.loadAuditPlans(this.planPagination);
   }
 
   private loadAuditCategories() {
@@ -260,10 +259,12 @@ export class AddEdit implements OnInit {
       pageNumber: pagination.pageNumber,
       pageSize: pagination.pageSize,
     };
-    this.auditPlanService.getAuditItemsList(payload).subscribe((res) => {
-      this.auditItems = res.items;
-      this.itemPagination.totalItems = res.totalItems;
-    });
+    this.auditPlanService
+      .getAuditItemsList(auditPlanId, payload)
+      .subscribe((res) => {
+        this.auditItems = res.items;
+        this.itemPagination.totalItems = res.totalItems;
+      });
   }
 
   prevStep() {

@@ -11,6 +11,7 @@ export interface AuditPlanMemorandumInterface {
   reportMilestone: string;
   reporting: string;
   riskAnalyses: RiskAnalysis[];
+  statusName: string;
 }
 
 export interface RiskAnalysis {

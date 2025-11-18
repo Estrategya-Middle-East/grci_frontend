@@ -100,7 +100,14 @@
   } }
 
   <!-- STEP 3: Fill Memorandum -->
-  @if(activeIndex === 2 || editMode) {
+  @if(activeIndex === 2 || editMode) { @if ( selectedItem && selectedPlan ) {
+  <p class="text-primary">
+    {{ !editMode ? "Create" : "Edit" }} Memorandum for Audit Plan ID :
+    {{ selectedPlan?.id }} and Audit Item ID :
+    {{ selectedItem?.id }}
+  </p>
+  }
+
   <form [formGroup]="formGroup" class="my-3">
     <div class="row">
       <div class="col-md-12 mb-3">

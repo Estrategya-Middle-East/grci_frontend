@@ -1,0 +1,205 @@
+<app-header [title]="'view Audit Planning Memorandum'"></app-header>
+<div class="d-flex justify-content-end gap-2 mb-4 change-status-wrapper">
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="updateMemoRandumStatus(1)"
+  >
+    approve
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    (click)="updateMemoRandumStatus(0)"
+  >
+    reject
+  </button>
+</div>
+
+@if (!loaderService.loading()) { @if (memorandum()) {
+<div class="p-4 d-flex flex-column my-3">
+  <div class="d-flex flex-column flex-md-row gap-3 text-nowrap">
+    <!-- Left block (Main Title) -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h2 class="title">Memorandum</h2>
+      <p class="text-black-50">
+        <span>Audit Plan ID:</span> {{ memorandum()?.auditPlanId || "-" }}
+      </p>
+      <p class="text-black-50">
+        <span>Audit Item ID:</span> {{ memorandum()?.auditItemId || "-" }}
+      </p>
+    </div>
+
+    <!-- Right block (Details) -->
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 d-flex flex-column align-items-center align-items-md-start"
+    >
+      <p class="mb-2">
+        <span class="title">Reporting:</span>
+        {{ memorandum()?.reporting || "-" }}
+      </p>
+
+      <p class="mb-2">
+        <span class="title">Announcement Letter Sent:</span>
+        {{ formatDate(memorandum()?.announcementLetterSentMilestone) || "-" }}
+      </p>
+
+      <p class="mb-2">
+        <span class="title">Completion Of Planning:</span>
+        {{ formatDate(memorandum()?.completionOfPlanningMilestone) || "-" }}
+      </p>
+
+      <p class="mb-2">
+        <span class="title">Fieldwork:</span>
+        {{ formatDate(memorandum()?.fieldworkMilestone) || "-" }}
+      </p>
+
+      <p class="mb-2">
+        <span class="title">Report:</span>
+        {{ formatDate(memorandum()?.reportMilestone) || "-" }}
+      </p>
+
+      <p class="mb-2">
+        <span class="title">Status:</span>
+        {{ memorandum()?.statusName || "-" }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div
+    class="px-3 col-sm-12 col-md-4 col-lg-4 button-group d-flex gap-3 h1 justify-content-center flex-wrap align-self-center align-self-md-start mt-4"
+  >
+    <button
+      pButton
+      type="button"
+      label="Edit"
+      class="p-button-warning"
+      (click)="editItem()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Delete"
+      class="p-button-danger"
+      (click)="openDelete()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Archive"
+      class="p-button-info"
+      (click)="openArchive()"
+    ></button>
+  </div>
+
+  <hr class="text-black-50" />
+
+  <div class="px-4">
+    <p>Audit Plan Memorandum Basic Info:</p>
+    <p class="d-flex flex-column gap-3">
+      <span class="title">Background</span>
+      <span class="border p-2 rounded text-black">{{
+        memorandum()?.background
+      }}</span>
+    </p>
+    <p class="d-flex flex-column gap-3 mt-4">
+      <span class="title">Audit Objectives</span>
+      <span class="border p-2 rounded text-black">{{
+        memorandum()?.auditObjectives
+      }}</span>
+    </p>
+    <p class="d-flex flex-column gap-3 mt-4">
+      <span class="title">Audit Scope</span>
+      <span class="border p-2 rounded text-black">{{
+        memorandum()?.auditScope
+      }}</span>
+    </p>
+    <p class="d-flex flex-column gap-3 mt-4">
+      <span class="title">Excluded Form Scope</span>
+      <span class="border p-2 rounded text-black">{{
+        memorandum()?.excludedFromScope
+      }}</span>
+    </p>
+  </div>
+
+  <hr class="text-black-50" />
+
+  <!-- Risk Analyses (replaces Experiences) -->
+  <div class="col-12 mt-4">
+    <label class="title-control text-primary d-block h5"
+      >Risk Analysis Of Audit Category:</label
+    >
+    @if (memorandum()?.riskAnalyses?.length) {
+    <p-table [value]="memorandum()?.riskAnalyses || []">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Audit Category</th>
+          <th>No. of Hours</th>
+          <th>Justification</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ra let-i="rowIndex">
+        <tr>
+          <td>{{ riskAnalysisIndex(i) }}</td>
+          <td>{{ getAuditCategoryName(ra.auditCategoryId) }}</td>
+          <td>{{ ra.noOfHours }}</td>
+          <td>{{ ra.justification }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    } @else {
+    <!-- Empty State -->
+    <div
+      class="container-empty-data w-100 d-flex justify-content-center align-items-center py-4"
+    >
+      <div class="empty-state">
+        <i class="pi pi-inbox empty-icon"></i>
+        <span class="empty-table f-s-16">No Risk Analyses</span>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+} @else {
+<p>Memorandum not found.</p>
+} }
+
+<!-- Delete/Archive Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+    <!-- Icon -->
+    @if (viewData.action === 'delete') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+    </span>
+    } @else if (viewData.action === 'archive') {
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info"></i>
+    </span>
+    }
+
+    <!-- Paragraph -->
+    @if (viewData.action === 'delete') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Deletion'</span> button,
+      the data will be permanently deleted.
+    </p>
+    } @else if (viewData.action === 'archive') {
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be archived.
+    </p>
+    }
+  </app-delete-item-selected>
+</ng-template>
+
+<!-- Toast -->
+<p-toast position="top-right" class="custom-toast-error"></p-toast>
