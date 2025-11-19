@@ -28,7 +28,8 @@ export class AuditFeedbackToolbar {
         switchMap((searchValue) => {
           return this.auditFeedback.getTableData({
             ...this.auditService.pagination(),
-            title: searchValue ?? "",
+            FilterValue: searchValue ?? "",
+            FilterField: "feedback",
           });
         }),
         takeUntilDestroyed(this.destroyRef)

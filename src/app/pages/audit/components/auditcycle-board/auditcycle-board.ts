@@ -68,12 +68,12 @@ export class AuditcycleBoard {
           this.auditCycleService.auditCycles.set(res.data.items);
           this.auditCycleService.totalRecords.set(res.data.totalItems);
           const totalItems = res.data.totalItems ?? 0;
-          const current = this.auditService.pagination();
+          const current = this.auditService.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.auditService.pagination.set({ ...current, totalItems });
+              this.auditService.pagination.set(totalItems);
             });
           }
           const items = (res.data.items ?? []).map((item: any) => ({

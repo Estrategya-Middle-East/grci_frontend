@@ -486,6 +486,30 @@ export const layoutRoutes: Routes = [
     ],
   },
   {
+    path: appRoutes["EVEDENCE-MANAGEMENT_LEVEL"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import(
+            "../pages/evidenceManagementLevel/pages/evidance-management-level/evidance-management-level"
+          ).then((m) => m.EvidanceManagementLevel),
+      },
+    ],
+  },
+  {
+    path: appRoutes["TESTING-NATURE-MANAGEMENT"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import(
+            "../pages/testingNature/pages/testing-nature/testing-nature"
+          ).then((m) => m.TestingNature),
+      },
+    ],
+  },
+  {
     path: `${appRoutes["RESOURCES-PERFORMANCE-RATING"]}`,
     children: [
       {

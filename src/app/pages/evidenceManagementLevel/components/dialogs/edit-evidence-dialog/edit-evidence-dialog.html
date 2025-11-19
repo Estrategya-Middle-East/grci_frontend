@@ -1,0 +1,55 @@
+ <form [formGroup]="evForm" (ngSubmit)="onSave()">
+  
+    <div class="field">
+        <div class="col-12">
+            <label for="comments" class="form-label">Describtion</label>
+            <textarea
+            id="Describtion"
+            pInputTextarea
+            class="w-100"
+            rows="4"
+            formControlName="description"
+            placeholder="Enter Describtion">
+        </textarea>
+        <small class="text-danger" *ngIf="evForm.get('description')?.invalid && evForm.get('description')?.touched">
+          Describtion is required
+        </small>
+          </div>
+    </div>
+    <div class="field">
+        <div class="col-12">
+            <label for="comments" class="form-label">Name</label>
+            <input type="text" class="form-control filter-search-input" 
+                    style="height:45px"
+                   placeholder="Enter Name"  
+                   formControlName="name"                  
+                   #searchValue
+                  />     
+        <small class="text-danger" *ngIf="evForm.get('name')?.invalid && evForm.get('name')?.touched">
+          Name is required
+        </small>
+          </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center gap-2 mt-3">
+            <button
+              type="button"
+              pButton
+              label="Edit"
+              icon="pi pi-send"
+              class="btn btn-primary"
+              [disabled]="evForm.invalid"
+              (click)="onSave()">
+              
+            </button>
+            <button
+              type="button"
+              pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()">
+              
+            </button>
+          </div>
+  </form>

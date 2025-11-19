@@ -35,6 +35,10 @@
 </p-table>
  
 <app-custom-paginator
-  [pagination]="auditService.pagination()"
+  [pagination]="{
+    pageNumber: auditService.pagination().pageNumber,
+    pageSize: auditService.pagination().pageSize,
+    totalItems: auditService.totalItems()
+  }"
   (pageNumber)="loadControls($event)">
 </app-custom-paginator>

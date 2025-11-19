@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, effect, OnInit } from "@angular/core";
 import { AuditFeedbackToolbar } from "../../components/audit-feedback-toolbar/audit-feedback-toolbar";
 import { AuditFeedbackFilter } from "../../components/audit-feedback-filter/audit-feedback-filter";
 import { AuditTable } from "../../components/audit-table/audit-table";
@@ -9,6 +9,7 @@ import { MessageRequest } from "../../components/dialogs/message-request/message
 import { MessageService } from "primeng/api";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FeedbackItem } from "../../models/interfaces/audit-feedback";
+import { AuditItemService } from "../../services/auditItem/audit-item-service";
 
 @Component({
   selector: "app-audit-feedback",
@@ -23,12 +24,26 @@ import { FeedbackItem } from "../../models/interfaces/audit-feedback";
   styleUrl: "./audit-feedback.scss",
 })
 export class AuditFeedback implements OnInit {
+  initialized: boolean = false;
   constructor(
     private auditFeedback: AuditFeedbackService,
     private dialogService: DialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private auditItemsService: AuditItemService
   ) {
-    console.log(this.auditFeedback.editFeedback);
+    effect(() => {
+      const pagination = this.auditItemsService.pagination();
+
+      // ✅ Skip first run to prevent unwanted auto-load
+      if (!this.initialized) {
+        this.initialized = true;
+        this.auditFeedback.getTableData(pagination).subscribe();
+        return;
+      }
+
+      // ✅ Reactively load when pagination changes (page, size)
+      this.auditFeedback.getTableData(pagination).subscribe();
+    });
   }
   ngOnInit(): void {
     this.getlist();

@@ -1,4 +1,4 @@
-import { Component, inject, untracked } from "@angular/core";
+import { Component, effect, inject, untracked } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink, RouterModule } from "@angular/router";
 import { map } from "rxjs";
@@ -86,7 +86,22 @@ export class AuditCycle {
     },
     import: true,
   };
+  initialized: boolean = false;
+  constructor() {
+    effect(() => {
+      const pagination = this.auditService.pagination();
 
+      // ✅ Skip first run to prevent unwanted auto-load
+      if (!this.initialized) {
+        this.initialized = true;
+        this.loadAuditCycles();
+        return;
+      }
+
+      // ✅ Reactively load when pagination changes (page, size)
+      this.loadAuditCycles();
+    });
+  }
   switchview(event: boolean) {
     this.switchView = event;
   }
@@ -103,12 +118,12 @@ export class AuditCycle {
       .subscribe({
         next: (res: any) => {
           const totalItems = res.data.totalItems ?? 0;
-          const current = this.auditService.pagination();
+          const current = this.auditService.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.auditService.pagination.set({ ...current, totalItems });
+              this.auditService.totalItems.set(totalItems);
             });
           }
           const items = (res.data.items ?? []).map((item: any) => ({

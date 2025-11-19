@@ -166,12 +166,12 @@ export class CrudAuditCycle implements OnInit {
           this.auditCycleService.auditCycles.set(res.data.items);
           this.auditCycleService.totalRecords.set(res.data.totalItems);
           const totalItems = res.data.totalItems ?? 0;
-          const current = this.AuditItemService.pagination();
+          const current = this.AuditItemService.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.AuditItemService.pagination.set({ ...current, totalItems });
+              this.AuditItemService.totalItems.set(totalItems);
             });
           }
           const items = (res.data.items ?? []).map((item: any) => ({

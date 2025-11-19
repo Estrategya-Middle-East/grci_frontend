@@ -31,6 +31,7 @@ export class AuditCategoriesToolbar {
           return this.auditService.getAuditCategoriestList({
             ...this.auditService.pagination(),
             FilterValue: searchValue ?? "",
+            FilterField: "name",
           });
         }),
         takeUntilDestroyed(this.destroyRef)

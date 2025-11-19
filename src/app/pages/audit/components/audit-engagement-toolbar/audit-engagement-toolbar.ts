@@ -32,6 +32,7 @@ export class AuditEngagementToolbar {
           return this.auditService.getAuditEngagementList({
             ...this.auditService.pagination(),
             FilterValue: searchValue ?? "",
+            FilterField: "description",
           });
         }),
         takeUntilDestroyed(this.destroyRef)

@@ -1,0 +1,44 @@
+  <p-table 
+  [value]="testingNatureService.testingNatureItemsSignal()"
+  [tableStyle]="{'min-width': '50rem'}"
+  styleClass="p-datatable-sm">
+
+  <!-- ✅ Header -->
+  <ng-template pTemplate="header">
+    <tr class="table-header-row">
+      @for (headerText of testingNatureService.testingNatureHeaders(); track $index) {
+        <th class="table-header-cell">{{ headerText.header }}</th>
+      }
+    </tr>
+  </ng-template>
+
+  <!-- ✅ Body -->
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      @for (headerText of testingNatureService.testingNatureHeaders(); track $index) {
+        <td class="table-cell-link">
+          <!-- ✅ If header is 'Action', show dropdown -->
+          @if (headerText.header.toLowerCase() === 'action' || headerText.header.toLowerCase() === 'actions') {
+            <ng-container
+              *ngIf="actionsTemplate"
+              [ngTemplateOutlet]="actionsTemplate"
+              [ngTemplateOutletContext]="{ $implicit: row }"
+            ></ng-container>
+          } @else {
+            <!-- ✅ otherwise show the normal cell value -->
+            {{ $any(row)[headerText.field] }}
+          }
+        </td>
+      }
+    </tr>
+  </ng-template>
+</p-table>
+ 
+<app-custom-paginator
+  [pagination]="{
+    pageNumber: testingNatureService.pagination().pageNumber,
+    pageSize: testingNatureService.pagination().pageSize,
+    totalItems: testingNatureService.totalItems()
+  }"
+  (pageNumber)="loadControls($event)">
+</app-custom-paginator>

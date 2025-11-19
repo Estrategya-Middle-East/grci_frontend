@@ -29,6 +29,7 @@ export class AuditTeamToolbar {
           return this.auditTeamService.getTableData({
             ...this.auditService.pagination(),
             FilterValue: searchValue ?? "",
+            FilterField: "auditItemName",
           });
         }),
         takeUntilDestroyed(this.destroyRef)

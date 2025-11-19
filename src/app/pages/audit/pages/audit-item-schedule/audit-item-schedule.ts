@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, effect, OnInit } from "@angular/core";
 import {
   ReactiveFormsModule,
   FormsModule,
@@ -47,13 +47,27 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 })
 export class AuditItemSchedule implements OnInit {
   auditForm!: FormGroup;
-
+  initialized: boolean = false;
   constructor(
     private fb: FormBuilder,
     public auditService: AuditItemService,
     private messageService: MessageService,
     private dialogService: DialogService
-  ) {}
+  ) {
+    effect(() => {
+      const pagination = this.auditService.pagination();
+
+      // ✅ Skip first run to prevent unwanted auto-load
+      if (!this.initialized) {
+        this.initialized = true;
+        this.getTableData(pagination);
+        return;
+      }
+
+      // ✅ Reactively load when pagination changes (page, size)
+      this.getTableData(pagination);
+    });
+  }
   ngOnInit(): void {
     this.initForm();
     this.getAllLookups();

@@ -1,6 +1,20 @@
-import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  inject,
+  DestroyRef,
+} from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged, BehaviorSubject } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  BehaviorSubject,
+  Subject,
+  switchMap,
+} from "rxjs";
 import { SelectModule } from "primeng/select";
 import { InputTextModule } from "primeng/inputtext";
 import { RouterLink, RouterLinkActive } from "@angular/router";
@@ -11,6 +25,9 @@ import {
   ShowFilteration,
 } from "./models/header.interface";
 import { DatePickerModule } from "primeng/datepicker";
+import { AuditCycleService } from "../../../pages/audit/services/auditCycle/audit-cycle";
+import { AuditItemService } from "./../../../pages/audit/services/auditItem/audit-item-service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-header",
@@ -38,7 +55,7 @@ export class HeaderComponent implements OnInit {
   @Input() showActions?: ShowActions;
   @Input() showFilteration?: ShowFilteration;
   @Input() dropdownList: DropdownList[] = [];
-
+  searchSubject = new Subject();
   searchControl = new FormControl<string>("");
   yearControl = new FormControl<Date | null>(null);
   dateRangeControl = new FormControl<Date | null>(null);
@@ -50,7 +67,9 @@ export class HeaderComponent implements OnInit {
     index: number;
     value: any;
   } | null>(null);
-
+  private auditCycleService = inject(AuditCycleService);
+  private AuditItemService = inject(AuditItemService);
+  constructor(private destroyRef: DestroyRef) {}
   ngOnInit(): void {
     if (this.showActions?.add) {
       this.showActions.add.isLink ??= true; // default to true if undefined
@@ -98,8 +117,19 @@ export class HeaderComponent implements OnInit {
         );
       }
     });
+    this.searchSubject
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        switchMap((searchValue) => {
+          return this.auditCycleService.getAuditCycles({
+            ...this.AuditItemService.pagination(),
+          });
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
-
   private updateFilter(key: string, value: any) {
     const currentFilters = this.filtersSubject.getValue();
     const updatedFilters = { ...currentFilters, [key]: value };

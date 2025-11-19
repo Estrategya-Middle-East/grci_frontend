@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, effect, OnInit } from "@angular/core";
 import { AuditTeamToolbar } from "../../components/audit-team-toolbar/audit-team-toolbar";
 import { AuditTeamFilter } from "../../components/audit-team-filter/audit-team-filter";
 import { AuditTable } from "../../components/audit-table/audit-table";
@@ -8,6 +8,7 @@ import { MessageService } from "primeng/api";
 import { DialogService } from "primeng/dynamicdialog";
 import { MessageRequest } from "../../components/dialogs/message-request/message-request";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AuditItemService } from "../../services/auditItem/audit-item-service";
 
 @Component({
   selector: "app-audit-team",
@@ -22,11 +23,27 @@ export class AuditTeam implements OnInit {
     { label: "Senior", value: "2" },
     { label: "Auditor", value: "3" },
   ];
+  initialized: boolean = false;
   constructor(
     private auditTeamsService: AuditTeamService,
+    private auditService: AuditItemService,
     private messageService: MessageService,
     private dialogService: DialogService
-  ) {}
+  ) {
+    effect(() => {
+      const pagination = this.auditService.pagination();
+
+      // ✅ Skip first run to prevent unwanted auto-load
+      if (!this.initialized) {
+        this.initialized = true;
+        this.auditTeamsService.getTableData(pagination).subscribe();
+        return;
+      }
+
+      // ✅ Reactively load when pagination changes (page, size)
+      this.auditTeamsService.getTableData(pagination).subscribe();
+    });
+  }
   ngOnInit(): void {
     this.getTableData();
   }

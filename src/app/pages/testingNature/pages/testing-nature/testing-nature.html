@@ -1,0 +1,63 @@
+<div class="container-fluid p-4" style="background-color: #f8f9fa;">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom py-3">
+          <h5 class="mb-0" style="color: #1e293b; font-size: 18px; font-weight: 600;">Testing Nature Manamgement</h5>
+        </div>
+        
+        <div class="card-body p-4">
+                <app-testing-nature-toolbar />
+            
+          
+            
+            <app-testing-nature-table>
+                <ng-template  ng-template #actionTemplate let-row>
+                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
+                    <button
+                        type="button"
+                        class="list-dropdown"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                    >
+                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem  (click)="editTestingNature(row)">
+                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                      Edit Testing Nature 
+                    </button>
+                    <button ngbDropdownItem (click)="deleteTestingNature(row.id,row.name)" >
+                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                      Delete Testing Nature 
+                    </button>                    
+                    <button ngbDropdownItem (click)="archiveTestingNature(row.id,row.name)" >
+                     <i class="pi pi-folder mx-1"></i>
+                      Archive Testing Nature 
+                    </button>                    
+                </div>
+                </div>
+            </ng-template>
+        </app-testing-nature-table>
+
+          
+        </div>
+      </div>
+    </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info" style="font-size: 2.5rem"></i>
+    </span>
+     
+   
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    
+  </app-delete-item-selected>
+</ng-template>

@@ -76,11 +76,9 @@ export class AuditItemService {
   public pagination = signal<{
     pageNumber: number;
     pageSize: number;
-    totalItems?: number;
   }>({
     pageNumber: 1,
     pageSize: 10,
-    totalItems: 0,
   });
 
   auditItems = this.auditItemsSignal.asReadonly();
@@ -91,7 +89,7 @@ export class AuditItemService {
     this.auditItemsResourcesLookupsSignal.asReadonly();
 
   filters = this.filtersSignal.asReadonly();
-
+  totalItems = signal<number>(0);
   constructor(
     private http: HttpClient,
     private dimensionsService: DimensionsService,
@@ -204,12 +202,13 @@ export class AuditItemService {
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
-          const current = this.pagination();
+          const current = this.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.pagination.set({ ...current, totalItems });
+              this.totalItems.set(res.data?.totalItems ?? 0);
+              // this.pagination.set({ ...current, totalItems });
             });
           }
           const items = (res.data?.items ?? []).map((item) => ({
@@ -246,12 +245,13 @@ export class AuditItemService {
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
-          const current = this.pagination();
+          const current = this.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.pagination.set({ ...current, totalItems });
+              this.totalItems.set(res.data?.totalItems ?? 0);
+              // this.pagination.set({ ...current, totalItems });
             });
           }
           const items = (res.data?.items ?? []).map((item) => ({
@@ -287,12 +287,13 @@ export class AuditItemService {
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
-          const current = this.pagination();
+          const current = this.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.pagination.set({ ...current, totalItems });
+              this.totalItems.set(res.data?.totalItems ?? 0);
+              // this.pagination.set({ ...current, totalItems });
             });
           }
           const items = (res.data?.items ?? []).map((item) => ({
@@ -432,12 +433,13 @@ export class AuditItemService {
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
-          const current = this.pagination();
+          const current = this.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.pagination.set({ ...current, totalItems });
+              this.totalItems.set(res.data?.totalItems ?? 0);
+              // this.pagination.set({ ...current, totalItems });
             });
           }
           const items = (res.data?.items ?? []).map((item) => ({
@@ -471,12 +473,13 @@ export class AuditItemService {
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
-          const current = this.pagination();
+          const current = this.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.pagination.set({ ...current, totalItems });
+              this.totalItems.set(res.data?.totalItems ?? 0);
+              // this.pagination.set({ ...current, totalItems });
             });
           }
 

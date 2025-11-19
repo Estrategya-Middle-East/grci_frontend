@@ -58,12 +58,12 @@ export class AuditFeedbackService {
       .pipe(
         map((res) => {
           const totalItems = res.data?.totalItems ?? 0;
-          const current = this.auditItemsService.pagination();
+          const current = this.auditItemsService.totalItems();
 
           // ✅ Prevent effect loop using untracked()
-          if (current.totalItems !== totalItems) {
+          if (current !== totalItems) {
             untracked(() => {
-              this.auditItemsService.pagination.set({ ...current, totalItems });
+              this.auditItemsService.totalItems.set(totalItems);
             });
           }
           const items = (res.data?.items ?? []).map((item) => ({

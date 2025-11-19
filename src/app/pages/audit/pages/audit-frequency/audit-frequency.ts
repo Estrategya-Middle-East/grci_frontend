@@ -31,10 +31,19 @@ export class AuditFrequency implements OnInit {
   private auditService = inject(AuditItemService);
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
+  initialized: boolean = false;
   constructor() {
     effect(() => {
-      const pagination = untracked(() => this.auditService.pagination());
+      const pagination = this.auditService.pagination();
 
+      // ✅ Skip first run to prevent unwanted auto-load
+      if (!this.initialized) {
+        this.initialized = true;
+        this.auditService.getAuditCategoriestFrequency(pagination).subscribe();
+        return;
+      }
+
+      // ✅ Reactively load when pagination changes (page, size)
       this.auditService.getAuditCategoriestFrequency(pagination).subscribe();
     });
   }

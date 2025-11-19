@@ -32,10 +32,19 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrl: "./audit-item.scss",
 })
 export class AuditItem implements OnInit {
+  initialized: boolean = false;
   constructor(public auditService: AuditItemService) {
     effect(() => {
-      const pagination = untracked(() => this.auditService.pagination());
+      const pagination = this.auditService.pagination();
 
+      // ✅ Skip first run to prevent unwanted auto-load
+      if (!this.initialized) {
+        this.initialized = true;
+        this.auditService.getTableData(pagination).subscribe();
+        return;
+      }
+
+      // ✅ Reactively load when pagination changes (page, size)
       this.auditService.getTableData(pagination).subscribe();
     });
   }

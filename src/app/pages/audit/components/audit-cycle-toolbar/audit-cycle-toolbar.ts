@@ -1,5 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { AuditItemService } from "../../services/auditItem/audit-item-service";
+import { AuditCycleService } from "../../services/auditCycle/audit-cycle";
 
 @Component({
   selector: "app-audit-cycle-toolbar",
@@ -9,4 +10,5 @@ import { AuditItemService } from "../../services/auditItem/audit-item-service";
 })
 export class AuditCycleToolbar {
   auditService = inject(AuditItemService);
+  auditCycleService = inject(AuditCycleService);
 }

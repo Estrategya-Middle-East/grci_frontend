@@ -1,0 +1,38 @@
+<div class="toolbar-container">
+      <div class="toolbar-left">
+        <span class="risks-badge">
+          Count <span class="risks-count">{{ evService.totalItems() }}</span>
+        </span>
+        
+        <div class="search-group">
+          <span class="search-icon-wrapper">
+            <svg width="16" height="16" fill="currentColor" class="search-icon">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </span>
+          <input type="text" class="form-control search-input" 
+                 placeholder="Search Evidence Management List"                 
+                 (input)="searchTitle($event.target.value)">                
+        </div>
+        
+        <button class="btn btnoutlineBlue btn-sm filter-button" >
+            Filter
+         <img src="../../../../../../assets/images/filterbtn.svg" alt="">
+         <img src="../../../../../../assets/images/arrowUp.svg" alt="">         
+        </button>
+      </div>
+      
+      <div class="toolbar-right">
+          <button class="btn btn-outline-secondary btn-sm action-button">
+             <img src="../../../../../../assets/images/exportBtn.svg" alt="">   
+             Export
+            </button>
+            <button class="btn btn-outline-secondary btn-sm icon-button">
+            <img src="../../../../../../assets/images/linesMiddle.svg" alt="">   
+            
+        </button>
+        <button class="btn btn-outline-secondary btn-sm icon-button">
+            <img src="../../../../../../assets/images/linesLeft.svg" alt="">       
+        </button>        
+      </div>
+    </div>
