@@ -5,10 +5,7 @@
         </div>
         
         <div class="card-body p-4">
-                <app-storage-location-toolbar />
-            
-          
-            
+            <app-storage-location-toolbar />                  
             <app-storage-location-table>
                 <ng-template  ng-template #actionTemplate let-row>
                     <div ngbDropdown container="body" class="d-inline-block" dropdown>
@@ -34,8 +31,12 @@
                       Archive storage Location 
                     </button>                    
                     <button ngbDropdownItem (click)="viewStorageLocation(row)" >
-                    <i class="pi pi-eye me-2"></i>
-                      View
+                    <i class="pi pi-eye mx-1"></i>
+                    View
+                    </button>                    
+                    <button ngbDropdownItem (click)="setAsDefaultStorageLocation(row.id)" >                    
+                        <i class="pi pi-check mx-1"></i>
+                      Set As Default
                     </button>                    
                 </div>
                 </div>

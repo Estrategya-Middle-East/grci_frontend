@@ -13,6 +13,7 @@ import { AddEditStorageLocation } from "../../components/dialogs/add-edit-storag
 @Component({
   selector: "app-storage-location",
   imports: [
+    StorageLocationTable,
     DeleteItemSelectedComponent,
     StorageLocationToolbar,
     StorageLocationTable,
@@ -157,5 +158,24 @@ export class StorageLocation {
           });
         },
       });
+  }
+  setAsDefaultStorageLocation(id: string) {
+    this.storageLocationService.setAsDefaultstorageLocation(id).subscribe({
+      next: (res) => {
+        this.messageService.add({
+          severity: "success",
+          summary: "Success",
+          detail: res.message,
+        });
+        this.getAllData();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: err.error.error[0],
+        });
+      },
+    });
   }
 }

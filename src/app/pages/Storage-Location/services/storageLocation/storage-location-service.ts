@@ -58,9 +58,9 @@ export class StorageLocationService {
           this.storageLocationItemsSignal.set(items);
           this.storageLocationHeaderSignal.set([
             { header: "Name", field: "name" },
-            { header: "Set As Default", field: "default" },
             { header: "Notes", field: "notes" },
             { header: "Path", field: "path" },
+            { header: "Set As Default", field: "default" },
             { header: "Action", field: "action" },
           ]);
           return items;
@@ -92,5 +92,11 @@ export class StorageLocationService {
   }
   deletestorageLocation(id: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/StorageLocation/${id}`);
+  }
+  setAsDefaultstorageLocation(id: string): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/StorageLocation/${id}/SetDefaultStorageLocation`,
+      { id }
+    );
   }
 }

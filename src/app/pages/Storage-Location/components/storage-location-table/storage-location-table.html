@@ -13,25 +13,39 @@
   </ng-template>
 
   <!-- ✅ Body -->
-  <ng-template pTemplate="body" let-row>
-    <tr>
-      @for (headerText of storageLocationService.storageLocationHeaderSignal(); track $index) {
-        <td class="table-cell-link">
-          <!-- ✅ If header is 'Action', show dropdown -->
-          @if (headerText.header.toLowerCase() === 'action' || headerText.header.toLowerCase() === 'actions') {
-            <ng-container
-              *ngIf="actionsTemplate"
-              [ngTemplateOutlet]="actionsTemplate"
-              [ngTemplateOutletContext]="{ $implicit: row }"
-            ></ng-container>
-          } @else {
-            <!-- ✅ otherwise show the normal cell value -->
-            {{ $any(row)[headerText.field] }}
-          }
-        </td>
-      }
-    </tr>
-  </ng-template>
+ <ng-template pTemplate="body" let-row>
+  <tr>
+    <ng-container *ngFor="let headerText of storageLocationService.storageLocationHeaderSignal(); let i = index">
+      <td class="table-cell-link">
+
+        <!-- Action column -->
+        <ng-container *ngIf="headerText.header.toLowerCase() === 'action' || headerText.header.toLowerCase() === 'actions'">
+          <ng-container
+            *ngIf="actionsTemplate"
+            [ngTemplateOutlet]="actionsTemplate"
+            [ngTemplateOutletContext]="{ $implicit: row }">
+          </ng-container>
+        </ng-container>
+
+        <!-- Default column (show check/cross) -->
+        <ng-container *ngIf="headerText.header === 'Set As Default'">
+          <i
+            class="pi"
+            [ngClass]="row[headerText.field] ? 'pi-check-circle text-success' : 'pi-times-circle text-danger'">
+          </i>
+        </ng-container>
+
+        <!-- Other columns -->
+        <ng-container *ngIf="headerText.header.toLowerCase() !== 'action' 
+                             && headerText.header.toLowerCase() !== 'actions' 
+                             && headerText.header !== 'Set As Default'">
+          {{ row[headerText.field] }}
+        </ng-container>
+
+      </td>
+    </ng-container>
+  </tr>
+</ng-template>
 </p-table>
  
 <app-custom-paginator
