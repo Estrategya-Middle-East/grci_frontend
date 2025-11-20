@@ -1,29 +1,25 @@
-import { Component, DestroyRef, inject } from "@angular/core";
-import { TestingNatureService } from "../../services/testingNatureService/testing-nature-service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Subject, debounceTime, distinctUntilChanged, switchMap } from "rxjs";
-import { Dialog } from "primeng/dialog";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { StorageLocationService } from "../../services/storageLocation/storage-location-service";
 import { DialogService } from "primeng/dynamicdialog";
 import { MessageService } from "primeng/api";
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { AddEditStorageLocation } from "../dialogs/add-edit-storage-location/add-edit-storage-location";
 import { HttpErrorResponse } from "@angular/common/http";
-import { EditTestingNatureDialog } from "../dialogs/edit-testing-nature-dialog/edit-testing-nature-dialog";
 
 @Component({
-  selector: "app-testing-nature-toolbar",
-  standalone: true,
+  selector: "app-storage-location-toolbar",
   imports: [],
   providers: [DialogService],
-  templateUrl: "./testing-nature-toolbar.html",
-  styleUrl: "./testing-nature-toolbar.scss",
+  templateUrl: "./storage-location-toolbar.html",
+  styleUrl: "./storage-location-toolbar.scss",
 })
-export class TestingNatureToolbar {
+export class StorageLocationToolbar implements OnInit {
   private MessageService = inject(MessageService);
-  private testingNatureService = inject(TestingNatureService);
   private dialogService = inject(DialogService);
   searchSubject: Subject<string> = new Subject();
-
   constructor(
-    public testingService: TestingNatureService,
+    public stoarageLocationService: StorageLocationService,
     private destroyRef: DestroyRef
   ) {}
   ngOnInit(): void {
@@ -32,30 +28,30 @@ export class TestingNatureToolbar {
         debounceTime(1000),
         distinctUntilChanged(),
         switchMap((searchValue) => {
-          return this.testingService.getTableData({
-            ...this.testingService.pagination(),
+          return this.stoarageLocationService.getTableData({
+            ...this.stoarageLocationService.pagination(),
             FilterValue: searchValue ?? "",
-            FilterField: "",
+            FilterField: "name",
           });
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
+
   searchTitle(event: string) {
     this.searchSubject.next(event);
   }
-  addNewTestingNature() {
-    const ref = this.dialogService.open(EditTestingNatureDialog, {
-      header: "Add Testing Nature",
+  addNewStorageLocation() {
+    const ref = this.dialogService.open(AddEditStorageLocation, {
+      header: "Add Storage Location",
       width: "600px",
       modal: true,
     });
-
     ref?.onClose.subscribe((result) => {
       if (result) {
-        this.testingNatureService
-          .createtestingNatureManagment({ ...result })
+        this.stoarageLocationService
+          .createstorageLocation({ ...result })
           .subscribe({
             next: (res) => {
               this.MessageService.add({
@@ -63,7 +59,7 @@ export class TestingNatureToolbar {
                 summary: "Success",
                 detail: res.message,
               });
-              this.testingNatureService.getTableData({}).subscribe();
+              this.stoarageLocationService.getTableData({}).subscribe();
             },
             error: (err: HttpErrorResponse) => {
               this.MessageService.add({

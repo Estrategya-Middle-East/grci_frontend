@@ -1,0 +1,92 @@
+ <form [formGroup]="storageForm" (ngSubmit)="onSave()">  
+    <div class="field">
+        <div class="col-12">
+            <label for="comments" class="form-label">Name</label>
+            <input type="text" class="form-control filter-search-input" 
+                    style="height:45px"
+                   placeholder="Enter Name"  
+                   formControlName="name"                  
+                   #searchValue
+                   
+                  />     
+        <small class="text-danger" *ngIf="storageForm.get('name')?.invalid && storageForm.get('name')?.touched">
+          Name is required
+        </small>
+          </div>
+    </div>
+    <div class="field">
+        <div class="col-12">
+            <label for="comments" class="form-label">Notes</label>
+            <input type="text" class="form-control filter-search-input" 
+                    style="height:45px"
+                   placeholder="Enter Notes"  
+                   formControlName="notes"                  
+                   #searchValue
+                  />     
+        <small class="text-danger" *ngIf="storageForm.get('notes')?.invalid && storageForm.get('notes')?.touched">
+          Notes is required
+        </small>
+          </div>
+    </div>
+    <div class="field">
+        <div class="col-12">
+            <label for="comments" class="form-label">Path</label>
+            <input type="text" class="form-control filter-search-input" 
+                    style="height:45px"
+                   placeholder="Enter Path"  
+                   formControlName="path"                  
+                   #searchValue
+                  />     
+        <small class="text-danger" *ngIf="storageForm.get('path')?.invalid && storageForm.get('path')?.touched">
+          Path is required
+        </small>
+          </div>
+    </div>
+    <div class="field mt-3">
+        <div class="col-12 d-flex justify-content-center align-items-center w-25">
+            <p-checkbox
+                formControlName="setAsDefault"                  
+                binary="true"
+                label="Set As Default"
+            ></p-checkbox>                       
+            <label for="comments" class="form-label mx-1 mb-0">Set As Default</label>
+          </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center gap-2 mt-3">
+
+            @if (config.data){
+    
+                <button
+                [ngClass]="{'d-none':config.data?.disableAll === true}"
+                    type="button"
+                    pButton
+                    label="Edit"
+                    icon="pi pi-send"
+                    class="btn btn-primary"
+                    [disabled]="storageForm.invalid"
+                    (click)="onSave()">            
+                </button>
+            } @else {            
+                <button
+                [ngClass]="{'d-none':config.data?.disableAll === true}"
+                type="button"
+                pButton
+                label="Save"
+                icon="pi pi-send"
+                class="btn btn-primary"
+                [disabled]="storageForm.invalid"
+                (click)="onSave()">
+                </button>
+            }
+            <button
+              type="button"
+              pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()">
+              
+            </button>
+          </div>
+  </form>

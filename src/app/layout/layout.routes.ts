@@ -510,6 +510,18 @@ export const layoutRoutes: Routes = [
     ],
   },
   {
+    path: appRoutes["Storage-Location"],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import(
+            "../pages/Storage-Location/pages/storage-location/storage-location"
+          ).then((m) => m.StorageLocation),
+      },
+    ],
+  },
+  {
     path: `${appRoutes["RESOURCES-PERFORMANCE-RATING"]}`,
     children: [
       {

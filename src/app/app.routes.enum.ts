@@ -31,6 +31,7 @@ export enum AppRoute {
   "AUDIT-PLAN-MEMORANDUM" = "audit-plan-memorandum",
   "EVEDENCE-MANAGEMENT_LEVEL" = "evLevel",
   "TESTING-NATURE-MANAGEMENT" = "testing-nature",
+  "Storage-Location" = "storage-location",
 }
 
 export const appRoutes = {
@@ -66,6 +67,7 @@ export const appRoutes = {
   "AUDIT-PLAN-MEMORANDUM": `${AppRoute["AUDIT-PLAN-MEMORANDUM"]}`,
   "EVEDENCE-MANAGEMENT_LEVEL": `${AppRoute["EVEDENCE-MANAGEMENT_LEVEL"]}`,
   "TESTING-NATURE-MANAGEMENT": `${AppRoute["TESTING-NATURE-MANAGEMENT"]}`,
+  "Storage-Location": `${AppRoute["Storage-Location"]}`,
 };
 
 Object.freeze(appRoutes);

@@ -1,0 +1,67 @@
+<div class="container-fluid p-4" style="background-color: #f8f9fa;">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom py-3">
+          <h5 class="mb-0" style="color: #1e293b; font-size: 18px; font-weight: 600;">storage Location</h5>
+        </div>
+        
+        <div class="card-body p-4">
+                <app-storage-location-toolbar />
+            
+          
+            
+            <app-storage-location-table>
+                <ng-template  ng-template #actionTemplate let-row>
+                    <div ngbDropdown container="body" class="d-inline-block" dropdown>
+                    <button
+                        type="button"
+                        class="list-dropdown"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                    >
+                         <img class="mx-1" src="../../../../../assets/images/linesGroup.svg" alt="">
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem  (click)="editStorageLocation(row)">
+                    <img class="mx-1" src="../../../../../assets/images/pincel.svg" alt="">
+                      Edit storage Location 
+                    </button>
+                    <button ngbDropdownItem (click)="deleteStorageLocation(row.id,row.name)" >
+                    <img class="mx-1" src="../../../../../assets/images/trash.svg" alt="">
+                      Delete storage Location 
+                    </button>                    
+                    <button ngbDropdownItem (click)="archiveStorageLocation(row.id,row.name)" >
+                     <i class="pi pi-folder mx-1"></i>
+                      Archive storage Location 
+                    </button>                    
+                    <button ngbDropdownItem (click)="viewStorageLocation(row)" >
+                    <i class="pi pi-eye me-2"></i>
+                      View
+                    </button>                    
+                </div>
+                </div>
+            </ng-template>
+        </app-storage-location-table>
+
+          
+        </div>
+      </div>
+    </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+  <app-delete-item-selected
+    (closeOfDialog)="close()"
+    [viewData]="viewData"
+    (sendOfDialog)="send()"
+  >
+
+    <span class="icon d-flex align-items-center justify-content-center">
+      <i class="pi pi-folder text-info" style="font-size: 2.5rem"></i>
+    </span>
+     
+   
+    <p class="m-0 p-0 pargDeleteItem">
+      Once you press the <span class="bold">'Confirm Archive'</span> button, the
+      data will be permanently archived.
+    </p>
+    
+  </app-delete-item-selected>
+</ng-template>
